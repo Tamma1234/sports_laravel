@@ -14,11 +14,15 @@ class Size extends Model
     protected $fillable = [
         'name'
     ];
-    public function products(){
-        return $this->belongsToMany(Product::class,'product_size','size_id','product_id');
+
+    // Tạo hàm product để liên kết với table Product
+    public function Product()
+    {
+        return $this->belongsToMany(Product::class);
     }
-    
-    function saveSize(Request $request){
+
+    function saveSize(Request $request)
+    {
         $size = new size();
         $data = $request->all();
         $size->fill($data);

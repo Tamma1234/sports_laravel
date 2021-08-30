@@ -149,10 +149,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group" style="height: 200px">
+                                <div class="form-group" style="height: 200px" >
 
                                     <div class="galary" id="preview-view">
-                                        
+                                        <img src="" alt="" >
                                     </div>
 
                                 </div>
@@ -176,6 +176,7 @@
 
     @endsection
     @section('script')
+    
         <script>
             function previewGallery(input) {
           
@@ -195,6 +196,7 @@
                             div.appendChild(img);
                             text.appendChild(nodeText);
                             div.appendChild(text);
+                            div.appendChild(img);
                             preview.appendChild(div);
                             console.log(preview);
                             // console.log(array.length);

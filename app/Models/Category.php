@@ -19,29 +19,40 @@ class Category extends Model
         'slug'
     ];
 
-    function hasProducts(){
-        return $this->hasMany(Product::class, 'category_id','id');
+
+    // Tạo hàm hasProducts để liên kết vs table product
+    function hasProducts()
+    {
+        return $this->hasMany(Product::class);
     }
-    public function hasParentCate(){
+
+  // Tạo hàm hasProducts trả về hasOne để lấy ra các parent_id con trong category
+    public function hasParentCate()
+    {
         return $this->hasOne(Category::class, 'id', 'parent_id');
     }
 
-
-    function saveCate(Request $request){
+    // Tạo hàm saveAdd để lưu data category lên db thông qua form cảeate view blade
+    // Tham số truyền vào là request để lấy data 
+    // Dùng hàm save để lưu data
+    function saveAdd(Request $request)
+    {
+      
         $cate = new Category();
         $data = $request->all();
         $data['slug'] = Str::of($request->name)->slug('-');
-     
         $cate->fill($data);
         $cate->save();
     }
 
-    function saveUpdate(Request $request){
+    // Tạo hàm saveAdd để lưu data category lên db thông qua form edit ở view blade
+    // Tham số truyền vào là request để lấy data 
+    // Dùng update để cập nhập data mới
+    function saveUpdate(Request $request)
+    {
         $category = Category::find($request->id);
         $data = $request->all();
         $category->fill($data);
-        $category = Category::where('id', $request->id)->update($data);
+        $category->update($data);
     }
-
-    
 }

@@ -1,9 +1,14 @@
 @extends('client.layout.detail')
 
-@section('title', 'Trang Chủ')
+@section('title', 'Danh mục')
 <!-- Slidedetail  -->
 
 @section('content')
+
+<!-- service section -->
+
+
+<!-- All products-->
 
 <div class="main-container col2-left-layout">
     <div class="container">
@@ -63,7 +68,7 @@
             </div>
             <div class="product-grid-area">
               <ul class="products-grid">
-                  @foreach ($product as $item)
+                  @foreach ($product_by_id as $item)
                   <li class="item col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
                     <div class="product-item">
                       <div class="item-inner">
@@ -82,7 +87,7 @@
                                 <div class="price-box"> <span class="regular-price"> <span class="price">{{number_format($item->price) .'Đ'}} </span> </span> </div>
                               </div>
                               <div class="pro-action">
-                                <a type="button" onclick="addCart({{$item->id}})" href="javascript:" class="add-to-cart"><span> Thêm giỏ hàng</span> </a>
+                                <button type="button" class="add-to-cart"><span> Add to Cart</span> </button>
                               </div>
                             </div>
                           </div>
@@ -163,42 +168,4 @@
 <!-- BANNER-AREA-END -->
 
 
-@endsection
-
-
-@section('script')
-<script>
-  // Tạo hàn addCart để thêm sản phẩm vào giỏ hàng 
-    function addCart(id){
-      // Dùng ajax để lấy data qua 
-      $.ajax({
-        url: 'add-cart/' + id,
-        type: 'GET',
-      }).done(function(response){
-        // console.log(response);
-        renderCart(response);
-        alertify.success('Đã thêm vào giỏ hàng');
-      });
-  }
-
-// Tạo click cho clas .remove-cart để xóa sản phẩm trong cart item
-  $("#change-cart").on("click",".remove-cart i", function(){
-    // console.log($(this).data('id'));
-    $.ajax({
-        url: 'delete-cart/' + $(this).data('id'),
-        type: 'GET',
-      }).done(function(response){
-        // console.log(response);
-       renderCart(response);
-        alertify.success('Đã xóa sản phẩm thành công');
-      });
-  })
-
-// Hàm trả về kết quả data
-  function renderCart(response){
-    $('#change-cart').empty();
-    $('#change-cart').html(response);
-    $('#totalquanti-cart-show').text($('#totalquanti-cart-value').val());
-  }
-</script>
 @endsection

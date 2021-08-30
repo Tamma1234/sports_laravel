@@ -54,6 +54,7 @@ class ProductRequest extends FormRequest
             'mimes' => ':attribute định dạng jpg, png, jpeg,...',
             'image_url.max' => ':attribute nhỏ hơn 2mb',
             'min' => ':attribute sản phẩm lớn hơn 0',
+            'unique'=> 'Danh mục đã tồn tại',
         ];
     }
 }

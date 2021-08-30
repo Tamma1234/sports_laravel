@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="{{asset('assets/client/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('assets/client/css/responsive.css')}}">
 <link rel="stylesheet" href="{{asset('assets/client/css/simple-line-icons.css')}}">
+<link rel="stylesheet" href="{{asset('assets/client/css/pe-icon-7-stroke.min.css')}}">
 
 
 

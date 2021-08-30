@@ -21,23 +21,29 @@ use App\Http\Controllers\CategoryController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route login(đang nhập) vào phân admin(quản trị)
 Route::get('/login',[AuthController::class,'index'])->name('login');
 Route::post('/login',[AuthController::class,'login'])->name('login.post');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout.index');
 
+
+// Route phần admin
 Route::middleware('auth')->group(function(){
     Route::get('/admin',[DashboardController::class,'index'])->name('dashboard');
+
+
+    // Route phần admin-product
     Route::group(['prefix'=>'product'],function(){
-     
         Route::get('/',[ProductController::class,'index'])->name('product.index');
         Route::get('create',[ProductController::class,'create'])->name('product.create');
         Route::post('store',[ProductController::class,'store'])->name('product.store');
         Route::get('edit/{id}',[ProductController::class,'edit'])->name('product.edit');
         Route::post('update',[ProductController::class,'update'])->name('product.update');
         Route::get('remove/{id}',[ProductController::class,'delete'])->name('product.remove');
-        Route::get('deleteall/{ids?}',[ProductController::class,'deleteAll'])->name('deleteAll');
+
     });
 
+    // Route phần admin-category
     Route::group(['prefix'=>'category'],function(){
         Route::get('/',[CategoryController::class,'index'])->name('category.index');
         Route::get('create',[CategoryController::class,'create'])->name('category.create');
@@ -47,6 +53,7 @@ Route::middleware('auth')->group(function(){
         Route::get('remove/{id}',[CategoryController::class,'delete'])->name('category.remove');
     });
 
+    // Route phần admin-color
     Route::group(['prefix'=>'color'],function(){
         Route::get('/',[ColorController::class,'index'])->name('color.index');
         Route::get('create',[ColorController::class,'create'])->name('color.create');
@@ -56,6 +63,7 @@ Route::middleware('auth')->group(function(){
         Route::get('remove/{id}',[ColorController::class,'delete'])->name('color.remove');
     });
 
+    // Route phần admin-size
     Route::group(['prefix'=>'size'],function(){
         Route::get('/',[SizeController::class,'index'])->name('size.index');
         Route::get('create',[SizeController::class,'create'])->name('size.create');
@@ -67,7 +75,22 @@ Route::middleware('auth')->group(function(){
 });
 
 // Route::get('/admin',[DashboardController::class,'index'])->name('admin.dashboard.index');
+
+// Route phần client trang web 
 Route::group(['prefix'=> '/'], function(){
+    // route hiển thị trang product(sản phẩm)
     Route::get('/',[HomeController::class,'index'])->name('home');
-    Route::get('/show/{id}',[HomeController::class,'show'])->name('show');
+    // Route hiển hị chi tiền product(sản phẩm)
+    Route::get('/detail/{id}',[HomeController::class,'detail'])->name('detail');
+    // Route hiển thị list product(sản phẩm) theo category(danh mục)
+    Route::get('/category/{id}',[HomeController::class,'categoryProduct'])->name('category');
+    // Route thêm product(sản phẩm) vào giỏ hàng(cart) con
+    Route::get('/add-cart/{id}',[HomeController::class,'addCart'])->name('add-cart');
+    // route xóa product(sản phẩm) trong giỏ hàng(cart) con
+    Route::get('/delete-cart/{id}',[HomeController::class,'deleteItemCart'])->name('delete-cart');
+    // Route list giỏ hảng(cart)
+    Route::get('/list-cart',[HomeController::class,'listCart'])->name('list-cart');
+    // Route xóa các sản phẩm tỏng list giỏ hàng
+    Route::get('/delete-list-cart/{id}',[HomeController::class,'deleteListItemCart'])->name('delete-list-cart');
+
 });
