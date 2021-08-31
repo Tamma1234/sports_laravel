@@ -37,7 +37,6 @@ class Category extends Model
     // Dùng hàm save để lưu data
     function saveAdd(Request $request)
     {
-      
         $cate = new Category();
         $data = $request->all();
         $data['slug'] = Str::of($request->name)->slug('-');
@@ -51,6 +50,7 @@ class Category extends Model
     function saveUpdate(Request $request)
     {
         $category = Category::find($request->id);
+    
         $data = $request->all();
         $category->fill($data);
         $category->update($data);

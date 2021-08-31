@@ -78,10 +78,14 @@ Route::middleware('auth')->group(function(){
 
 // Route phần client trang web 
 Route::group(['prefix'=> '/'], function(){
-    // route hiển thị trang product(sản phẩm)
+    // route hiển thị trang chủ product(sản phẩm)
     Route::get('/',[HomeController::class,'index'])->name('home');
-    // Route hiển hị chi tiền product(sản phẩm)
+    // Route hiển thị danh sách sản phẩm 
+    Route::get('/list',[HomeController::class,'listProduct'])->name('list');
+    // Route hiển thị chi tiền product(sản phẩm)
     Route::get('/detail/{id}',[HomeController::class,'detail'])->name('detail');
+    // Route lưu product(sản phẩm) theo id vào giỏ hàng(cart)
+    Route::post('/save-cart/{id}',[HomeController::class,'saveCart'])->name('save-cart');
     // Route hiển thị list product(sản phẩm) theo category(danh mục)
     Route::get('/category/{id}',[HomeController::class,'categoryProduct'])->name('category');
     // Route thêm product(sản phẩm) vào giỏ hàng(cart) con

@@ -61,25 +61,16 @@
                                 <tbody>
                                     @foreach ($product as $item)
                                         <tr class="odd">
-                                            {{-- <td>
-                                                <label class="m-checkbox m-checkbox--solid m-checkbox--success">
-                                                    <input type="checkbox" name="ids[]" value=" {{ $item->id }}"
-                                                        data-id=" {{ $item->id }}" class="crazy-check-item">
-                                                    <span></span>
-                                                </label>
-                                            </td> --}}
                                             <td>{{ $item->id }}</td>
                                             <td>{{ $item->title }}</td>
                                             <!-- Dùng onerror để show image mặc định-->
                                             <td style="text-align:center"><img onerror="this.src='{{asset('assets/admin/images/no-image.jpg')}}'" style="width:100px;height:100px"
                                                     src="{{ asset("$item->image_url") }}" alt="none"> </td>
-                                            <td>{{number_format($item->price) .'Đ'}}</td>
+                                            <td>{{number_format($item->price)  . 'Đ'}}</td>
                                             <td>{{ $item->hasCate ? $item->hasCate->name : '' }}</td>
-                                         
-                                            
                                             <td>
                                                 @foreach ($item->size as $pro)
-                                                    <span>{{ $pro->name }}-</span>
+                                                    <input type="text" style="width:30px;ba" disabled value="{{ $pro->name .''}}">
                                                 @endforeach
                                             </td>
                                             <td>
@@ -102,12 +93,6 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        {{-- <th class="check-col">
-                                            <label class="m-checkbox m-checkbox--solid m-checkbox--success">
-                                                <input type="checkbox" class="crazy-check-all">
-                                                <span></span>
-                                            </label>
-                                        </th> --}}
                                         <th rowspan="1" colspan="1">STT</th>
                                         <th rowspan="1" colspan="1">Tiêu đề</th>
                                         <th rowspan="1" colspan="1">Ảnh</th>

@@ -73,8 +73,14 @@
                                     <div class="form-group">
                                         <label>Trạng thái</label>
                                         <select class="form-control" name="is_active">
-                                            <option value="0">Hết hàng</option>
-                                            <option value="1">Còn hàng</option>
+                                                @if ($product->is_active == 1)
+                                                <option value="0">Còn hàng</option>
+                                                <option value="1">Hết hàng</option>
+                                                @else
+                                                <option value="0">Hết hàng</option>
+                                                <option value="1">Còn hàng</option>
+                                                @endif
+                                                
                                         </select>
                                     </div>
 
@@ -83,8 +89,9 @@
                                         </label>
                                         <select class="form-control" name="color_id">
                                             @foreach ($color as $item)
+                                            <option value="0">Chọn màu</option>
                                                 <option value="{{ $item->id }}"
-                                                    {{ $item->id == $product->hasColor->id ? 'checked' : '' }}>
+                                                    {{ $item->id == $product->hasColor->id ? 'selected' : '' }}>
                                                     {{ $item->name }}</option>
                                             @endforeach
 
@@ -94,7 +101,6 @@
                                         <label class="col-form-label" for="inputError"><i class="fas fa-sitemap"></i>
                                             Size :</label>
                                         @foreach ($size as $item)
-
                                             <input name="size[]" type="checkbox" value="{{ $item->id }}"
                                                 {{ $product->size->contains('id', $item->id) ? 'checked' : '' }}>
                                             <label for="">{{ $item->name }}</label>
@@ -124,9 +130,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @error('image_url')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="custom-file" id="preview">
@@ -136,7 +140,9 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    @error('image_url')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputFile">Thư viện ảnh</label>

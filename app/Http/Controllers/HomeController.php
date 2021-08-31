@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\GalleryProduct;
 use App\Models\Product;
 use App\Models\Size;
@@ -15,7 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         $category = Category::where('parent_id','=',null)->get();
-        $product = Product::orderBy('id','desc')->Paginate(5);
+        $product = Product::orderBy('id','desc')->Paginate(8);
        return view('client.home.index',compact('product','category'));
     }
 
@@ -27,11 +28,35 @@ class HomeController extends Controller
          $product = Product::find($request->id);
          $cate = $product->hasCate->id;
          $product_related = Category::find($cate)->hasProducts;
-        
          $category = Category::where('parent_id','=',null)->get();
         $size = Size::all();
         $gallery = GalleryProduct::where('product_id',$product->id)->get();
         return view('client.product.detail',compact('product','category','gallery','size','product_related'));
+    }
+
+    public function saveCart(Request $request)
+    {
+        $category = Category::where('parent_id','=',null)->get();
+        $product = Product::find($request->id);
+         // Kiểm tra xem có sản phẩm k, dùng session để lấy giỏ hàng
+        if($product != null){
+            $oldCart = Session('cart') ? Session('cart') : null;
+            $newCart = new cart($oldCart);
+            // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart
+            $newCart->addCart($product,$request->id);
+            // Dùng put để thêm sp vào giỏ hàng 
+            $request->session()->put('cart',$newCart);
+        }
+        return view('client.cart.list',compact('category'));
+    }
+    // Hàm hiển thị list danh sách sản phẩm 
+    public function listProduct(Request $request)
+    {
+        $category = Category::where('parent_id','=',null)->get();
+        $product = Product::orderBy('id','desc')->Paginate(8);
+        $size = Size::all();
+        $color = Color::all();
+       return view('client.product.list',compact('product','category','size','color'));
     }
 
     // Tạo hàm categoryProduct để hiển thị List(danh sách) sản phẩm(product) theo danh mục(category)
@@ -58,6 +83,7 @@ class HomeController extends Controller
             // Dùng put để thêm sp vào giỏ hàng 
             $request->session()->put('cart',$newCart);
         }
+        
         // Trả về view cart.list-smaill
         return view('client.cart.list-small');
     }
@@ -77,6 +103,7 @@ class HomeController extends Controller
             else{
                 $request->session()->forget('cart',$newCart);
             }
+      
         return view('client.cart.list-small');
     }
     
@@ -84,6 +111,7 @@ class HomeController extends Controller
     // Trả về trang view cart.list 
     public function listCart()
     {
+        
         $category = Category::where('parent_id','=',null)->get();
         return view('client.cart.list',compact('category'));
     }

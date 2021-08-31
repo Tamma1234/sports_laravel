@@ -64,16 +64,19 @@
                                     <div class="size">
                                         <ul>
                                             @foreach ($product->size as $item)
-                                                <li><a href="#">{{ $item->name }}</a></li>
+                                                <li>
+                                                    <input type="checkbox" value="{{ $item->id }}">
+                                                    <label for=""> 
+                                                        {{ $item->name }}
+                                                    </label>
+                                                </li>
                                             @endforeach
-
-
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="product-variation">
-                                <form action="#" method="post" enctype="multipart/form-data">
+                                <form action="{{route('save-cart',['id'=>$product->id])}}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product->id }}" id="{{ $product->id }}">
                                     <div class="cart-plus-minus">

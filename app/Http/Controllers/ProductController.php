@@ -10,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\EditProductRequest;
 
 
 
@@ -39,9 +40,8 @@ class ProductController extends Controller
     {
         $product = new Product();
         $product->saveAdd($request);
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with('msg', 'Thêm sản phẩm thành công');
     }
-
     // Tạo hàm create để thêm sản phẩm(product), truyền tham số request để lấy data 
     // Trả về form create trong view admin.product.edit
     public function edit(Request $request)
@@ -56,7 +56,7 @@ class ProductController extends Controller
     // Tạo hàm update để lưu sản phẩm khi sửa với tham số truyền vào là ProductRequest(validate), $request 
     // Gọi hàm saveEdit($request) trong Models Product để lưu data 
     // Sau đó chuyển hướng về product.index
-    public function update(ProductRequest $request)
+    public function update(EditProductRequest $request)
     {
         $product = new Product();
         $product->saveEdit($request);

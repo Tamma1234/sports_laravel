@@ -29,25 +29,25 @@ class Product extends Model
         'is_active'
     ];
 
-   // Hàm size để liên kết table product vs table size
+    // Hàm size để liên kết table product vs table size
     public function showGallery()
     {
         return $this->hasMany(GalleryProduct::class, 'product_id');
     }
-    
+
     // Hàm size để liên kết table product vs table size
     public function size()
     {
         return $this->belongsToMany(Size::class, 'product_size', 'product_id', 'size_id');
     }
 
-     // Hàm size để liên kết table product vs table category
+    // Hàm size để liên kết table product vs table category
     public function hasCate()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-     // Hàm size để liên kết table product vs table color
+    // Hàm size để liên kết table product vs table color
     public function hasColor()
     {
         return $this->belongsTo(Color::class, 'color_id', 'id');
@@ -93,19 +93,46 @@ class Product extends Model
     {
         $product = Product::where('id', $request->id)->first();
         $data = $request->except('_token');
-        // Kiểm tra file image có tồn tại k, nếu có thì lưu file vào storerage/app/public/prod_image
-        if (file_exists($request->file('image_url'))) {
-            $product->image_url = $request->file('image_url')->store('prod_image', 'public');
+        $size = $product->size;
+        $datasize = $data['size'];
+        // Kiểm tra xem có tồn tại size trên table size k, nếu có thì xóa và thêm data size ms vào.
+        if ($size) {
+            $product->size()->detach($size);
+        }
+        $product->size()->attach($datasize);
+        // Kiểm tra xem có file gallery không, nếu có thì dùng destroy để xóa đi gallery[] cũ
+        // Sau đó dùng create để thêm ms file image gallery [] vào table gallery thuộc id product
+        if ($request->hasFile('gallery')) {
+            $gallery = $product->showGallery;
+            GalleryProduct::destroy($gallery);
+            $files = $data['gallery'];
+            foreach ($files as $file) {
+                $productId = $request->id;
+                $originalFileName = $file->getClientOriginalName();
+                $fileNameGallery = uniqid() . '_' . str_replace(' ', '_', $originalFileName);
+                $fileGllery = $file->move('images/gallery', $fileNameGallery);
+                GalleryProduct::create([
+                    'product_id' => $productId,
+                    'filename' => $fileGllery
+                ]);
+            }
         }
         // Kiềm tra có file image k, nếu có thì dùng delete xóa file $product->image_url có sẵn
         // Sau đó thêm file image ms rồi dùng move lưu vào public/images
         if ($request->hasFile('image_url')) {
             Storage::disk('public')->delete($product->image_url);
-          
             $originalFileName = $request->image_url->getClientOriginalName();
             $fileName = uniqid() . '_' . str_replace(' ', '_', $originalFileName);
             $data['image_url'] = $request->file('image_url')->move('images', $fileName);
         }
+
+        // if (file_exists($gallery)) {
+        //     // $deletegallery = Storage::disk('public')->delete($product->showGallery);
+
+        // }
+        // var_dump(file_exists($gallery));die;
+        // $file = $data['gallery'];
+        // dd($product->gallery);
 
         $product->update($data);
     }

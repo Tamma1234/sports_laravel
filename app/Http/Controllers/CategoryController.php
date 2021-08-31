@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
-use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -60,7 +59,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request)
     {
         $category = new Category();
-        $category->saveUpdate($request->id);
+        $category->saveUpdate($request);
         return redirect()->route('category.index');
     }
 }

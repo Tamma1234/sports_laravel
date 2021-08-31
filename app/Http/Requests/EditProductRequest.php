@@ -13,7 +13,7 @@ class EditProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,38 @@ class EditProductRequest extends FormRequest
      *
      * @return array
      */
+    public function attributes()
+    {
+        return [
+            'title'=> 'Tiêu đề',
+            'price'=> 'Giá ',
+            'category_id'=> 'Danh mục ',
+            'color_id'=> 'Màu',
+            'image_url' => 'Ảnh đại diện',
+            'size' => 'Size',
+        ];
+    }
+
     public function rules()
     {
         return [
-            //
+           'title'=> 'required|unique:products,title',
+           'price' => 'required|min:0', 
+           'description' => 'required|max:225',
+           'category_id'=> 'required',
+           'image_url' => 'mimes:jpeg,jpg,png,gif|max:2048',  
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống',
+            'max' => ':attribute phải ít hơn 225 kí tự',
+            'mimes' => ':attribute định dạng jpg, png, jpeg,...',
+            'image_url.max' => ':attribute nhỏ hơn 2mb',
+            'min' => ':attribute sản phẩm lớn hơn 0',
+            'unique'=> 'Danh mục đã tồn tại',
         ];
     }
 }

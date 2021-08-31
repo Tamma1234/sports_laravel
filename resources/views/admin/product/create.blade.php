@@ -67,6 +67,7 @@
                                     <div class="form-group">
                                         <label>Trạng thái</label>
                                         <select class="form-control" name="is_active">
+                                            <option >Trạng thái</option>
                                             <option value="0">Hết hàng</option>
                                             <option value="1">Còn hàng</option>
 
@@ -82,6 +83,7 @@
                                         <label class="col-form-label" for="inputError"><i class="fas fa-eye-dropper"></i>
                                             Màu sắc :</label>
                                         <select class="form-control" name="color_id">
+                                            <option value="0">Chọn màu</option>
                                             @foreach ($color as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
@@ -123,9 +125,7 @@
                                                 <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
                                             </div>
                                         </div>
-                                        {{-- @error('image_url')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror --}}
+                                   
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
@@ -136,7 +136,9 @@
                                         </div>
                                     </div>
 
-
+                                    @error('image_url')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 </div>
 
                                 <div class="form-group">

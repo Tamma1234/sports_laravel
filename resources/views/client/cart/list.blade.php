@@ -17,7 +17,7 @@
 
                         <div class="order-detail-content">
                             <div class="table-responsive" id="list-carts">
-                              @if (Session::has('cart') != null)
+                             
                                 <table class="table table-bordered cart_summary">
                                     <thead>
                                         <tr>
@@ -31,7 +31,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                     
+                                        @if (Session::has('cart') != null)
                                             @foreach (Session::get('cart')->products as $item)
                                                 <tr>
                                                     <td class="cart_product"><a href="#"><img
@@ -40,7 +40,7 @@
                                                     <td class="cart_description">
                                                         <p class="product-name"><a
                                                                 href="#">{{ $item['productInfo']->title }} </a></p>
-                                                        <small><a href="#">Color : Red</a></small>
+                                                        <small><a href="#">{{$item['productInfo']->color_id}}</a></small>
                                                         <small><a href="#">Size : M</a></small>
                                                     </td>
                                                     <td class="availability in-stock">
@@ -60,8 +60,9 @@
                                                                 class="icon-close"></i></a></td>
                                                 </tr>
                                             @endforeach
-                                    
+                                    @endif
                                     </tbody>
+                                    @if (Session::has('cart') != null)
                                     <tfoot>
                                         <tr>
                                             <td colspan="2" rowspan="2"></td>
@@ -73,8 +74,9 @@
                                             <td colspan="2"><strong> {{number_format(Session::get('cart')->totalPrice)}}Đ </strong></td>
                                         </tr>
                                     </tfoot>
+                                    @endif
                                 </table>
-                                @endif
+                               
                             </div>
                             <div class="cart_navigation"> <a class="continue-btn" href="#"><i class="fa fa-arrow-left">
                                     </i>&nbsp; Continue shopping</a> <a class="checkout-btn" href="#"><i

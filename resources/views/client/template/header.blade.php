@@ -205,8 +205,9 @@
 
                             </ul> --}}
                             </li>
+                            
                         @endforeach
-
+                        <li class="last-item"><a href="{{ route('category', ['id' => $cate->id]) }}" title="Liên hệ">liên hệ</a></li>
 
                     </ul>
                 </div>
