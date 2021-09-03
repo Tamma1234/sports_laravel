@@ -65,14 +65,12 @@
                                     <a href="#">
                                         <div class="cart-icon"><i class="icon-basket-loaded icons"></i>
                                             @if (Session::has('cart') != null)
-                                            {{-- {{dd(Session::has('cart'))}} --}}
-                                            <span class="cart-total" id="totalquanti-cart-show">{{Session::get('cart')->totalQuantity}}</span>
+                                                {{-- {{dd(Session::has('cart'))}} --}}
+                                                <span class="cart-total"
+                                                    id="totalquanti-cart-show">{{ Session::get('cart')->totalQuantity }}</span>
                                             @else
-                                            <span class="cart-total" id="totalquanti-cart-show">0</span>
+                                                <span class="cart-total" id="totalquanti-cart-show">0</span>
                                             @endif
-                                          
-                                          
-                                            
                                         </div>
                                         <div class="shoppingcart-inner hidden-xs"><span class="cart-title">Giỏ
                                                 hàng</span> </div>
@@ -81,12 +79,14 @@
                                 <div>
                                     <div class="top-cart-content">
                                         <div class="block-subtitle hidden">Recently added items</div>
+
                                         <div id="change-cart">
                                             @if (Session::has('cart') != null)
-                                                <ul id="cart-sidebar" class="mini-products-list">
+                                            <ul id="cart-sidebar" class="mini-products-list">
+                                            
                                                     @foreach (Session::get('cart')->products as $item)
                                                         <li class="item odd">
-                                                            <a href="shopping_cart.html" title="Product title here"
+                                                            <a href="{{route('detail',['id'=>$item['productInfo']->id])}}" title="Product title here"
                                                                 class="product-image"><img
                                                                     src="{{ asset($item['productInfo']->image_url) }}"
                                                                     alt="html Template" width="65"></a>
@@ -97,30 +97,36 @@
                                                                         data-id="{{ $item['productInfo']->id }}"></i>
                                                                 </a>
                                                                 <p class="product-name"><a
-                                                                        href="shopping_cart.html">{{ $item['productInfo']->title }}</a>
+                                                                        href="{{route('detail',['id'=>$item['productInfo']->id])}}">{{ $item['productInfo']->title }}</a>
                                                                 </p>
                                                                 <strong>{{ $item['quantity'] }}</strong> x <span
                                                                     class="price">{{ $item['productInfo']->price }}</span>
                                                             </div>
                                                         </li>
                                                     @endforeach
-
-                                                </ul>
-
+                                             
+                                            </ul>
                                                 <div class="top-subtotal">Tổng tiền: <span
                                                         class="price">{{ number_format(Session::get('cart')->totalPrice) }}</span>
                                                 </div>
+                                            @else
+                                                <ul id="cart-sidebar" class="mini-products-list">
+                                                    <li class="item odd text-center">
+                                                   <span class="text-center">Không có sản phẩm nào !</span> 
+                                                    </li>
+                                                </ul>
+                                                <div class="top-subtotal">Tổng tiền: <span
+                                                        class="price">0</span>
+                                                    <input type="hidden" id="totalquanti-cart-value" value="0">
+                                                </div>
                                             @endif
-
                                         </div>
-
-
                                         <div class="actions">
                                             <button class="btn-checkout" type="button"
-                                                onClick="location.href='checkout.html'"><i
+                                                onClick="location.href='{{ route('checkout') }}'"><i
                                                     class="fa fa-check"></i><span>Thanh toán</span></button>
                                             <button class="view-cart" type="button"
-                                                onClick="location.href='{{route('list-cart')}}'"><i
+                                                onClick="location.href='{{ route('list-cart') }}'"><i
                                                     class="fa fa-shopping-cart"></i><span>Giỏ hàng</span></button>
                                         </div>
                                     </div>
@@ -205,9 +211,10 @@
 
                             </ul> --}}
                             </li>
-                            
+
                         @endforeach
-                        <li class="last-item"><a href="{{ route('category', ['id' => $cate->id]) }}" title="Liên hệ">liên hệ</a></li>
+                        <li class="last-item"><a href="{{ route('category', ['id' => $cate->id]) }}"
+                                title="Liên hệ">liên hệ</a></li>
 
                     </ul>
                 </div>

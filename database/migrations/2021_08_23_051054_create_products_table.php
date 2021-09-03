@@ -21,7 +21,6 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->float('quantity');
             $table->string('masp');
-            $table->integer('gallery_id');
             $table->string('description');
             $table->integer('color_id');
             $table->smallInteger('is_active');

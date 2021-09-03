@@ -92,9 +92,17 @@ Route::group(['prefix'=> '/'], function(){
     Route::get('/add-cart/{id}',[HomeController::class,'addCart'])->name('add-cart');
     // route xóa product(sản phẩm) trong giỏ hàng(cart) con
     Route::get('/delete-cart/{id}',[HomeController::class,'deleteItemCart'])->name('delete-cart');
+    Route::get('/list-small',[HomeController::class,'listSmall'])->name('list-small');
     // Route list giỏ hảng(cart)
     Route::get('/list-cart',[HomeController::class,'listCart'])->name('list-cart');
     // Route xóa các sản phẩm tỏng list giỏ hàng
     Route::get('/delete-list-cart/{id}',[HomeController::class,'deleteListItemCart'])->name('delete-list-cart');
+    
+    // Route::get('/update-cart/',[HomeController::class,'updateCart'])->name('update-cart');
+
+    Route::get('/update-cart',[HomeController::class,'updateCart'])->name('update-cart');
+
+    Route::get('/checkout',[HomeController::class,'checkout'])->name('checkout');
+
 
 });

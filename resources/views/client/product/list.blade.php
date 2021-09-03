@@ -196,39 +196,3 @@
 @endsection
 
 
-@section('script')
-<script>
-  // Tạo hàn addCart để thêm sản phẩm vào giỏ hàng 
-    function addCart(id){
-      // Dùng ajax để lấy data qua 
-      $.ajax({
-        url: 'add-cart/' + id,
-        type: 'GET',
-      }).done(function(response){
-        // console.log(response);
-        renderCart(response);
-        alertify.success('Đã thêm vào giỏ hàng');
-      });
-  }
-
-// Tạo click cho clas .remove-cart để xóa sản phẩm trong cart item
-  $("#change-cart").on("click",".remove-cart i", function(){
-    // console.log($(this).data('id'));
-    $.ajax({
-        url: 'delete-cart/' + $(this).data('id'),
-        type: 'GET',
-      }).done(function(response){
-        // console.log(response);
-       renderCart(response);
-        alertify.success('Đã xóa sản phẩm thành công');
-      });
-  })
-
-// Hàm trả về kết quả data
-  function renderCart(response){
-    $('#change-cart').empty();
-    $('#change-cart').html(response);
-    $('#totalquanti-cart-show').text($('#totalquanti-cart-value').val());
-  }
-</script>
-@endsection

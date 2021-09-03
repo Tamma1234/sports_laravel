@@ -57,35 +57,37 @@
                                 </p>
                             </div>
 
-                            <div class="product-color-size-area">
-
-                                <div class="size-area">
-                                    <h2 class="saider-bar-title">Size</h2>
-                                    <div class="size">
-                                        <ul>
-                                            @foreach ($product->size as $item)
-                                                <li>
-                                                    <input type="checkbox" value="{{ $item->id }}">
-                                                    <label for=""> 
-                                                        {{ $item->name }}
-                                                    </label>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                          
                             <div class="product-variation">
+                               
                                 <form action="{{route('save-cart',['id'=>$product->id])}}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product->id }}" id="{{ $product->id }}">
+                                    <div class="product-color-size-area">
+                                        <div class="size-area">
+                                            <h2 class="saider-bar-title">Size</h2>
+                                            <div class="size">
+                                                <ul>
+                                                    @foreach ($product->size as $item)
+                                                        <li>
+                                                            <label class="m-checkbox m-checkbox--solid m-checkbox--success">
+                                                                <input type="checkbox" id="{{$item->id}}}" name="size[]" value="{{ $item->name }}"  class=""> 
+                                                                {{ $item->name }}
+                                                                <span></span>
+                                                            </label>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="cart-plus-minus">
                                         <label for="qty">Quantity:</label>
                                         <div class="numbers-row">
                                             <div onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 0 ) result.value--;return false;"
                                                 class="dec qtybutton"><i class="fa fa-minus">&nbsp;</i></div>
                                             <input type="text" class="qty" title="Qty" value="1" maxlength="12"
-                                                id="qty" name="qty">
+                                                id="qty" name="quantity">
                                             <div onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
                                                 class="inc qtybutton"><i class="fa fa-plus">&nbsp;</i></div>
                                         </div>
@@ -93,6 +95,7 @@
                                     <button class="button pro-add-to-cart" title="Add to Cart" type="submit"><span><i
                                                 class="fa fa-shopping-basket"></i> Thêm giỏ hàng</span></button>
                                 </form>
+                               
                             </div>
 
                             {{-- <div class="pro-tags">
