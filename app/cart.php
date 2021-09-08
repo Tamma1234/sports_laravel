@@ -26,10 +26,10 @@ class Cart {
     public function addCart($product,$id)
     {
         // tạo một sản phảm mới
-        $newProduct = ['quantity'=>0, 'price'=>$product->price,'productInfo'=>$product];
+        $newProduct = ['quantity'=>0,'size'=>null, 'price'=>$product->price,'productInfo'=>$product];
         if($this->products){
             // Kiểm tra id có trong sản phẩm(products) nằm trong giỏ hàng k 
-            // Nếu có thì trả về chính nó 
+            // Nếu có thì cho sp thêm mới vào = vs newproduct(sp có sẵn rồi) 
             if(array_key_exists($id,$this->products)){ 
             $newProduct = $this->products[$id];
             }
@@ -37,13 +37,17 @@ class Cart {
         // Nếu tồi tại thì + thêm quantity(số lượng) trong giỏ hàng 
         $newProduct['quantity']++;
         // Tính giá = Số lượng(newProduct) * giá(price)
-        $newProduct['price'] = $newProduct['quantity'] * $product->price;
+        $newProduct['price'] =   $newProduct['quantity'] * $product->price;
         // Thêm product id vào newproduct
+        
         $this->products[$id] = $newProduct;
         // Tính tổng giá 
         $this->totalPrice += $product->price;
+         
         // Tổng số lượng 
-        $this->totalQuantity++;
+       $this->totalQuantity++;
+
+
     }
 
     public function deleteCart($id)
@@ -64,6 +68,35 @@ class Cart {
 
         $this->totalQuantity += $this->products[$id]['quantity'];
         $this->totalPrice += $this->products[$id]['price'];
+    }
+
+    public function addCartItem($product,$id,$quantity,$size)
+    {
+        // tạo một sản phảm mới
+        $newProduct = ['quantity'=>0,'size'=> 0, 'price'=>$product->price,'productInfo'=>$product];
+        if($this->products){
+            // Kiểm tra id có trong sản phẩm(products) nằm trong giỏ hàng k 
+            // Nếu có thì cho sp thêm mới vào = vs newproduct(sp có sẵn rồi) 
+            if(array_key_exists($id,$this->products)){ 
+            $newProduct = $this->products[$id];
+            }
+        }
+        // Nếu tồi tại thì + thêm quantity(số lượng) trong giỏ hàng 
+        $newProduct['quantity'] = $newProduct['quantity'] + $quantity;
+        // Tính giá = Số lượng(newProduct) * giá(price)
+        $newProduct['price'] =   $newProduct['quantity'] * $product->price;
+
+        $newProduct['size'] = (int)$size;
+        // Thêm product id vào newproduct
+
+        $this->products[$id] = $newProduct;
+        // Tính tổng giá 
+        $this->totalPrice += $newProduct['price'];
+         
+        // Tổng số lượng 
+       $this->totalQuantity =  $this->totalQuantity +  $newProduct['quantity'];
+
+
     }
   }
 ?>

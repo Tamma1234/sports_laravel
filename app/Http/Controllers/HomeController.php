@@ -35,23 +35,23 @@ class HomeController extends Controller
         return view('client.product.detail', compact('product', 'category', 'gallery', 'size', 'product_related'));
     }
 
-    public function saveCart(Request $request)
+    public function saveCart(Request $request )
     {
         // $category = Category::where('parent_id','=',null)->get();
         $product = Product::find($request->id);
-        // dd($product);
-        $data = $request->all();
-        $data['size'] = $product->size;
-        $data['quantity'] = $product->quantity;
-        // dd($product);
-        // Kiểm tra xem có sản phẩm k, dùng session để lấy giỏ hàng
+     
+        // $data = $request->all();
+        $quantity = $request->input('quantity');
+        $size = $request->input('size');
         if ($product != null) {
             $oldCart = Session('cart') ? Session('cart') : null;
             $newCart = new cart($oldCart);
             // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart
-            $newCart->addCart($product, $request->id, $data);
+            $newCart->addCartItem($product, $request->id, $quantity,$size);
+            // dd($newCart);die;
             // Dùng put để thêm sp vào giỏ hàng 
             $request->session()->put('cart', $newCart);
+           
         }
         // dd($newCart);
 
@@ -82,14 +82,17 @@ class HomeController extends Controller
     public function addCart(Request $request)
     {
         $product = Product::find($request->id);
+        $size = $request->size;
+        $quantity = $request->qty;
+     
         // Kiểm tra xem có sản phẩm k, dùng session để lưu giỏ hàng
         if ($product != null) {
             // Kiểm tra giỏ hàng có tồn tại k 
             $oldCart = Session('cart') ? Session('cart') : null;
-
+          
             $newCart = new cart($oldCart);
             // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart 
-            $newCart->addCart($product, $request->id);
+            $newCart->addCartItem($product, $request->id,$quantity,$size);
             // Dùng put để tạo session truyền vào cart(giỏ hàng), newcart(sản phẩm dc thêm mới) 
             $request->session()->put('cart', $newCart);
         }
@@ -103,16 +106,18 @@ class HomeController extends Controller
     {
         // Gọi lại giỏ hàng cũ 
         $oldCart = Session('cart') ? Session('cart') : null;
-     
+   
         $newCart = new cart($oldCart);
         // Trỏ đối tượng newcart -> hàm delete Cart trong App\Cart để thực hiện xóa sp
         $newCart->deleteCart($request->id);
         // Kiểm tra số lượng sản phẩm, 
+
         if (count($newCart->products) > 0) {
             $request->session()->put('cart', $newCart);
         }else {
             $request->session()->forget('cart', $newCart);
         } 
+        // dd($newCart);die;
         return redirect()->route('list-small');
      
     }
@@ -135,6 +140,7 @@ class HomeController extends Controller
     {
         // Gọi lại giỏ hàng cũ 
         $oldCart = Session('cart') ? Session('cart') : null;
+    
         $newCart = new cart($oldCart);
         // Trỏ đối tượng newcart -> hàm deleteCart trong App\Cart để thực hiện xóa sp
         $newCart->deleteCart($request->id);
@@ -170,10 +176,4 @@ class HomeController extends Controller
         // //    var_dump($data);die;
     }
 
-    public function checkout()
-    {
-
-        $category = Category::where('parent_id', '=', null)->get();
-        return view('client.orders.checkout', compact('category'));
-    }
 }

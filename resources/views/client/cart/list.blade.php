@@ -11,10 +11,8 @@
 
                     <div class="page-content page-order">
                         <div class="page-title">
-                            <h2>Shopping Cart</h2>
+                            <h2>Giỏ Hàng</h2>
                         </div>
-
-
                         <div class="order-detail-content">
                             <div class="table-responsive" id="list-carts">
                                 @if (Session::has('cart') != null)
@@ -35,15 +33,21 @@
 
                                             @foreach (Session::get('cart')->products as $item)
                                                 <tr>
-                                                    <td class="cart_product"><a href="#"><img
+                                                    <td class="cart_product"><a
+                                                            href="{{ route('detail', ['id' => $item['productInfo']->id]) }}"><img
                                                                 src="{{ asset($item['productInfo']->image_url) }}"
                                                                 alt="Product"></a></td>
                                                     <td class="cart_description">
                                                         <p class="product-name"><a
-                                                                href="#">{{ $item['productInfo']->title }} </a></p>
-                                                        <small><a
-                                                                href="#">{{ $item['productInfo']->color_id }}</a></small>
-                                                        <small><a href="#">Size : M</a></small>
+                                                                href="{{ route('detail', ['id' => $item['productInfo']->id]) }}">{{ $item['productInfo']->title }}
+                                                            </a></p>
+                                                        <span><a href="#">Màu:
+                                                                <strong>{{ $item['productInfo']->hasColor->name . ',' }}</strong>
+                                                            </a>
+                                                        </span>
+                                                        <span><a href="#">Size: <strong>{{ $item['size'] }}</strong>
+                                                            </a>
+                                                        </span>
                                                     </td>
                                                     <td class="availability in-stock">
                                                         @if ($item['productInfo']->is_active == 1)
@@ -68,59 +72,59 @@
                                                                 data-id="{{ $item['productInfo']->id }}"></i></a></td>
                                                 </tr>
                                             @endforeach
-                              
-                                </tbody>
 
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="2" rowspan="2"></td>
-                                        <td colspan="3">Tổng sản phẩm</td>
-                                        <td colspan="2">{{ Session::get('cart')->totalQuantity }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3"><strong>Tổng tiền</strong></td>
-                                        <td colspan="2"><strong>
-                                                {{ number_format(Session::get('cart')->totalPrice) }}Đ </strong>
-                                        </td>
-                                    </tr>
+                                        </tbody>
 
-                                </tfoot>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" rowspan="2"></td>
+                                                <td colspan="3">Tổng sản phẩm</td>
+                                                <td colspan="2">{{ Session::get('cart')->totalQuantity }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"><strong>Tổng tiền</strong></td>
+                                                <td colspan="2"><strong>
+                                                        {{ number_format(Session::get('cart')->totalPrice) }}Đ </strong>
+                                                </td>
+                                            </tr>
 
-                                </table>
-                            @else
-                                <table class="table table-bordered cart_summary">
-                                    <thead>
-                                        <tr>
-                                            <th class="cart_product">Sản phẩm</th>
-                                            <th>Mô tả</th>
-                                            <th>Trạng thái</th>
-                                            <th>Giá tiền</th>
-                                            <th>Số lượng</th>
-                                            <th>Tổng tiền</th>
-                                            <th class="action"><i class="fa fa-trash-o"></i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                        </tfoot>
+
+                                    </table>
+                                @else
+                                    <table class="table table-bordered cart_summary">
+                                        <thead>
+                                            <tr>
+                                                <th class="cart_product">Sản phẩm</th>
+                                                <th>Mô tả</th>
+                                                <th>Trạng thái</th>
+                                                <th>Giá tiền</th>
+                                                <th>Số lượng</th>
+                                                <th>Tổng tiền</th>
+                                                <th class="action"><i class="fa fa-trash-o"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
 
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2" rowspan="2"></td>
-                                            <td colspan="3">Tổng sản phẩm</td>
-                                            <td colspan="2">0 </td>
-                                            <input type="hidden" id="totalquanti-cart-value" value="0">
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" rowspan="2"></td>
+                                                <td colspan="3">Tổng sản phẩm</td>
+                                                <td colspan="2">0 </td>
+                                                <input type="hidden" id="totalquanti-cart-value" value="0">
 
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3"><strong>Tổng tiền</strong></td>
-                                            <td colspan="2"><strong>0Đ </strong></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                              
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"><strong>Tổng tiền</strong></td>
+                                                <td colspan="2"><strong>0Đ </strong></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
                             </div>
-                              @endif
+                            @endif
                             <div class="cart_navigation">
                                 <a class="checkout-btn" href="{{ route('checkout') }}"><i class="fa fa-check"></i>
                                     Thanh toán</a>

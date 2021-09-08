@@ -39,9 +39,11 @@ class Category extends Model
     {
         $cate = new Category();
         $data = $request->all();
+       
         $data['slug'] = Str::of($request->name)->slug('-');
         $cate->fill($data);
         $cate->save();
+      
     }
 
     // Tạo hàm saveAdd để lưu data category lên db thông qua form edit ở view blade

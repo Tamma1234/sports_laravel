@@ -3,24 +3,23 @@
 @section('title', 'Trang Chủ')
 
 @section('content')
-<div class="breadcrumbs">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <ul>
-            <li class="home"> <a title="Go to Home Page" href="index.html">Home</a><span>»</span></li>
-            <li><strong>Thanh toán</strong></li>
-          </ul>
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li class="home"> <a title="Go to Home Page" href="index.html">Home</a><span>»</span></li>
+                        <li><strong>Thanh toán</strong></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
     <section class="main-container col2-right-layout">
         <div class="main container">
             <div class="row">
-                <form action="http://khoathongminh.mi.vcc.vn/dat-hang" class="crazy-checkout-form crazy-place-order-form"
-                    method="POST">
-                    <input type="hidden" name="_token" value="j6CeEEWZomavmoDNz6fEhme9cxoKlz7r8esfLBw3">
+                <form action="{{ route('post-checkout') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="col-main col-sm-6 col-xs-12">
                         <div class="page-title">
                             <h2>Thông tin khách hàng</h2>
@@ -34,7 +33,7 @@
                                             <sup>*</sup>
                                         </label>
                                         <div class="form-group__content">
-                                            <input type="text" name="billing_name" id="billing_name" class="form-control"
+                                            <input type="text" name="full_name" id="billing_name" class="form-control"
                                                 placeholder="Nhập Họ và tên" required="true">
                                         </div>
                                     </div>
@@ -44,47 +43,37 @@
                                             <sup>*</sup>
                                         </label>
                                         <div class="form-group__content">
-                                            <input type="email" name="billing_email" id="billing_email"
-                                                class="form-control" placeholder="Nhập email" required="true">
+                                            <input type="email" name="email" class="form-control" placeholder="Nhập email"
+                                                required="true">
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <label for="billing_phone_number">
+                                        <label for="phone_number">
                                             Số điện thoại
                                             <sup>*</sup>
                                         </label>
                                         <div class="form-group__content">
-                                            <input type="text" name="billing_phone_number" id="billing_phone_number"
-                                                class="form-control" placeholder="Nhập só điện thoại" required="true">
+                                            <input type="text" name="phone_number" class="form-control"
+                                                placeholder="Nhập só điện thoại" required="true">
                                         </div>
                                     </div>
+
                                     <div class="col-sm-12">
-                                        <label for="billing_region_id">
-                                            Tỉnh / Thành phố
-                                        </label>
-                                      
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="billing_district_id">
-                                            Quận / huyện
-                                        </label>
-                                      
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="billing_ward_id">
-                                            Xã / phường
-                                        </label>
-                                       
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="billing_address">
+                                        <label for="address">
                                             Địa chỉ
                                         </label>
                                         <div class="form-group__content">
-                                            <input type="text" name="billing_address" id="billing_address"
-                                                class="form-control"
+                                            <input type="text" name="address" id="address" class="form-control"
                                                 placeholder="Nhập Địa chỉ. Ví dụ: Số nhà, tên dường, ...">
                                         </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <!-- textarea -->
+
+                                        <label for="note">Ghi chú</label>
+                                        <textarea name="note" class="form-control" rows="3"
+                                            placeholder="Enter ..."></textarea>
+
                                     </div>
                                 </div>
                             </div>
@@ -97,9 +86,9 @@
                             </div>
                             <div class="block-content">
                                 <table class="table table-dark table-striped" style="font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 0px;
-    font-family: 'Poppins', sans-serif;">
+                                                font-weight: 600;
+                                                margin-bottom: 0px;
+                                                font-family: 'Poppins', sans-serif;">
                                     <thead>
                                         <tr>
                                             <th style="font-size:large;font-weith:600">Sản Phẩm</th>
@@ -108,39 +97,54 @@
                                     </thead>
 
                                     <tbody style="font-size: large;font-family: 'FontAwesome';">
+                                        @if (Session::has('cart') != null)
+                                            @foreach ($cart->products as $value)
 
-                                        <tr class="crazy-cart-item crazy-cart-item-40" id="cart-item-40">
-                                            <td class="wide-column">
-                                                <div>Khóa cửa thông minh Xiaomi LOOCK Classic</div>
-                                                <div>Số lượng: 1</div>
-                                            </td>
-                                            <td class="cart-product-price"><strong
-                                                    class="crazy-item-total-price">6.990.000Đ</strong></td>
-
-                                        </tr>
-
+                                                <tr class="crazy-cart-item crazy-cart-item-40" id="cart-item-40">
+                                                    <td class="wide-column">
+                                                        <img width="100px" style="float: left;padding-right:10px"
+                                                            src="{{ $value['productInfo']->image_url }}" alt="">
+                                                        <p>{{ $value['productInfo']->title }}</p>
+                                                        <span><strong>Số lượng :</strong>
+                                                            {{ $value['quantity'] . ',' }}</span>
+                                                        <span> <strong>Size :</strong>{{ $value['size'] }}</span>
+                                                    </td>
+                                                    <td class="cart-product-price"><strong
+                                                            class="crazy-item-total-price">{{ number_format($value['price']) }}Đ</strong>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
+
                                     <tfoot style="font-size: x-large;color: red;font-family: 'FontAwesome';">
-                                        <tr>
-                                            <th style="font-weith:bold">Tạm Tính</th>
-                                            <td class="crazy-cart-sub-total-ammount">6.990.000Đ</td>
-                                        </tr>
-                                        <tr class="order_total">
-                                            <th style="font-weith:bold">Tổng thành tiền</th>
-                                            <td><strong class="crazy-cart-total-ammount">6.990.000Đ</strong></td>
-                                        </tr>
+                                        @if (Session::has('cart') != null)
+                                            <tr>
+                                                <th style="font-weith:bold">Tổng số lượng</th>
+                                                <td class="crazy-cart-sub-total-ammount">{{ $cart->totalQuantity }}</td>
+                                            </tr>
+                                            <tr class="order_total">
+                                                <th style="font-weith:bold">Tổng thành tiền</th>
+                                                <td><strong
+                                                        class="crazy-cart-total-ammount">{{ number_format($cart->totalPrice) }}Đ</strong>
+                                                </td>
+                                            </tr>
+
+                                            @php
+                                                $vnp_pay_pal = $cart->totalPrice / 2303;
+                                            @endphp
+                                        @endif
                                     </tfoot>
+
                                 </table>
                                 <div class="payment_method">
-
-
                                     <div class="panel-default">
                                         <div class="checkout-payment crazy-payment-methods">
                                             <div class="payment-group crazy-payment-method-option">
                                                 <div class="form-group">
                                                     <div class="ps-radio">
                                                         <input type="radio" class="crazy-payment-method-value" value="cod"
-                                                            name="payment_method" id="payment-method-cod" checked="">
+                                                            name="payment" id="payment-method-cod" checked="">
                                                         <label class="payment-label crazy-payment-method-label"
                                                             for="payment-method-cod">Thanh toán khi nhận hàng</label>
                                                     </div>
@@ -166,7 +170,14 @@
                                                         data-method="transfer" id="payment-description-transfer">
                                                         <p>Quý khách sẽ trả tiền trước qua chuyển khoản xong mới nhận hàng
                                                         </p>
+
+                                                        <div id="paypal-button"></div>
+                                                        @if (Session::has('cart') != null)
+                                                            <input type="hidden" id="vnp_pay_pal"
+                                                                value="{{ round($vnp_pay_pal, 2) }}">
+                                                        @endif
                                                     </div>
+
                                                 </div>
 
                                             </div>
@@ -174,7 +185,6 @@
                                         </div>
                                     </div>
                                     <div class="order_button">
-
                                         <button type="submit" class="btn btn-danger">Đặt hàng</button>
                                     </div>
                                 </div>
@@ -190,5 +200,50 @@
 
     <!-- BANNER-AREA-END -->
 
+
+@endsection
+
+@section('script')
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script>
+        var usd = document.getElementById('vnp_pay_pal').value;
+        paypal.Button.render({
+            // Configure environment
+            env: 'sandbox',
+            client: {
+                sandbox: 'AdEB28Cvf_5FolvUztgOdyaDwElHlxlTCGcSuP7Ri0VuBe6vBG3oVpRX6bJ8LpTDvUctxYEl_O5gOz4K',
+                production: 'demo_production_client_id'
+            },
+            // Customize button (optional)
+            locale: 'en_US',
+            style: {
+                size: 'small',
+                color: 'gold',
+                shape: 'pill',
+            },
+
+            // Enable Pay Now checkout flow (optional)
+            commit: true,
+
+            // Set up a payment
+            payment: function(data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: `${usd}`,
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+            // Execute the payment
+            onAuthorize: function(data, actions) {
+                return actions.payment.execute().then(function() {
+                    // Show a confirmation message to the buyer
+                    window.alert('Cảm ơn bạn đã mua hàng của shop!');
+                });
+            }
+        }, '#paypal-button');
+    </script>
 
 @endsection
