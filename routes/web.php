@@ -2,15 +2,15 @@
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\SizeController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Clients\HomeController;
+use App\Http\Controllers\Clients\OrderController;
 
 /*
 /*
@@ -103,9 +103,19 @@ Route::group(['prefix'=> '/'], function(){
     // Route::get('/update-cart/',[HomeController::class,'updateCart'])->name('update-cart');
 
     Route::get('/update-cart',[HomeController::class,'updateCart'])->name('update-cart');
-
+    // Route thêm sản phẩm vào trang thanh toán 
     Route::get('/checkout',[OrderController::class,'checkout'])->name('checkout');
+    // Route lưu thông tin đơn hàng(thông tin khách hàng, đơn hàng, chi tiết đơn hàng )
     Route::post('/post-checkout',[OrderController::class,'postCheckout'])->name('post-checkout');
+   
+    // Route thanh toán online với paypal 
+    Route::get('/payment-create',[OrderController::class,'create'])->name('payment.create');
+
+    Route::get('/list-order',[OrderController::class,'listOrder'])->name('list-order');
+
+    Route::get('order_detail/id',[OrderController::class,'detailOrder'])->name('order_detail');
+
+    Route::get('/aler-message',[OrderController::class,'alertMessa'])->name('alert');
 
 
 });

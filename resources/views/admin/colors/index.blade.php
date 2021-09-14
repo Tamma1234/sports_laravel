@@ -4,11 +4,28 @@
 @section('content')
 <div class="content-wrapper" >
     <!-- Content Header (Page header) -->
-    @include('admin.templates.content-header',['name'=>'Danh sách danh mục'])
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Danh sách Màu Sản Phẩm</h1>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    </ol>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách danh mục</h3>
-           <a  href="{{route('category.create')}}"><i style="padding: 5px" class="fa fa-plus"></i></a>
+            <h3 class="card-title">Danh sách Màu Sản Phẩm</h3>
+           <a  href="{{route('color.create')}}"><i style="padding: 5px" class="fa fa-plus"></i></a>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -31,9 +48,7 @@
                                         colspan="1" aria-sort="ascending"
                                         aria-label="Rendering engine: activate to sort column descending">STT</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending">Tên danh mục</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending">Danh mục cha</th>
+                                        aria-label="Browser: activate to sort column ascending">Tên Màu</th>
                                    
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
                                         aria-label="Platform(s): activate to sort column ascending">Tổng sản phẩm</th>
@@ -42,15 +57,14 @@
                                     
                             </thead>
                             <tbody>
-                                @foreach ($category as $item)
+                                @foreach ($color as $item)
                                 <tr class="odd" >
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->hasParentCate ? $item->hasParentCate->name : ""}}</td>
                                     <td>{{$item->hasProducts->count()}}</td>
                                     <td>
-                                        <a class="btn btn-info" href="{{route('category.edit',['id'=>$item->id])}}"><i class="fas fa-edit"></i></a>
-                                        <button class="btn btn-danger" onclick='confirmDel("{{route('category.remove',['id'=>$item->id])}}")'><i class="fas fa-trash-alt"></i></button>
+                                        <a class="btn btn-info" href="{{route('color.edit',['id'=>$item->id])}}"><i class="fas fa-edit"></i></a>
+                                        <button class="btn btn-danger" onclick='confirmDel("{{route('color.remove',['id'=>$item->id])}}")'><i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -60,8 +74,7 @@
                             <tfoot>
                                 <tr>
                                     <th rowspan="1" colspan="1">STT</th>
-                                    <th rowspan="1" colspan="1">Tiêu đề</th>
-                                    <th rowspan="1" colspan="1">Danh mục cha</th>
+                                    <th rowspan="1" colspan="1">Tên màu</th>
                                     <th rowspan="1" colspan="1">Tổng sản phẩm</th>
                                     <th rowspan="1" colspan="1">
                                      Thao tác
@@ -74,7 +87,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12 text-center">
                         <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                            {{$category->links("pagination::bootstrap-4")}}
+                            {{$color->links("pagination::bootstrap-4")}}
                         </div>
                     </div>
                 </div>

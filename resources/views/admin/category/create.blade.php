@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 
 @section('title', 'Thêm sản phẩm')
 @section('content')
@@ -6,7 +6,7 @@
         <!-- Content Header (Page header) -->
         <div class="row">
             <div class="col-lg-12">
-                @include('admin.template.content-header',['name'=>'Thêm danh mục'])
+                @include('admin.templates.content-header',['name'=>'Thêm danh mục'])
                 <form action="{{ route('category.store') }}" enctype="multipart/form-data" method="POST">
                     @csrf
                     <div class="row">

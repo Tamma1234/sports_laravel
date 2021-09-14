@@ -9,6 +9,7 @@ class Cart {
     public  $products = null;
     public $totalPrice = 0;
     public $totalQuantity = 0;
+    public $totalPriceUsd = 0;
     
     // Dựng hàm khởi tạo vs tham số truyền vào $cart (truyền vào giỏ hàng hiện tại)
     public function __construct($cart)
@@ -18,6 +19,7 @@ class Cart {
         if($cart){
             $this->products = $cart->products;
             $this->totalPrice = $cart->totalPrice;
+            $this->totalPriceUsd = $cart->totalPriceUsd;
             $this->totalQuantity = $cart->totalQuantity;    
         }
     }
@@ -43,7 +45,9 @@ class Cart {
         $this->products[$id] = $newProduct;
         // Tính tổng giá 
         $this->totalPrice += $product->price;
-         
+
+        $this->totalPriceUsd +=  $this->totalPrice/2303;
+    
         // Tổng số lượng 
        $this->totalQuantity++;
 
@@ -92,7 +96,9 @@ class Cart {
         $this->products[$id] = $newProduct;
         // Tính tổng giá 
         $this->totalPrice += $newProduct['price'];
-         
+
+        $this->totalPriceUsd += $this->totalPrice/23000;
+        // dd(round($this->totalPriceUsd,2));die;
         // Tổng số lượng 
        $this->totalQuantity =  $this->totalQuantity +  $newProduct['quantity'];
 
