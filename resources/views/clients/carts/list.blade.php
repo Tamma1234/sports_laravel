@@ -126,7 +126,7 @@
                             </div>
                             @endif
                             <div class="cart_navigation">
-                                <a class="checkout-btn" href="{{ route('checkout') }}"><i class="fa fa-check"></i>
+                                <a class="checkout-btn" href="{{ route('checkout-list') }}"><i class="fa fa-check"></i>
                                     Thanh toán</a>
                             </div>
                         </div>

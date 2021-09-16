@@ -33,23 +33,49 @@
 <!-- countdown js -->
 
 <script type='text/javascript'>
-   
 
+    // hàm hủy đơn hàng
+    function billDestroy(id) {
+        // Dùng ajax để lấy data qua 
+       
+        var cause = $('#cause-destroy').val();
+        var _token = $('input[name="_token"]').val();
+
+        var data = {
+            cause: cause,
+            id: id,
+            _token : _token
+        };
+
+        $.ajax({
+            url: "bill-destroy",
+            method: 'POST',
+            data: data,
+            success:function(data){
+                location.reload();
+                alertify.success('Đã hủy thành công');
+            }   
+        });
+    }
     // Tạo hàn addCart để thêm sản phẩm vào giỏ hàng 
     function addCart(id) {
         // Dùng ajax để lấy data qua 
-    //   console.log(id);
-        var qty = $('#qty-'+id).val();
+        //   console.log(id);
+        var qty = $('#qty-' + id).val();
         var size = $('.size input[type=checkbox]:checked').val();
-        var data = {qty : qty, size : size,id :id};
+        var data = {
+            qty: qty,
+            size: size,
+            id: id
+        };
 
         $.ajax({
-            url: "{{route('add-cart')}}/"+id,
+            url: "{{ route('add-cart') }}/" + id,
             type: 'GET',
             data: data,
         }).done(function(response) {
             // console.log(response);
-            $('#product-'+id).modal('hide');
+            $('#product-' + id).modal('hide');
             renderCart(response);
             alertify.success('Đã thêm vào giỏ hàng');
         });
@@ -58,7 +84,7 @@
     // Tạo click cho clas .remove-cart để xóa sản phẩm trong cart item
     $("#change-cart").on("click", ".remove-cart i", function() {
         // console.log($(this).data('id'));
-     
+
         $.ajax({
             url: 'delete-cart/' + $(this).data('id'),
             type: 'GET',
@@ -78,7 +104,7 @@
 
     /*Truyền sự kiện change vào input tăng số lượng khi thay đổi sẽ tăng tiền của sản phẩm đó và 
     Tăng tổng tiền và tổng số lượng của list giỏ hàng 
-    */ 
+    */
     $("#list-carts").on("change", ".input-sm", function() {
         // console.log($(this).data('id'));
         var id = $(this).data('id');
@@ -116,7 +142,7 @@
     // }
 
     $("#list-carts").on("click", ".remove i", function() {
-       
+
         $.ajax({
             url: 'delete-list-cart/' + $(this).data('id'),
             type: 'GET',

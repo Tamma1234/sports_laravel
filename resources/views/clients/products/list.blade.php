@@ -74,7 +74,8 @@
                                 <div class="price-box"> <span class="regular-price"> <span class="price">{{number_format($item->price) .'Đ'}} </span> </span> </div>
                               </div>
                               <div class="pro-action">
-                                <button type="button" onclick="addCart({{$item->id}})" class="add-to-cart"><span> Thêm giỏ hàng</span> </button>
+                                <button type="button" onclick="addCart({{$item->id}})" class="add-to-cart"><span> Thêm giỏ hàng</span> 
+                                </button>
                               </div>
                             </div>
                           </div>

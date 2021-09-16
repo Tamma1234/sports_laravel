@@ -143,7 +143,7 @@
                                             <div class="payment-group ">
                                                 <div class="form-group">
                                                     <div class="ps-radio">
-                                                     <input type="radio" onchange="tienMat()" id="payment-method-cod" value="tiền mặt" name="payments" /> 
+                                                     <input type="radio" onchange="tienMat()" id="payment-method-cod" value="0" name="payments" /> 
                                                         <label class="payment-label"
                                                             for="payment-method-cod">Thanh toán khi nhận hàng</label>
                                                     </div>
@@ -159,7 +159,7 @@
                                             <div class="payment-group ">
                                                 <div class="form-group">
                                                     <div class="ps-radio">
-                                                        <input onclick="online()" type="radio" id="payment-method-transfer" value="chuyển khoản" name="payments" /> 
+                                                        <input onclick="online()" type="radio" id="payment-method-transfer" value="3" name="payments" /> 
                                                         <label class="payment-label-method "
                                                             for="payment-method-transfer">Thanh toán chuyển khoản</label>
                                                     </div>

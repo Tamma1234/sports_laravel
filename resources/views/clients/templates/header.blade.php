@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="actions">
                                             <button class="btn-checkout" type="button"
-                                                onClick="location.href='{{ route('checkout') }}'"><i
+                                                onClick="location.href='{{ route('checkout-list') }}'"><i
                                                     class="fa fa-check"></i><span>Thanh toán</span></button>
                                             <button class="view-cart" type="button"
                                                 onClick="location.href='{{ route('list-cart') }}'"><i
