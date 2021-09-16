@@ -67,7 +67,8 @@
                                             <td style="text-align:center"><img onerror="this.src='{{asset('assets/admin/images/no-image.jpg')}}'" style="width:100px;height:100px"
                                                     src="{{ asset("$item->image_url") }}" alt="none"> </td>
                                             <td>{{number_format($item->price)  . 'Đ'}}</td>
-                                            <td>{{ $item->hasCate ? $item->hasCate->name : '' }}</td>
+                                            <td>
+                                                {{ $item->hasCate ? $item->hasCate->name : '' }}<td>
                                             <td>
                                                 @foreach ($item->size as $pro)
                                                     <input type="text" style="width:30px;ba" disabled value="{{ $pro->name .''}}">

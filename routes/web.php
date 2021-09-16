@@ -82,7 +82,8 @@ Route::middleware('auth')->group(function () {
         // Route::get('edit/{id}', [SizeController::class, 'edit'])->name('size.edit');
         // Route::post('update/{id}', [SizeController::class, 'update'])->name('size.update');
         Route::get('remove/{id}', [OrderController::class, 'delete'])->name('order.remove');
-       
+
+        Route::post('bill-edit', [OrderController::class, 'billEdit'])->name('bill-edit');
     });
 });
 
@@ -134,6 +135,8 @@ Route::group(['prefix' => '/'], function () {
         Route::get('order_detail/id', [PaymentController::class, 'detailOrder'])->name('order_detail');
 
         Route::post('bill-destroy', [PaymentController::class, 'billDestroy']);
+
+     
     });
     Route::get('/aler-message', [PaymentController::class, 'alertMessa'])->name('alert');
 });

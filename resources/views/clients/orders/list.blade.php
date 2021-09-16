@@ -72,16 +72,16 @@
                                                     <td>
                                                         @switch($order->bill_active)
                                                             @case(0)
-                                                                <span>Chờ xác nhận</span>
+                                                                <span class="text text-success">Chờ xác nhận</span>
                                                                 @break
                                                             @case(1)
                                                             <span>Đã xác nhận</span>
                                                                 @break
                                                             @case(2)
-                                                            <span> Đã thanh toán</span>
+                                                            <span >Đã xử lí</span>
                                                                 @break
                                                             @case(3)
-                                                            <span>Đã xử lí</span>
+                                                            <span class="text text-primary"> Đã thanh toán</span>
                                                                 @break
                                                             @case(4)
                                                             <span>Đang giao hàng</span>
@@ -90,7 +90,7 @@
                                                             <span> Đã giao hàng</span>
                                                                 @break
                                                             @case(6)
-                                                            <span>Hủy đơn hàng</span>
+                                                            <span class="text text-danger">Hủy đơn hàng</span>
                                                                 @break
                                                             @default
                                                         @endswitch

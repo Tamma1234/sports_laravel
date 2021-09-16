@@ -12,18 +12,15 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    // Hiển thị danh sách đơn hàng 
+    public function index(Request $request)
     {
-        $order = Bill::orderBy('id', 'desc')->Paginate(3);
-        return view('admin.orders.index',compact('order'));
-    }
-
-    public function create()
-    {
-        // $category = Category::all();
-        // $color = Color::all();
-        // $size = Size::all();
-        return view('admin.orders.create');
+        $bill = Bill::orderBy('id', 'desc')->Paginate(3);
+        foreach($bill as $item){
+            $billid = Bill::find($item->id);
+            $billdetail = $billid->hasBillDetail;
+        }
+        return view('admin.orders.index',compact('bill','billdetail'));
     }
 
     public function delete(Request $request)
@@ -36,5 +33,12 @@ class OrderController extends Controller
         return redirect()->route('order.index')->with('msg', 'Xóa sản phẩm thành công');
     }
 
+    public function billEdit(Request $request)
+    {
+        $data = $request->all();
+        $bill = Bill::find($request->id);
+        $bill->bill_active = $data['active'];
+        $bill->save();
+    }
   
 }

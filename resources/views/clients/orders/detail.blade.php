@@ -39,11 +39,42 @@
                                                 </tr>
                                                 <tr class="cart-subtotal">
                                                     <td class="table-danger">Trạng thái</td>
-                                                    <td><span>{{ $bill->bill_active }}</span></td>
+                                                    <td>           
+                                                        @switch($bill->bill_active )
+                                                        @case(0)
+                                                            <span class="text text-success">Chờ xác nhận</span>
+                                                            @break
+                                                        @case(1)
+                                                        <span>Đã xác nhận</span>
+                                                            @break
+                                                        @case(2)
+                                                        <span class="text text-primary">Đã xử lí </span>
+                                                            @break
+                                                        @case(3)
+                                                        <span>Đã thanh toán</span>
+                                                            @break
+                                                        @case(4)
+                                                        <span>Đang giao hàng</span>
+                                                            @break
+                                                        @case(5)
+                                                        <span> Đã giao hàng</span>
+                                                            @break
+                                                        @case(6)
+                                                        <span class="text text-danger">Hủy đơn hàng</span>
+                                                            @break
+                                                        @default
+                                                    @endswitch
+                                                </td>
                                                 </tr>
                                                 <tr class="cart-subtotal">
                                                     <td class="table-danger">Thanh toán</td>
-                                                    <td><span>{{ $bill->payments }}</span></td>
+                                                    <td>  
+                                                         @if ($bill->payments == 0)
+                                                        <span>Tiền mặt</span>
+                                                    @else
+                                                    <span>Online</span>
+                                                    @endif
+                                                    </td>
                                                 </tr>
                                                 <tr class="cart-subtotal">
                                                     <td class="table-danger">Tạm tính</td>
@@ -137,24 +168,24 @@
                                                     <tr class=""
                                                         id="cart-item-{{$item->id}}">
                                                         <td class="image-column">
-                                                            <a href="">
+                                                            <a href="{{route('detail',['id'=>$item->hasProduct->id])}}">
                                                                 <img style="width:100px" src="{{asset($item->hasProduct->image_url )  }}"
                                                                     alt="{{ $item->title  }}">
                                                             </a>
                                                         </td>
                                                         <td class="wide-column">
                                                             <a
-                                                                href="">{{ $item->hasProduct->title }}</a>
+                                                                href="{{route('detail',['id'=>$item->hasProduct->id])}}">{{ $item->hasProduct->title }}</a>
                                                         </td>
                                                         <td class="product-price">
-                                                            <strong> {{ $item->hasProduct->price  }}</strong></td>
+                                                            <strong> {{number_format($item->hasProduct->price).'Đ'   }}</strong></td>
                                                         <td class="product-quantity">
-                                                            <div class="quantity">
-                                                                {{ $item->hasProduct->quantity }}
+                                                            <div class="quantity text-center">
+                                                                {{ $item->quantity }}
                                                             </div>
                                                         </td>
                                                         <td class="product-price"><strong
-                                                                class=""> {{ $item->hasProduct->price  }} </strong>
+                                                                class="">  {{number_format($item->hasProduct->price).'Đ'   }} </strong>
                                                         </td>
                                                     </tr>
                                                 @endforeach

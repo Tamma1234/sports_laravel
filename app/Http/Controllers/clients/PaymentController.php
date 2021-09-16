@@ -77,6 +77,7 @@ class PaymentController extends Controller
         $bill->date_order = date('y-m-d');
         $bill->payments = $request->payments;
         $bill->bill_active = $bill->payments;
+        $bill->bill_destroy = "";
         $bill->note = $request->note;
         $bill->save();
 
@@ -111,11 +112,7 @@ class PaymentController extends Controller
             $totalPrice = $cart->totalPriceUsd;
             $payer = new Payer();
             $payer->setPaymentMethod("paypal");
-            // ### Itemized information
-            // (Optional) Lets you specify item wise
-            // information
-
-            // dd(round( $PriceAll ));die;
+           
             foreach ($cart->products as $key => $value) {
                 // dd($value);die;
 
@@ -126,20 +123,12 @@ class PaymentController extends Controller
                     ->setSku($value['productInfo']->id) // Similar to `item_number` in Classic API
                     ->setPrice(round($value['price'] / 23000, 2));
                 $this->itemList[] = $item;
-                // $this->totalAmount += $value['price'] * $value['quantity'];
-                //    dd( $this->totalAmount);die;
-                //   $this->totalAmount =  round($this->totalAmount) ;
+                
             }
             // dd($totalPrice);die;
             $itemList = new ItemList();
             $itemList->setItems($this->itemList);
-            //    dd($itemList);die;
-            // dd(  $itemList);die;
-            // ### Additional payment details
-            // Use this optional field to set additional
-            // payment information such as tax, shipping
-            // charges etc.
-
+        
             $details = new Details();
             $details->setSubtotal($totalPrice);
 
@@ -271,4 +260,6 @@ class PaymentController extends Controller
         $bill->bill_active = 6;
         $bill->save();
     }
+
+   
 }

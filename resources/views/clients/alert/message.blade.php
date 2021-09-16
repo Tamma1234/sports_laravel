@@ -16,7 +16,7 @@
                        Bạn đạ đặt hàng thành công tại của hàng của chúng tôi. Bạn vui lòng vào xác nhận đơn hàng ở email nhé !
                     </div>
                     <div class="buttons text-center" style="margin: 20px auto;">
-                        <a href="{{route('home')}}" class="theme-btn btn-style-two">Về trang chủ</a>
+                        <a href="{{route('home')}}" class="btn btn-danger">Về trang chủ</a>
                     </div>
                 </div>
             </div>
