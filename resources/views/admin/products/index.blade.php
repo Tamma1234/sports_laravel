@@ -172,31 +172,5 @@
 
   
 
-<script>
-    @if(session('msg'))
-    swal("Thông báo", "{{session('msg')}}!", "info");
-    @endif
 
-    function confirmDel(redirectUrl) {
-        // let redirectUrl = $(this).attr('id');
-        console.log(redirectUrl);
-        swal({
-                title: "Bạn có muốn xóa không?",
-                // text: "Once deleted, you will not be able to recover this imaginary file!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-                
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    window.location.href = redirectUrl;
-                } else {
-                    swal("Hủy bỏ xóa!", {
-                        icon: "error",
-                    });
-                }
-            });
-    }
-    </script>
 @endsection

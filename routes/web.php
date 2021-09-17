@@ -82,8 +82,12 @@ Route::middleware('auth')->group(function () {
         // Route::get('edit/{id}', [SizeController::class, 'edit'])->name('size.edit');
         // Route::post('update/{id}', [SizeController::class, 'update'])->name('size.update');
         Route::get('remove/{id}', [OrderController::class, 'delete'])->name('order.remove');
-
+        // Route 
         Route::post('bill-edit', [OrderController::class, 'billEdit'])->name('bill-edit');
+        // Route đơn hàng đã bị xóa
+        Route::get('order-trash', [OrderController::class, 'orderTrash'])->name('order.trash');
+        // Route xóa vĩnh viễn đơn hàng
+        Route::get('trash-out/{id}', [OrderController::class, 'trashOut'])->name('trash.out');
     });
 });
 
@@ -108,12 +112,14 @@ Route::group(['prefix' => '/'], function () {
         Route::get('/add-cart/{id?}', [HomeController::class, 'addCart'])->name('add-cart');
         // Route list giỏ hảng(cart) item
         Route::get('/list-cart', [HomeController::class, 'listCart'])->name('list-cart');
+
+        Route::get('/list-cart-item', [HomeController::class, 'listCartItem'])->name('list-cart-item');
         // Route lưu product(sản phẩm) theo id vào giỏ hàng(cart)
         Route::post('/save-cart/{id}', [HomeController::class, 'saveCart'])->name('save-cart');
         // route xóa product(sản phẩm) trong giỏ hàng(cart) con
-        Route::get('/delete-cart/{id}', [HomeController::class, 'deleteItemCart'])->name('delete-cart');
+        Route::get('/delete-cart/{id?}', [HomeController::class, 'deleteItemCart'])->name('delete-cart');
         // Route xóa các sản phẩm trong list giỏ hàng
-        Route::get('/delete-list-cart/{id}', [HomeController::class, 'deleteListItemCart'])->name('delete-list-cart');
+        Route::get('/delete-list-cart/{id?}', [HomeController::class, 'deleteListItemCart'])->name('delete-list-cart');
         // Route list giỏ hảng(cart) con thông qua ajax
         Route::get('/list-small', [HomeController::class, 'listSmall'])->name('list-small');
         // Route cập nhập giỏ hàng khi tăng số lượng
@@ -126,7 +132,6 @@ Route::group(['prefix' => '/'], function () {
         Route::get('/list-checkout', [PaymentController::class, 'checkout'])->name('checkout-list');
         // Route lưu thông tin đơn hàng(thông tin khách hàng, đơn hàng, chi tiết đơn hàng )
         Route::post('/post-checkout', [PaymentController::class, 'postCheckout'])->name('post-checkout');
-
         // Route thanh toán online với paypal 
         Route::get('/payment-create', [PaymentController::class, 'create'])->name('payment.create');
 
@@ -135,8 +140,7 @@ Route::group(['prefix' => '/'], function () {
         Route::get('order_detail/id', [PaymentController::class, 'detailOrder'])->name('order_detail');
 
         Route::post('bill-destroy', [PaymentController::class, 'billDestroy']);
-
-     
     });
+
     Route::get('/aler-message', [PaymentController::class, 'alertMessa'])->name('alert');
 });

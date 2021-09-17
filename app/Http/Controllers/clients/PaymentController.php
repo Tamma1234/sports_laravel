@@ -26,6 +26,7 @@ use App\Models\BillDetail;
 use DateTime;
 use App\Cart;
 use Illuminate\Http\Request;
+use App\Http\Requests\CustomerRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 
@@ -48,6 +49,7 @@ class PaymentController extends Controller
         );
         $this->apiContext->setConfig(config('paypal.settings'));
 
+        $this->totalPrice = 0;
         $this->totalAmount = 0;
     }
 
@@ -59,7 +61,7 @@ class PaymentController extends Controller
     }
 
     // Tạo hàm postCheckout để thực hiện thanh toán và đặt hàng truyền tham số Request vào
-    public function postCheckout(Request $request)
+    public function postCheckout(CustomerRequest $request)
     {
 
         // Gọi giỏ hàng có trong checkout ra
@@ -109,7 +111,7 @@ class PaymentController extends Controller
             return redirect()->route('alert');
         } else {
 
-            $totalPrice = $cart->totalPriceUsd;
+            // $totalPrice =$cart->totalPriceUsd ;
             $payer = new Payer();
             $payer->setPaymentMethod("paypal");
            
@@ -122,6 +124,8 @@ class PaymentController extends Controller
                     ->setQuantity($value['quantity'])
                     ->setSku($value['productInfo']->id) // Similar to `item_number` in Classic API
                     ->setPrice(round($value['price'] / 23000, 2));
+                    $this->totalPrice = $value['quantity'] * round($value['price'] / 23000, 2);
+                   
                 $this->itemList[] = $item;
                 
             }
@@ -130,7 +134,7 @@ class PaymentController extends Controller
             $itemList->setItems($this->itemList);
         
             $details = new Details();
-            $details->setSubtotal($totalPrice);
+            $details->setSubtotal($this->totalPrice);
 
             // dd($details);die;
             // ### Amount
@@ -139,7 +143,7 @@ class PaymentController extends Controller
             // such as shipping, tax.
             $amount = new Amount();
             $amount->setCurrency("USD")
-                ->setTotal($totalPrice)
+                ->setTotal($this->totalPrice)
                 ->setDetails($details);
 
             // dd($details);die;
@@ -214,8 +218,10 @@ class PaymentController extends Controller
 
     public function listOrder(Request $request)
     {
+        $email = $request->email;
+      
         $category = Category::where('parent_id', '=', null)->get();
-        $bills = Bill::orderBy('id', 'desc')->Paginate(4);
+        $bills = Bill::orderBy('id', 'desc')->Paginate(8);
         // dd($billdetail);die;
         return view('clients.orders.list', compact('category', 'bills'));
     }
@@ -240,7 +246,7 @@ class PaymentController extends Controller
             return "faild";
         }
     }
-
+    
     public function detailOrder(Request $request)
     {
         $bill = Bill::find($request->id);

@@ -87,10 +87,15 @@
                                                         </label>
                                                     </li>
                                                 @endforeach
+                                               
                                             </ul>
                                         </div>
+                                     
                                     </div>
                                 </div>
+                                @error('size')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <div class="cart-plus-minus">
                                     <label for="qty">Quantity:</label>
                                     <div class="numbers-row">

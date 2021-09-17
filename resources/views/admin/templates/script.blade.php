@@ -37,6 +37,7 @@
 
 <script type='text/javascript'>
 
+    // Thay đổi trạng thái đơn hàng
     function activeAll(id) {
         // Dùng ajax để lấy data qua 
         var active = $('#activeAll').val();
@@ -52,8 +53,37 @@
             headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
             success: function(data) {
                 location.reload();
-                // alertify.success('Đã hủy thành công');
             }
         });
     }
-</script>
+
+    @if(session('msg'))
+    swal("Thông báo", "{{session('msg')}}!", "info");
+    @endif
+    // Hàm thông báo khi click buton xóa
+    function confirmDel(redirectUrl) {
+        // let redirectUrl = $(this).attr('id');
+        console.log(redirectUrl);
+        swal({
+                title: "Bạn có muốn xóa không?",
+                // text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = redirectUrl;
+                } else {
+                    swal("Hủy bỏ xóa!", {
+                        icon: "error",
+                    });
+                }
+            });
+    }
+
+    $("#view-detail").hover(function(){
+        alert ("hello");
+    })
+    </script>

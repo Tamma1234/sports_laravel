@@ -38,24 +38,32 @@ class HomeController extends Controller
 
     public function saveCart(Request $request )
     {
+        $validate = $request->validate([
+            'size'=>'required',
+        ]);
+        // dd($validate);die;
         // $category = Category::where('parent_id','=',null)->get();
-        $product = Product::find($request->id);
-        // $data = $request->all();
-        $quantity = $request->input('quantity');
-        $size = $request->input('size');
-        if ($product != null) {
-            $oldCart = Session('cart') ? Session('cart') : null;
-            $newCart = new cart($oldCart);
-            // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart
-            $newCart->addCartItem($product, $request->id, $quantity,$size);
-            // dd($newCart);die;
-            // Dùng put để thêm sp vào giỏ hàng 
-            $request->session()->put('cart', $newCart);
-           
+   
+            $product = Product::find($request->id);
+            // $data = $request->all();
+            $quantity = $request->input('quantity');
+            $size = $request->input('size');
+            if ($product != null) {
+                $oldCart = Session('cart') ? Session('cart') : null;
+                $newCart = new cart($oldCart);
+                // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart
+                $newCart->addCartItem($product, $request->id, $quantity,$size);
+                // dd($newCart);die;
+                // Dùng put để thêm sp vào giỏ hàng 
+                $request->session()->put('cart', $newCart);
+                return redirect()->route('list-cart');
+               
+      
         }
+       
         // dd($newCart);
 
-        return redirect()->route('list-cart');
+      
     }
     // Hàm hiển thị list danh sách sản phẩm 
     public function listProduct(Request $request)
@@ -81,6 +89,10 @@ class HomeController extends Controller
     // Hàm thêm sp vào cart item con 
     public function addCart(Request $request)
     {
+        $validate = $request->validate([
+            'size'=>'required',
+        ]);
+       
         $product = Product::find($request->id);
         $size = $request->size;
         $quantity = $request->qty;
@@ -140,10 +152,11 @@ class HomeController extends Controller
     {
         // Gọi lại giỏ hàng cũ 
         $oldCart = Session('cart') ? Session('cart') : null;
-    
+        
         $newCart = new cart($oldCart);
         // Trỏ đối tượng newcart -> hàm deleteCart trong App\Cart để thực hiện xóa sp
         $newCart->deleteCart($request->id);
+     
         // Kiểm tra số lượng sản phẩm
         if (count($newCart->products) > 0) {
             $request->session()->put('cart', $newCart);
@@ -151,6 +164,11 @@ class HomeController extends Controller
             $request->session()->forget('cart', $newCart);
         }
         // trả về view clients.cart.list-carts
+        return redirect()->route('list-cart-item');
+    }
+
+    public function listCartItem()
+    {
         return view('clients.carts.list-carts');
     }
 
@@ -163,13 +181,12 @@ class HomeController extends Controller
         $oldCart = Session('cart') ? Session('cart') : null;
 
         $newCart = new cart($oldCart);
+        
         // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart 
         $newCart->updateCart($id, $qty);
-        //    echo json_encode($newCart);
+        // dd($newCart);die;
         // Dùng put để tạo session truyền vào cart(giỏ hàng), newcart(sản phẩm dc thêm mới) 
         $request->session()->put('cart', $newCart);
-
-
         //    // Trả về view cart.list-smaill
         return view('clients.carts.list-carts');
         //    $data = $request->all();

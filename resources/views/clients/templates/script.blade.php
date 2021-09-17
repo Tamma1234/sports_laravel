@@ -34,13 +34,22 @@
 
 <script type='text/javascript'>
 
+    // Click chọn size trong modal thì sẽ hiện button save cart
+    $('input[type="radio"].size').click(function(){
+        if($('input[type="radio"].size:checked')){
+              $("button[type=button].btn").removeAttr('disabled');
+        }
+        else{
+            $("button[type=button].btn").attr('disabled','disabled');
+        }
+      });
+
     // hàm hủy đơn hàng
     function billDestroy(id) {
         // Dùng ajax để lấy data qua 
-       
-        var cause = $('#cause-destroy').val();
+        var cause = $('#cause-destroy-'+id).val();    
         var _token = $('input[name="_token"]').val();
-
+       
         var data = {
             cause: cause,
             id: id,
@@ -62,7 +71,7 @@
         // Dùng ajax để lấy data qua 
         //   console.log(id);
         var qty = $('#qty-' + id).val();
-        var size = $('.size input[type=checkbox]:checked').val();
+        var size = $('.size input[type=radio]:checked').val();
         var data = {
             qty: qty,
             size: size,
@@ -80,13 +89,11 @@
             alertify.success('Đã thêm vào giỏ hàng');
         });
     }
-
     // Tạo click cho clas .remove-cart để xóa sản phẩm trong cart item
     $("#change-cart").on("click", ".remove-cart i", function() {
         // console.log($(this).data('id'));
-
         $.ajax({
-            url: 'delete-cart/' + $(this).data('id'),
+            url: "{{ route('delete-cart') }}/" + $(this).data('id'),
             type: 'GET',
         }).done(function(response) {
             // Gọi hàm renderCart trả về cart item con
@@ -107,6 +114,7 @@
     */
     $("#list-carts").on("change", ".input-sm", function() {
         // console.log($(this).data('id'));
+
         var id = $(this).data('id');
         var qty = $(this).val();
 
@@ -121,13 +129,13 @@
             data: data,
             // dataType: 'json',
         }).done(function(response) {
-            // console.log(response);
+           
             $('#list-carts').empty();
             $('#list-carts').html(response);
         });
     })
 
-    // Hám xóa item trong list giỏ hàng chính 
+   // Hám xóa item trong list giỏ hàng chính 
     // function deleteListCart(id) {
     //     $.ajax({
     //         url: 'delete-list-cart/' + id,
@@ -141,10 +149,11 @@
     //     });
     // }
 
+    // Xóa giỏ hàng item trước khi thanh toán 
     $("#list-carts").on("click", ".remove i", function() {
 
         $.ajax({
-            url: 'delete-list-cart/' + $(this).data('id'),
+            url: "{{route('delete-list-cart')}}/" + $(this).data('id'),
             type: 'GET',
         }).done(function(response) {
 

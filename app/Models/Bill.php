@@ -16,8 +16,11 @@ class Bill extends Model
 
     protected  $fillable = [
         'cutomer_id',
+        'date_order',
         'total',
         'payments',
+        'bill_active',
+        'bill_destroy',
         'note'
   ];
 

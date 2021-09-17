@@ -4,10 +4,10 @@
 @section('content')
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @include('admin.templates.content-header',['name'=>'Đơn hàng'])
+        @include('admin.templates.content-header',['name'=>'Đơn Hàng'])
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh Sách Đơn Hàng</h3>
+                <h3 class="card-title">Danh Sách Đơn Hàng </h3>
                 <a href="#"><i style="padding: 5px" class="fa fa-plus"></i></a>
             </div>
             <!-- /.card-header -->
@@ -55,7 +55,7 @@
                                         <tr class="odd">
                                             <td>{{ $item->id }}</td>
                                             <td>{{ $item->date_order }}</td>
-                                            <td>{{ $item->total }}</td>
+                                            <td>{{number_format($item->total).'Đ' }}</td>
                                             <td class="text-center">
                                                 @if ($item->payments == 0)
                                                     <span>Tiền mặt</span>
@@ -92,11 +92,11 @@
 
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-info" data-target="#bill-{{ $item->id }}"
+                                                    <button class="btn btn-info" id="view-detail" data-target="#bill-{{ $item->id }}"
                                                         data-toggle="modal"><i class="far fa-eye"></i></button>
-                                                    {{-- <button class="btn btn-danger"
-                                                        onclick='confirmDel("{{ route('bill.remove', ['id' => $item->id]) }}")'><i
-                                                            class="fas fa-trash-alt"></i></button> --}}
+                                                    <button class="btn btn-danger"
+                                                        onclick='confirmDel("{{ route('order.remove', ['id' => $item->id]) }}")'><i
+                                                            class="fas fa-trash-alt"></i></button>
                                                 </td>
                                     </tr>
                                     @endforeach
@@ -308,5 +308,4 @@
             
         </div>
 </div>
-                  
-            @endsection
+ @endsection

@@ -16,21 +16,31 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $bill = Bill::orderBy('id', 'desc')->Paginate(3);
-        foreach($bill as $item){
+        foreach ($bill as $item) {
             $billid = Bill::find($item->id);
             $billdetail = $billid->hasBillDetail;
+      
         }
-        return view('admin.orders.index',compact('bill','billdetail'));
+        return view('admin.orders.index', compact('bill', 'billdetail'));
     }
 
     public function delete(Request $request)
     {
         $bills = Bill::find($request->id);
-        $customerId = $bills->hasCustomer->id;
-        $customers = Customer::find($customerId);
-        $billdetail = $bills->hasBillDetail;
         $bills->delete();
         return redirect()->route('order.index')->with('msg', 'Xóa sản phẩm thành công');
+    }
+    //Xóa đơn hàng vào trong thùng rác
+    public function orderTrash(Request $request)
+    {
+        $bills = Bill::onlyTrashed()->get();
+        return view('admin.orders.trash', compact('bills'));
+    }
+    // Xóa vĩnh viễn đơn hàng
+    public function trashOut(Request $request)
+    {
+        $bills = Bill::withTrashed()->where('id',$request->id)->forceDelete();
+        return view('admin.orders.trash', compact('bills'));
     }
 
     public function billEdit(Request $request)
@@ -40,5 +50,4 @@ class OrderController extends Controller
         $bill->bill_active = $data['active'];
         $bill->save();
     }
-  
 }

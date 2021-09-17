@@ -79,7 +79,6 @@
                                 <div>
                                     <div class="top-cart-content">
                                         <div class="block-subtitle hidden">Recently added items</div>
-
                                         <div id="change-cart">
                                             @if (Session::has('cart') != null)
                                             <ul id="cart-sidebar" class="mini-products-list">

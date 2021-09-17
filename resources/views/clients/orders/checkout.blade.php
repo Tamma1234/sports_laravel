@@ -34,8 +34,11 @@
                                         </label>
                                         <div class="form-group__content">
                                             <input type="text" name="full_name" id="billing_name" class="form-control"
-                                                placeholder="Nhập Họ và tên" required="true">
+                                                placeholder="Nhập Họ và tên" >
                                         </div>
+                                        @error('full_name')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                     <div class="col-sm-12">
                                         <label for="billing_email">
@@ -44,8 +47,11 @@
                                         </label>
                                         <div class="form-group__content">
                                             <input type="email" name="email" class="form-control" placeholder="Nhập email"
-                                                required="true">
+                                                >
                                         </div>
+                                        @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                     <div class="col-sm-12">
                                         <label for="phone_number">
@@ -53,9 +59,12 @@
                                             <sup>*</sup>
                                         </label>
                                         <div class="form-group__content">
-                                            <input type="text" name="phone_number" class="form-control"
-                                                placeholder="Nhập só điện thoại" required="true">
+                                            <input type="phone_number" name="phone_number" class="form-control"
+                                                placeholder="Nhập só điện thoại" >
                                         </div>
+                                        @error('phone_number')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
 
                                     <div class="col-sm-12">
@@ -66,6 +75,9 @@
                                             <input type="text" name="address" id="address" class="form-control"
                                                 placeholder="Nhập Địa chỉ. Ví dụ: Số nhà, tên dường, ...">
                                         </div>
+                                        @error('address')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     </div>
                                     <div class="col-sm-12">
                                         <!-- textarea -->
@@ -143,7 +155,7 @@
                                             <div class="payment-group ">
                                                 <div class="form-group">
                                                     <div class="ps-radio">
-                                                     <input type="radio" onchange="tienMat()" id="payment-method-cod" value="0" name="payments" /> 
+                                                     <input type="radio" onchange="tienMat()" id="payment-method-cod" checked value="0" name="payments" /> 
                                                         <label class="payment-label"
                                                             for="payment-method-cod">Thanh toán khi nhận hàng</label>
                                                     </div>

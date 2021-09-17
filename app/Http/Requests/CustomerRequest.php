@@ -13,7 +13,7 @@ class CustomerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,35 @@ class CustomerRequest extends FormRequest
      *
      * @return array
      */
+    public function attributes()
+    {
+        return [
+            'full_name'=> 'Họ và tên',
+            'email'=> 'Email',
+            'phone_number'=> 'Số điện thoại',
+            'address'=> 'Địa chỉ',
+           
+        ];
+    }
+
     public function rules()
     {
         return [
-            //
+           'full_name'=> 'required',
+           'email'=> 'required|email:rfc,dns|unique:users,email',
+           'phone_number'=> 'required|min:10|numeric',
+           'address'=> 'required',
+          
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+           'required'=> ':attribute Không được để trống',
+           'email'=> ':attribute không đúng định dạng',
+           'min'=> ':attribute phải là 10 số',
+           'numeric'=> ':attribute hãy nhập bằng số',
         ];
     }
 }

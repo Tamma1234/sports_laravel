@@ -89,8 +89,9 @@
                                             </tr>
 
                                         </tfoot>
-
+                                       
                                     </table>
+                               
                                 @else
                                     <table class="table table-bordered cart_summary">
                                         <thead>
@@ -122,7 +123,7 @@
                                             </tr>
                                         </tfoot>
                                     </table>
-
+                                
                             </div>
                             @endif
                             <div class="cart_navigation">

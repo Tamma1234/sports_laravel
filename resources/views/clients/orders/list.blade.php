@@ -123,7 +123,7 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                      <textarea name="" id="cause-destroy" style="width:100%;height:100px;background:bisque" cols="50" rows="20" placeholder="Lí do hủy"></textarea>
+                                                                      <textarea name="" id="cause-destroy-{{ $order->id }}" style="width:100%;height:100px;background:bisque" cols="50" rows="20" placeholder="Lí do hủy"></textarea>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button"  class="btn btn-secondary"

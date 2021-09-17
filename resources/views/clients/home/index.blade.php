@@ -124,19 +124,23 @@
                                                                                                     @foreach ($item->size as $size)
                                                                                                         <li>
                                                                                                             <label class="m-checkbox m-checkbox--solid m-checkbox--success">
-                                                                                                                <input type="checkbox"  class="size" data-size ="{{ $size->value }}"  id="size-{{ $size->id }}"
-                                                                                                                    name="size" value="{{ $size->name }}" >
+                                                                                                                <input type="radio"  class="size" data-size ="{{ $size->value }}"  id="size-{{ $size->id }}"
+                                                                                                                    name="size" value="{{ $size->name }}" required="true">
                                                                                                                 {{ $size->name }}
                                                                                                                 <span></span>
                                                                                                             </label>
                                                                                                         </li>
                                                                                                     @endforeach
+                                                                                                   
                                                                                                 </ul>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
+                                                                                    @error('size')
+                                                                                    <div class="alert alert-danger">{{ $message }}</div>
+                                                                                     @enderror
                                                                                     <div class="cart-plus-minus">
-                                                                                        <label for="qty">Quantity:</label>
+                                                                                        <label for="qty">Số lượng:</label>
                                                                                         <div class="numbers-row">
                                                                                             <input type="number" class="qty" title="Qty" value="1" maxlength="12"
                                                                                                 id="qty-{{$item->id}}" min="1" max="10" name="quantity">
@@ -147,11 +151,12 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="modal-footer">
-                                                                            <button type="button"  class="btn btn-secondary"
-                                                                                data-dismiss="modal">Close</button>
-                                                                                <button type="button" id="{{ $item->id }}" onclick="addCart({{$item->id}})"
-                                                                                    class="add-to-cart"><span> Thêm giỏ hàng</span>
+                                                                          
+                                                                                <button type="button"  disabled id="btn-{{ $item->id }}" onclick="addCart({{$item->id}})"
+                                                                                    class="btn btn-danger"><span> Save cart</span>
                                                                                 </button>
+                                                                                <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Close</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
