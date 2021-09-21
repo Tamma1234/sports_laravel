@@ -110,8 +110,8 @@
             <br>
             <br>
             <br>
-            <p class="m_-8525905254478487520confirm-block">
-                <a href="{{route('list-order')}}" target="_blank">Xác thực</a>
+            <p class="m_-8525905254478487520confirm-block" style="text-align:center">
+                <a href="{{route('list-order')}}" style="background: red;padding:10px;text-decoration:none;color:white" target="_blank">Xác thực</a>
             </p><div class="yj6qo"></div><div class="adL">
         </div></div><div class="adL">
         

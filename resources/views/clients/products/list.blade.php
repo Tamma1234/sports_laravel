@@ -26,29 +26,16 @@
               <h2>Danh sách sản phẩm</h2>
             </div>
             <div class="toolbar">
-              <div class="view-mode">
-                <ul>
-                  <li class="active"> <a href="shop_grid.html"> <i class="fa fa-th-large"></i> </a> </li>
-                  <li> <a href="shop_list.html"> <i class="fa fa-th-list"></i> </a> </li>
-                </ul>
-              </div>
+            
               <div class="sorter">
                 <div class="short-by">
-                  <label>Sort By:</label>
-                  <select>
-                    <option selected="selected">Position</option>
-                    <option>Name</option>
-                    <option>Price</option>
-                    <option>Size</option>
-                  </select>
-                </div>
-                <div class="short-by page">
-                  <label>Show:</label>
-                  <select>
-                    <option selected="selected">18</option>
-                    <option>20</option>
-                    <option>25</option>
-                    <option>30</option>
+                  <label>Lọc sản phẩm</label>
+                  <select id="short-by">
+                    <option selected="selected">-Lọc theo</option>
+                    <option value="{{Request::url()}}?short_by=tang_dan">Tăng dần</option>
+                    <option value="{{Request::url()}}?short_by=giam_dan">Giảm dần</option>
+                    <option value="{{Request::url()}}?short_by=kytu-az">Ký tự từ a - z</option>
+                    <option value="{{Request::url()}}?short_by=kytu-za">Ký tự từ z - a</option>
                   </select>
                 </div>
               </div>
@@ -92,55 +79,6 @@
           </div>
         </div>
         <aside class="sidebar col-sm-3 col-xs-12 col-sm-pull-9">
-          <div class="block category-sidebar">
-            <div class="sidebar-title">
-              <h3>Categories</h3>
-            </div>
-            <ul class="product-categories">
-              <li class="cat-item current-cat cat-parent"><a href= "shop_grid.html">Women</a>
-                <ul class="children">
-                  <li class="cat-item cat-parent"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Accessories</a>
-                    <ul class="children">
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Dresses</a></li>
-                      <li class="cat-item cat-parent"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Handbags</a>
-                        <ul  class="children">
-                          <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Beaded Handbags</a></li>
-                          <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Sling bag</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="cat-item cat-parent"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Handbags</a>
-                    <ul class="children">
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; backpack</a></li>
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Beaded Handbags</a></li>
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Fabric Handbags</a></li>
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Sling bag</a></li>
-                    </ul>
-                  </li>
-                  <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Jewellery</a> </li>
-                  <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Swimwear</a> </li>
-                </ul>
-              </li>
-              <li class="cat-item cat-parent"><a href="shop_grid.html">Men</a>
-                <ul class="children">
-                  <li class="cat-item cat-parent"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Dresses</a>
-                    <ul class="children">
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Casual</a></li>
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Designer</a></li>
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Evening</a></li>
-                      <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Hoodies</a></li>
-                    </ul>
-                  </li>
-                  <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Jackets</a> </li>
-                  <li class="cat-item"><a href="shop_grid.html"><i class="fa fa-angle-right"></i>&nbsp; Shoes</a> </li>
-                </ul>
-              </li>
-              <li class="cat-item"><a href="shop_grid.html">Electronics</a></li>
-              <li class="cat-item"><a href="shop_grid.html">Furniture</a></li>
-              <li class="cat-item"><a href="shop_grid.html">KItchen</a></li>
-            </ul>
-          </div>
           <div class="block shop-by-side">
             <div class="sidebar-bar-title">
               <h3>Shop By</h3>
@@ -184,16 +122,12 @@
       </div>
     </div>
   </div>
-  <!-- Main Container End --> 
-
-<!-- Blog -->
-
-
-<!-- our clients Slider -->
-
-<!-- BANNER-AREA-END -->
-
-
 @endsection
 
 
+@section('script')
+    <script type="text/javascript">
+
+    </script>
+
+@endsection

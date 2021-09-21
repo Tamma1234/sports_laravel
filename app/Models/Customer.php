@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Http\Request;
+use App\Models\Bill;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,9 +23,7 @@ class Customer extends Model
         'note'
     ];
 
-    function saveCustomer(Request $request){
-        $customer = new Customer();
-       
-    
+    function hasBill(){
+       return $this->hasMany(Bill::class,'cutomer_id','id','email');
     }
 }

@@ -59,7 +59,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-3 col-xs-12">
                         <div class="footer-logo">
-                            <a href="index.html"><img src="images/footer-logo.png" alt="fotter logo"></a>
+                            <a href="{{route('home')}}"><img src="{{ asset('assets/admin/images/logo.png') }}" alt="fotter logo"></a>
                         </div>
                         <p>Lorem Ipsum is simply dummy text of the print and typesetting industry. Ut pharetra augue nec augue. Nam elit agna, endrerit sit amet.</p>
                         <div class="social">
@@ -125,22 +125,7 @@
                                 <div class="footer-description"> <b>Monday-Friday:</b> 8.30 a.m. - 5.30 p.m.<br>
                                     <b>Saturday:</b> 9.00 a.m. - 2.00 p.m.<br>
                                     <b>Sunday:</b> Closed </div>
-                                <div class="payment">
-                                    <ul>
-                                        <li>
-                                            <a href="#"><img title="Visa" alt="Visa" src="images/visa.png"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><img title="Paypal" alt="Paypal" src="images/paypal.png"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><img title="Discover" alt="Discover" src="images/discover.png"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><img title="Master Card" alt="Master Card" src="images/master-card.png"></a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>

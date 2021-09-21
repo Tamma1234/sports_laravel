@@ -41,6 +41,12 @@ class Product extends Model
         return $this->belongsToMany(Size::class, 'product_size', 'product_id', 'size_id');
     }
 
+    // Hàm liên kết vời table bill(hóa đơn)
+    public function billDetail()
+    {
+        return $this->hasMany(BillDetail::class,'product_id','id');
+    }
+
     // Hàm size để liên kết table product vs table category
     public function hasCate()
     {

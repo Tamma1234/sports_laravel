@@ -26,11 +26,29 @@
                         <!-- Nav tabs -->
                         <div class="dashboard_tab_button">
                             <ul role="tablist" class="nav flex-column dashboard-list">
-                                <li style="border-bottom: 1px solid white"><a style="color: white" href=""
-                                        class="nav-link">Tất cả đơn hàng</a></li>
+                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                        href="{{ route('list-order') }}" class="nav-link">Tất cả đơn hàng</a></li>
+                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                        href="{{ route('list-order') }}?is_active=cho-xac-nhan" class="nav-link">Chờ
+                                        xác nhận</a></li>
+                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                        href="{{ route('list-order') }}?is_active=da-xac-nhan" class="nav-link">Đã
+                                        xác
+                                        nhận</a></li>
+                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                        href="{{ route('list-order') }}?is_active=da-thanh-toan" class="nav-link">Đã
+                                        thanh toán - Đang giao hàng</a></li>
+                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                        href="{{ route('list-order') }}?is_active=da-hoan-thanh"
+                                        class="nav-link">Đang
+                                        hoàn thành</a></li>"
+                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                        href="{{ route('list-order') }}?is_active=huy-don-hang" class="nav-link">Đơn
+                                        hàng bị hủy</a></li>
 
 
-                                <li><a style="color: white" href="" class="nav-link">logout</a></li>
+                                <li><a style="color: white" href="{{ route('logout.email') }}"
+                                        class="nav-link">logout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -45,10 +63,9 @@
                                 <table class=" table table-dark
                                         table-striped">
                                         <thead style=" background: black;
-                                        color: white;">
+                                                color: white;">
                                             <tr>
                                                 <th>Mã</th>
-
                                                 <th>Thời gian</th>
                                                 <th>Giá tiền</th>
                                                 <th>Phương thức thanh toán</th>
@@ -70,30 +87,21 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @switch($order->bill_active)
-                                                            @case(0)
-                                                                <span class="text text-success">Chờ xác nhận</span>
-                                                                @break
-                                                            @case(1)
+                                                        @if ($order->bill_active == 0)
+                                                            <span class="text text-success">Chờ xác nhận</span>
+                                                        @elseif($order->bill_active == 1)
                                                             <span>Đã xác nhận</span>
-                                                                @break
-                                                            @case(2)
-                                                            <span >Đã xử lí</span>
-                                                                @break
-                                                            @case(3)
-                                                            <span class="text text-primary"> Đã thanh toán</span>
-                                                                @break
-                                                            @case(4)
-                                                            <span>Đang giao hàng</span>
-                                                                @break
-                                                            @case(5)
+                                                        @elseif($order->bill_active == 2)
+                                                            <span>Đã xử lí</span>
+                                                        @elseif($order->bill_active == 3)
+                                                            <span class="text text-primary"> Đã thanh toán - Đang giao
+                                                                hàng</span>
+                                                        @elseif($order->bill_active == 4)
                                                             <span> Đã giao hàng</span>
-                                                                @break
-                                                            @case(6)
+                                                        @elseif($order->bill_active == 5)
                                                             <span class="text text-danger">Hủy đơn hàng</span>
-                                                                @break
-                                                            @default
-                                                        @endswitch
+
+                                                        @endif
                                                         {{-- @if ($order->bill_active == 0)
                                                             <span>Đang chờ xác nhận</span>
                                                         @else
@@ -101,39 +109,55 @@
                                                         @endif --}}
                                                     </td>
                                                     <td>
+                                                        @if ($order->bill_active == 3 )
+                                                            <a href="{{ route('order_detail', ['id' => $order->id]) }}"
+                                                                class="btn btn-danger">Chi tiết</a>
+                                                        @elseif( $order->bill_active == 1)
                                                         <a href="{{ route('order_detail', ['id' => $order->id]) }}"
                                                             class="btn btn-danger">Chi tiết</a>
-                                                        @if ($order->bill_active != 6)
-                                                        | <a href="#"  data-target="#order-{{ $order->id }}"  data-toggle="modal" data-id="" class="btn btn-danger" data-id="">Hủy</a>
-                                                        @endif
+                                                            @else
+                                                            <a href="{{ route('order_detail', ['id' => $order->id]) }}"
+                                                                class="btn btn-danger">Chi tiết</a>
+                                                            @if ($order->bill_active != 6)
+                                                                | <a href="#" data-target="#order-{{ $order->id }}"
+                                                                    data-toggle="modal" data-id="" class="btn btn-danger"
+                                                                    data-id="">Hủy</a>
+                                                            @endif
+                                                         @endif   
                                                     </td>
                                                     <div class="modal fade" id="order-{{ $order->id }}"
-                                                        tabindex="-1" role="dialog"
-                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
-                                                            <form >
+                                                            <form>
                                                                 @csrf
                                                                 <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="exampleModalLabel">Modal title</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                      <textarea name="" id="cause-destroy-{{ $order->id }}" style="width:100%;height:100px;background:bisque" cols="50" rows="20" placeholder="Lí do hủy"></textarea>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button"  class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close</button>
-                                                                        <button type="button" class="btn btn-info" id="{{ $order->id }}" onclick="billDestroy({{$order->id}})"> Gửi
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Hủy đơn hàng</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
                                                                         </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <textarea name=""
+                                                                            id="cause-destroy-{{ $order->id }}"
+                                                                            style="width:100%;height:100px;background:bisque"
+                                                                            cols="50" rows="20"
+                                                                            placeholder="Lí do hủy"></textarea>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-info"
+                                                                            id="{{ $order->id }}"
+                                                                            onclick="billDestroy({{ $order->id }})"> Gửi
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
                                                             </form>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </tr>
@@ -161,5 +185,5 @@
             </div>
         </div>
     </section>
-    
+
 @endsection

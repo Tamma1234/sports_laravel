@@ -41,11 +41,11 @@
     function activeAll(id) {
         // Dùng ajax để lấy data qua 
         var active = $('#activeAll').val();
+     console.log(active);
         var data = {
             active: active,
             id: id,
         };
-      
         $.ajax({
             url: "{{ route('bill-edit') }}",
             method: 'POST',
@@ -83,7 +83,5 @@
             });
     }
 
-    $("#view-detail").hover(function(){
-        alert ("hello");
-    })
+  
     </script>

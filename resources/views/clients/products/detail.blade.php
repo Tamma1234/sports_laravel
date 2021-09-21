@@ -3,6 +3,22 @@
 @section('title', 'Chi tiết sản phẩm')
 
 @section('content')
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul>
+                    <li class="home"> <a title="Go to Home Page" href="{{route('home')}}">Home</a><span>&raquo;</span>
+                    </li>
+                    <li class="___class_+?5___"> <a title="Go to Home Page" href="{{ route('category',['id'=>$cate]) }}">{{$product->hasCate->name}}</a><span>&raquo;</span></li>
+                    <li class="___class_+?5___"> <a title="Go to Home Page" href="{{ route('list') }}">{{$product->title}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="main-container col1-layout">
     <div class="container">
         <div class="row">
@@ -17,12 +33,11 @@
                         </div>
                         <div class="flexslider flexslider-thumb">
                             <ul class="previews-list slides">
-                          
-                                <li>
+                                {{-- <li>
                                     <a href='' class='cloud-zoom-gallery'
                                         rel="useZoom: 'zoom1', smallImage: '{{asset('assets/admin/images/jr-sport.jpg')}}' "><img
                                             src="{{asset('assets/admin/images/jr-sport.jpg')}}" alt="" /></a>
-                                </li>
+                                </li> --}}
                                 @foreach ($gallery as $item)
                                         <li>
                                             <a href='{{ asset($item->filename) }}' class='cloud-zoom-gallery'
@@ -30,7 +45,7 @@
                                                 <img src="{{ asset($item->filename) }}" alt="Thumbnail 2" />
                                             </a>
                                         </li>
-                                    @endforeach
+                                 @endforeach
                             </ul>
                         </div>
 

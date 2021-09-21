@@ -10,9 +10,11 @@
                 <form action="{{ route('product.update') }}" enctype="multipart/form-data" method="post">
                     @csrf
                     <input type="hidden" name="id" value="{{ $product->id }}">
-                    <div class="card-header">
-                        <h3 class="card-title">Thông tin chi tiết </h3>
-                    </div>
+                  
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin chi tiết </h3>
+                        </div>
+                   
                     <div class="row">
 
                         <!-- left column -->
@@ -21,6 +23,7 @@
                             <div class="card card-primary">
                                 <!-- /.card-header -->
                                 <!-- form start -->
+
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tiêu đề sản phẩm</label>
@@ -73,14 +76,14 @@
                                     <div class="form-group">
                                         <label>Trạng thái</label>
                                         <select class="form-control" name="is_active">
-                                                @if ($product->is_active == 1)
+                                            @if ($product->is_active == 1)
                                                 <option value="0">Còn hàng</option>
                                                 <option value="1">Hết hàng</option>
-                                                @else
+                                            @else
                                                 <option value="0">Hết hàng</option>
                                                 <option value="1">Còn hàng</option>
-                                                @endif
-                                                
+                                            @endif
+
                                         </select>
                                     </div>
 
@@ -89,7 +92,7 @@
                                         </label>
                                         <select class="form-control" name="color_id">
                                             @foreach ($color as $item)
-                                            <option value="0">Chọn màu</option>
+                                                <option value="0">Chọn màu</option>
                                                 <option value="{{ $item->id }}"
                                                     {{ $item->id == $product->hasColor->id ? 'selected' : '' }}>
                                                     {{ $item->name }}</option>
@@ -111,6 +114,8 @@
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror --}}
                                 </div>
+
+
                             </div>
                         </div>
                         <!--/.col (left) -->

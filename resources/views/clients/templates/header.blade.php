@@ -12,7 +12,6 @@
                         <ul class="links">
                             <li class="hidden-xs"><a title="Help Center" href="#"><span>Hỗ trợ</span></a></li>
                             <li><a title="Store Locator" href="{{route('list-order')}}"><span>Kiểm tra đơn hàng</span></a></li>
-                            <li><a title="Checkout" href="checkout.html"><span>Thông tin</span></a></li>
 
                         </ul>
                     </div>
@@ -157,24 +156,8 @@
                         <ul class="nav">
                             @foreach ($category as $item)
                                 <li><a href="{{ route('category', ['id' => $item->id]) }}">{{ $item->name }} </a>
-
-                                    {{-- <div class="wrap-popup column1">
-                                    <div class="popup">
-                                        <ul class="nav">
-                                            
-                                            <li><a href="index.html"><span>Home Version 1</span></a></li>
-                                            <li><a href="version2/index.html"><span>Home Version 2</span></a></li>
-                                            <li><a href="version3/index.html"><span>Home Version 3</span></a></li>
-                                            <li><a href="version4/index.html"><span>Home Version 4</span></a></li>
-                                            <li><a href="version1rtl/index.html"><span>Home Version 1 RTL</span></a></li>
-                                        </ul>
-                                    </div>
-                                </div> --}}
                                 </li>
-
                             @endforeach
-
-
                         </ul>
                     </div>
                 </div>

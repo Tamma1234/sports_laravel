@@ -18,32 +18,30 @@ class HomeController extends Controller
     public function index()
     {
         $category = Category::where('parent_id', '=', null)->get();
-        $product = Product::orderBy('id', 'desc')->Paginate(8);
+        $product = Product::orderBy('id', 'desc')->where('is_active',1)->Paginate(8);
         return view('clients.home.index', compact('product', 'category'));
     }
 
     // Tạo hàm detail để show chi tiết product(sản phẩm)
     // Truyển tham số request vào để lấy data 
-
     public function detail(Request $request)
     {
         $product = Product::find($request->id);
         $cate = $product->hasCate->id;
         $product_related = Category::find($cate)->hasProducts;
+ 
         $category = Category::where('parent_id', '=', null)->get();
         $size = Size::all();
         $gallery = GalleryProduct::where('product_id', $product->id)->get();
-        return view('clients.products.detail', compact('product', 'category', 'gallery', 'size', 'product_related'));
+        return view('clients.products.detail', compact('product','cate', 'category', 'gallery', 'size', 'product_related'));
     }
 
+    // Thêm sản phẩm vào giỏ hàng từ trang detail sản phẩm
     public function saveCart(Request $request )
     {
         $validate = $request->validate([
             'size'=>'required',
         ]);
-        // dd($validate);die;
-        // $category = Category::where('parent_id','=',null)->get();
-   
             $product = Product::find($request->id);
             // $data = $request->all();
             $quantity = $request->input('quantity');
@@ -57,13 +55,9 @@ class HomeController extends Controller
                 // Dùng put để thêm sp vào giỏ hàng 
                 $request->session()->put('cart', $newCart);
                 return redirect()->route('list-cart');
-               
-      
+            
         }
-       
-        // dd($newCart);
-
-      
+    
     }
     // Hàm hiển thị list danh sách sản phẩm 
     public function listProduct(Request $request)
@@ -72,6 +66,22 @@ class HomeController extends Controller
         $product = Product::orderBy('id', 'desc')->Paginate(8);
         $size = Size::all();
         $color = Color::all();
+        if(isset($_GET['short_by'])){
+            $short_by = $_GET['short_by'];
+            if($short_by == "tang_dan"){
+                $product = Product::orderBy('price', 'ASC')->Paginate(8);
+            }
+            elseif($short_by == "giam_dan"){
+                $product = Product::orderBy('price', 'DESC')->Paginate(8);
+            }
+            elseif($short_by == "kytu-az"){
+                $product = Product::orderBy('title', 'ASC')->Paginate(8);
+            }
+            elseif($short_by == "kytu-za"){
+                $product = Product::orderBy('title', 'DESC')->Paginate(8);
+            }
+        }
+       
         return view('clients.products.list', compact('product', 'category', 'size', 'color'));
     }
 
@@ -79,11 +89,32 @@ class HomeController extends Controller
     // Truyền vào tham số request để lấy data
     public function categoryProduct(Request $request)
     {
+        $cate = Category::find($request->id);
+        $size = Size::all();
+        $color = Color::all();
         $category = Category::where('parent_id', '=', null)->get();
         $product = Product::orderBy('id', 'desc')->Paginate(6);
+        if(isset($_GET['short_by'])){   
+            $short_by = $_GET['short_by'];
+          
+            if($short_by == "tang_dan"){
+                $product_by_id = Category::find($request->id)->hasProducts->sortBy("price");
+            }
+            elseif($short_by == "giam_dan"){
+                $product_by_id = Category::find($request->id)->hasProducts->sortByDesc("price");
+            }
+            elseif($short_by == "kytu-az"){
+                $product_by_id = Category::find($request->id)->hasProducts->sortBy("title");
+            }
+            elseif($short_by == "kytu-za"){
+                $product_by_id = Category::find($request->id)->hasProducts->sortBy("title");
+            }
+        }
         // Lấy ra các sản phẩm thuộc fanh mục
-        $product_by_id = Category::find($request->id)->hasProducts;
-        return view('clients.category.list', compact('category', 'product_by_id', 'product'));
+        else{
+             $product_by_id = Category::find($request->id)->hasProducts;
+        }
+        return view('clients.category.list', compact('category','size','color','cate', 'product_by_id', 'product'));
     }
 
     // Hàm thêm sp vào cart item con 

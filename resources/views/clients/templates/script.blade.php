@@ -33,37 +33,48 @@
 <!-- countdown js -->
 
 <script type='text/javascript'>
+   
+    //Lọc sản phẩm 
+    $(document).ready(function() {
+        $('#short-by').change(function() {
+            var url = $(this).val();
+    
+            if (url) {
+                window.location = url;
+            }
+            return false;
+        })
+    })
 
     // Click chọn size trong modal thì sẽ hiện button save cart
-    $('input[type="radio"].size').click(function(){
-        if($('input[type="radio"].size:checked')){
-              $("button[type=button].btn").removeAttr('disabled');
+    $('input[type="radio"].size').click(function() {
+        if ($('input[type="radio"].size:checked')) {
+            $("button[type=button].btn").removeAttr('disabled');
+        } else {
+            $("button[type=button].btn").attr('disabled', 'disabled');
         }
-        else{
-            $("button[type=button].btn").attr('disabled','disabled');
-        }
-      });
+    });
 
     // hàm hủy đơn hàng
     function billDestroy(id) {
         // Dùng ajax để lấy data qua 
-        var cause = $('#cause-destroy-'+id).val();    
+        var cause = $('#cause-destroy-' + id).val();
         var _token = $('input[name="_token"]').val();
-       
+
         var data = {
             cause: cause,
             id: id,
-            _token : _token
+            _token: _token
         };
 
         $.ajax({
             url: "bill-destroy",
             method: 'POST',
             data: data,
-            success:function(data){
+            success: function(data) {
                 location.reload();
                 alertify.success('Đã hủy thành công');
-            }   
+            }
         });
     }
     // Tạo hàn addCart để thêm sản phẩm vào giỏ hàng 
@@ -129,13 +140,13 @@
             data: data,
             // dataType: 'json',
         }).done(function(response) {
-           
+
             $('#list-carts').empty();
             $('#list-carts').html(response);
         });
     })
 
-   // Hám xóa item trong list giỏ hàng chính 
+    // Hám xóa item trong list giỏ hàng chính 
     // function deleteListCart(id) {
     //     $.ajax({
     //         url: 'delete-list-cart/' + id,
@@ -153,7 +164,7 @@
     $("#list-carts").on("click", ".remove i", function() {
 
         $.ajax({
-            url: "{{route('delete-list-cart')}}/" + $(this).data('id'),
+            url: "{{ route('delete-list-cart') }}/" + $(this).data('id'),
             type: 'GET',
         }).done(function(response) {
 

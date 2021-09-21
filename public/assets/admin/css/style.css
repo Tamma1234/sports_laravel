@@ -20,6 +20,10 @@
     color: white;
 }
 
+.card>.card-header {
+    margin-left: 20px;
+}
+
 .form-group>.galary>div>img {
     width: 100px;
     height: 100px;
@@ -33,7 +37,6 @@
     padding-left: 5%;
     padding-top: 10px;
     position: relative;
-    margin-right: 10px;
 }
 
 .form-group>.galary>div>span {
@@ -45,4 +48,8 @@
     width: 20px;
     padding-left: 5px;
     cursor: pointer;
+}
+
+.card>.form-group {
+    padding: 0px 20px 0px 20px;
 }

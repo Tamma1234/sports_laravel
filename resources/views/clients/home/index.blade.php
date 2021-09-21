@@ -74,11 +74,7 @@
                                                         <div class="item-title"> <a title="Ipsums Dolors Untra"
                                                                 href="single_product.html">{{ $item->title }} </a> </div>
                                                         <div class="item-content">
-                                                            <div class="rating"> <i class="fa fa-star"></i> <i
-                                                                    class="fa fa-star"></i> <i
-                                                                    class="fa fa-star"></i> <i
-                                                                    class="fa fa-star-o"></i> <i
-                                                                    class="fa fa-star-o"></i> </div>
+                                                            
                                                             <div class="item-price">
                                                                 <div class="price-box"> <span class="regular-price">
                                                                         <span

@@ -23,8 +23,7 @@ use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 
 use App\Models\BillDetail;
-use DateTime;
-use App\Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerRequest;
 use Illuminate\Support\Facades\Mail;
@@ -114,7 +113,7 @@ class PaymentController extends Controller
             // $totalPrice =$cart->totalPriceUsd ;
             $payer = new Payer();
             $payer->setPaymentMethod("paypal");
-           
+
             foreach ($cart->products as $key => $value) {
                 // dd($value);die;
 
@@ -124,15 +123,14 @@ class PaymentController extends Controller
                     ->setQuantity($value['quantity'])
                     ->setSku($value['productInfo']->id) // Similar to `item_number` in Classic API
                     ->setPrice(round($value['price'] / 23000, 2));
-                    $this->totalPrice = $value['quantity'] * round($value['price'] / 23000, 2);
-                   
+                $this->totalPrice = $value['quantity'] * round($value['price'] / 23000, 2);
+
                 $this->itemList[] = $item;
-                
             }
             // dd($totalPrice);die;
             $itemList = new ItemList();
             $itemList->setItems($this->itemList);
-        
+
             $details = new Details();
             $details->setSubtotal($this->totalPrice);
 
@@ -216,14 +214,68 @@ class PaymentController extends Controller
         return view('clients.alert.message', compact('category'));
     }
 
+    public function loginEmail()
+    {
+        $category = Category::where('parent_id', '=', null)->get();
+        return view('clients.email.login', compact('category'));
+    }
+
+    public function postLogin(Request $request)
+    {
+
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+        $email = $request->email;
+        if (Customer::where('email', $email)->exists()) {
+            $request->session()->put('email', $email);
+            return redirect()->route('list-order');
+        }
+        // Còn không sẽ báo lỗi 
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function logoutEmail(Request $request)
+    {
+        $oldemail = Session('email') ? Session('email') : null;
+        $request->session()->forget('email', $oldemail);
+        return redirect()->route('home');
+    }
+
     public function listOrder(Request $request)
     {
-        $email = $request->email;
-      
-        $category = Category::where('parent_id', '=', null)->get();
-        $bills = Bill::orderBy('id', 'desc')->Paginate(8);
+        $oldemail = Session('email') ? Session('email') : null;
+        $customer = Customer::where('email',$oldemail)->first();
+        // dd($customer);die;
+        if ($oldemail) {
+            $category = Category::where('parent_id', '=', null)->get();
+            if (isset($_GET['is_active'])) {
+                $is_active = $_GET['is_active'];
+                if ($is_active == 'cho-xac-nhan') {
+                    $bills = Bill::where('bill_active', '=', 0)->Paginate(8);
+                } elseif ($is_active == 'da-xac-nhan') {
+                    $bills = Bill::where('bill_active', '=', 1)->Paginate(8);
+                } elseif ($is_active == 'da-thanh-toan') {
+                    $bills = Bill::where('bill_active', '=', 3)->Paginate(8);
+                } elseif ($is_active == 'da-hoan-thanh') {
+                    $bills = Bill::where('bill_active', '=', 5)->Paginate(8);
+                } elseif ($is_active == 'huy-don-hang') {
+                    $bills = Bill::where('bill_active', '=', 6)->Paginate(8);
+                }
+            } 
+            else {
+                $bills = Bill::orderBy('id', 'desc')->Paginate(8);
+            }
+            return view('clients.orders.list', compact('category', 'bills'));
+        }
+        else{
+            return redirect()->route('login.email');
+        }
+
         // dd($billdetail);die;
-        return view('clients.orders.list', compact('category', 'bills'));
+       
     }
 
     public function create(Request $request)
@@ -246,7 +298,7 @@ class PaymentController extends Controller
             return "faild";
         }
     }
-    
+
     public function detailOrder(Request $request)
     {
         $bill = Bill::find($request->id);
@@ -266,6 +318,4 @@ class PaymentController extends Controller
         $bill->bill_active = 6;
         $bill->save();
     }
-
-   
 }

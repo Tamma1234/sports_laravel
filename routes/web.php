@@ -33,8 +33,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout.index');
 // Route phần admin
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [DashboardController::class, 'index'])->name('dashboard');
-
-
     // Route phần admin-product
     Route::group(['prefix' => 'product'], function () {
         Route::get('/', [ProductController::class, 'index'])->name('product.index');
@@ -74,6 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::post('update/{id}', [SizeController::class, 'update'])->name('size.update');
         Route::get('remove/{id}', [SizeController::class, 'delete'])->name('size.remove');
     });
+
     // Route quản lí đơn hàng trong admin
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('order.index');
@@ -134,12 +133,18 @@ Route::group(['prefix' => '/'], function () {
         Route::post('/post-checkout', [PaymentController::class, 'postCheckout'])->name('post-checkout');
         // Route thanh toán online với paypal 
         Route::get('/payment-create', [PaymentController::class, 'create'])->name('payment.create');
-
-        Route::get('/list-order', [PaymentController::class, 'listOrder'])->name('list-order');
-
+        // Route kiểm tra đơn hàng 
+        Route::get('/list-order/{is_active?}', [PaymentController::class, 'listOrder'])->name('list-order');
+        // Route chi tiết đơn hàng
         Route::get('order_detail/id', [PaymentController::class, 'detailOrder'])->name('order_detail');
-
+        // Route hủy đơn hàng
         Route::post('bill-destroy', [PaymentController::class, 'billDestroy']);
+       
+        // Route login bằng email khi kiểm tra đơn hàng 
+        Route::get('login-email', [PaymentController::class, 'loginEmail'])->name('login.email');
+        Route::post('post-login', [PaymentController::class, 'postLogin'])->name('post.login');
+
+        Route::get('logout-email', [PaymentController::class, 'logoutEmail'])->name('logout.email');
     });
 
     Route::get('/aler-message', [PaymentController::class, 'alertMessa'])->name('alert');

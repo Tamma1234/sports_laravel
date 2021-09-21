@@ -7,6 +7,20 @@
 
 <!-- service section -->
 
+<div class="breadcrumbs">
+  <div class="container">
+      <div class="row">
+          <div class="col-xs-12">
+              <ul>
+                  <li class="home"> <a title="Go to Home Page" href="{{route('home')}}">Home</a><span>&raquo;</span>
+                  </li>
+                  <li class="___class_+?5___"> <a title="Go to Home Page" href="{{ route('category',['id'=>$cate]) }}">{{$cate->name}}</a><span>&raquo;</span></li>
+                  
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>
 
 <!-- All products-->
 
@@ -39,29 +53,16 @@
               <h2>Danh sách sản phẩm</h2>
             </div>
             <div class="toolbar">
-              <div class="view-mode">
-                <ul>
-                  <li class="active"> <a href="shop_grid.html"> <i class="fa fa-th-large"></i> </a> </li>
-                  <li> <a href="shop_list.html"> <i class="fa fa-th-list"></i> </a> </li>
-                </ul>
-              </div>
+            
               <div class="sorter">
                 <div class="short-by">
-                  <label>Sort By:</label>
-                  <select>
-                    <option selected="selected">Position</option>
-                    <option>Name</option>
-                    <option>Price</option>
-                    <option>Size</option>
-                  </select>
-                </div>
-                <div class="short-by page">
-                  <label>Show:</label>
-                  <select>
-                    <option selected="selected">18</option>
-                    <option>20</option>
-                    <option>25</option>
-                    <option>30</option>
+                  <label>Lọc sản phẩm</label>
+                  <select id="short-by">
+                    <option selected="selected">-Lọc theo</option>
+                    <option value="{{Request::url()}}?short_by=tang_dan">Tăng dần</option>
+                    <option value="{{Request::url()}}?short_by=giam_dan">Giảm dần</option>
+                    <option value="{{Request::url()}}?short_by=kytu-az">Ký tự từ a - z</option>
+                    <option value="{{Request::url()}}?short_by=kytu-za">Ký tự từ z - a</option>
                   </select>
                 </div>
               </div>
@@ -153,7 +154,44 @@
               <li class="cat-item"><a href="shop_grid.html">KItchen</a></li>
             </ul>
           </div>
-         
+          <div class="block shop-by-side">
+            <div class="sidebar-bar-title">
+              <h3>Shop By</h3>
+            </div>
+            <div class="block-content">            
+              <div class="manufacturer-area">
+                <h2 class="saider-bar-title">Danh mục</h2>
+                <div class="saide-bar-menu">
+                  <ul>
+                    @foreach ($category as $item)
+                    <li><a href="#"><i class="fa fa-angle-right"></i> {{$item->name}}</a></li>
+                    @endforeach
+                  </ul>
+                </div>
+              </div>
+              <div class="color-area">
+                <h2 class="saider-bar-title">Color</h2>
+                <div class="color">
+                  <ul>
+                    @foreach ($color as $item)
+                    <li><a href="#"></a></li>
+                    @endforeach
+                  </ul>
+                </div>
+              </div>
+              <div class="size-area">
+                <h2 class="saider-bar-title">Size</h2>
+                <div class="size">
+                  <ul>
+                    @foreach ($size as $item)
+                    <li><a href="#">{{$item->name}}</a></li>
+                    @endforeach
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="offer-banner"><img src="{{asset('assets/client/images/nike-phantom.jpg')}}" alt="banner"></div>
         </aside>
       </div>
     </div>

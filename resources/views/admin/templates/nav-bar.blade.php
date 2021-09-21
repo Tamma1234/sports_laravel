@@ -159,7 +159,7 @@
                         <li class="nav-item">
                             <a href="{{route('order.trash')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Đơn hàng đã xóa</p>
+                                <p>Hủy đơn hàng</p>
                             </a>
                         </li>
                     
