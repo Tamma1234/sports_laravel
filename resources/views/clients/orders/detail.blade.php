@@ -164,31 +164,48 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($billdetail as $key => $item)
-                                                    <tr class=""
-                                                        id="cart-item-{{$item->id}}">
-                                                        <td class="image-column">
-                                                            <a href="{{route('detail',['id'=>$item->hasProduct->id])}}">
-                                                                <img style="width:100px" src="{{asset($item->hasProduct->image_url )  }}"
-                                                                    alt="{{ $item->title  }}">
-                                                            </a>
-                                                        </td>
-                                                        <td class="wide-column">
-                                                            <a
-                                                                href="{{route('detail',['id'=>$item->hasProduct->id])}}">{{ $item->hasProduct->title }}</a>
-                                                        </td>
-                                                        <td class="product-price">
-                                                            <strong> {{number_format($item->hasProduct->price).'Đ'   }}</strong></td>
-                                                        <td class="product-quantity">
-                                                            <div class="quantity text-center">
-                                                                {{ $item->quantity }}
-                                                            </div>
-                                                        </td>
-                                                        <td class="product-price"><strong
-                                                                class="">  {{number_format($item->hasProduct->price).'Đ'   }} </strong>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                           
+                                                @if ($bill->hasBillDetail->hasProduct != null)
+                                                <tr class=""
+                                                id="cart-item-{{$bill->hasBillDetail->hasProduct->id}}">
+                                                <td class="image-column">
+                                                    <a href="">
+                                                        <img style="width:100px" src="{{asset($bill->hasBillDetail->hasProduct ? $bill->hasBillDetail->hasProduct->image_url : "")  }}"
+                                                            alt="{{ $bill->hasBillDetail->hasProduct->title  }}">
+                                                    </a>
+                                                </td>
+                                                <td class="wide-column">
+                                                    <a
+                                                        href="">{{$bill->hasBillDetail->hasProduct ? $bill->hasBillDetail->hasProduct->title : "" }}</a>
+                                                </td>
+                                                <td class="product-price">
+                                                    @if ($bill->hasBillDetail->hasProduct)
+                                                    <strong> {{number_format( $bill->hasBillDetail->hasProduct->price ).'Đ'   }}</strong> 
+                                                    @else
+                                                        <strong></strong>
+                                                    @endif
+                                                  </td>
+                                                <td class="product-quantity">
+                                                    <div class="quantity text-center">
+                                                        {{ $bill->hasBillDetail->quantity }}
+                                                    </div>
+                                                </td>
+                                                <td class="product-price">  @if ($bill->hasBillDetail->hasProduct)
+                                                    <strong> {{number_format( $bill->total ).'Đ'   }}</strong> 
+                                                    @else
+                                                        <strong></strong>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                                @else
+                                                <tr class="text-center" style="background:blanchedalmond;color:red">
+                                                    <td colspan="5" >- Hủy đơn hàng do sản phẩm bên shop hiện đã hết hàng <br>
+                                                        - Thực sự xin lỗi quý khách hàng vì lỗi kiểm hàng của bên mình. <br> - Rất mong quý khách thông cảm và lựa chọn sản phẩm tương tự tại cửa hàng.
+                                                        </td> 
+                                                 </tr>
+                                                @endif
+                                                   
+                                             
                                             </tbody>
                                         </table>
                                     </div>

@@ -26,11 +26,11 @@ class Bill extends Model
 
   public function hasCustomer()
   {
-      return $this->belongsTo(Customer::class, 'cutomer_id', 'id');
+      return $this->hasOne(Customer::class, 'id', 'cutomer_id');
   }
 
   public function hasBillDetail()
   {
-      return $this->hasMany(BillDetail::class);
+      return $this->hasOne(BillDetail::class);
   }
 }

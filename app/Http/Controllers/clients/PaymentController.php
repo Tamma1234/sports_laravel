@@ -73,6 +73,7 @@ class PaymentController extends Controller
 
         // Tạo biến để lưu data vào Bill(Hóa đơn)
         $bill = new Bill();
+        $bill->id = $customer->id;
         $bill->cutomer_id = $customer->id;
         $bill->total = $cart->totalPrice;
         $bill->date_order = date('y-m-d');
@@ -226,6 +227,7 @@ class PaymentController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
         ]);
+
         $email = $request->email;
         if (Customer::where('email', $email)->exists()) {
             $request->session()->put('email', $email);
@@ -237,6 +239,7 @@ class PaymentController extends Controller
         ]);
     }
 
+    // Đăng xuất email xem đơn hàng
     public function logoutEmail(Request $request)
     {
         $oldemail = Session('email') ? Session('email') : null;
@@ -247,35 +250,44 @@ class PaymentController extends Controller
     public function listOrder(Request $request)
     {
         $oldemail = Session('email') ? Session('email') : null;
-        $customer = Customer::where('email',$oldemail)->first();
-        // dd($customer);die;
+
         if ($oldemail) {
             $category = Category::where('parent_id', '=', null)->get();
+            
             if (isset($_GET['is_active'])) {
                 $is_active = $_GET['is_active'];
                 if ($is_active == 'cho-xac-nhan') {
-                    $bills = Bill::where('bill_active', '=', 0)->Paginate(8);
+                    $bills = Customer::where('email','like',$oldemail)->with([
+                        'hasBill',
+                    ])->get();
                 } elseif ($is_active == 'da-xac-nhan') {
-                    $bills = Bill::where('bill_active', '=', 1)->Paginate(8);
+                    $bills = Customer::where('email','like',$oldemail)->with([
+                        'hasBill',
+                    ])->get();
                 } elseif ($is_active == 'da-thanh-toan') {
-                    $bills = Bill::where('bill_active', '=', 3)->Paginate(8);
+                    $bills = Customer::where('email','like',$oldemail)->with([
+                        'hasBill',
+                    ])->get();
                 } elseif ($is_active == 'da-hoan-thanh') {
-                    $bills = Bill::where('bill_active', '=', 5)->Paginate(8);
+                    $bills = Customer::where('email','like',$oldemail)->with([
+                        'hasBill',
+                    ])->get();
                 } elseif ($is_active == 'huy-don-hang') {
-                    $bills = Bill::where('bill_active', '=', 6)->Paginate(8);
+                    $bills = Customer::where('email','like',$oldemail)->with([
+                        'hasBill',
+                    ])->get();
                 }
-            } 
-            else {
-                $bills = Bill::orderBy('id', 'desc')->Paginate(8);
+            } else {
+                $bill = new Bill();
+                $bills = Customer::where('email','like',$oldemail)->get();
             }
-            return view('clients.orders.list', compact('category', 'bills'));
-        }
-        else{
+            return view('clients.orders.list', compact('category', 'bills','bill'));
+        } else {
             return redirect()->route('login.email');
         }
 
         // dd($billdetail);die;
-       
+
     }
 
     public function create(Request $request)
@@ -302,12 +314,12 @@ class PaymentController extends Controller
     public function detailOrder(Request $request)
     {
         $bill = Bill::find($request->id);
-        $billdetail = $bill->hasBillDetail;
-        // dd($billdetail);die;
+    
         $customerId = $bill->hasCustomer->id;
         $customer = Customer::find($customerId);
+        
         $category = Category::where('parent_id', '=', null)->get();
-        return view('clients.orders.detail', compact('category', 'billdetail', 'customer', 'bill'));
+        return view('clients.orders.detail', compact('category', 'customer', 'bill'));
     }
 
     public function billDestroy(Request $request)

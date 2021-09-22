@@ -32,7 +32,7 @@
                         <div class="toolbar column">
                             <div class="sorter">
                                 <div class="short-by">
-                                    <label>Lọc sản phầm</label>
+                                    <label>Lọc sản phẩm:</label>
                                     <select>
                                         <option selected="selected">Position</option>
                                         <option>Name</option>

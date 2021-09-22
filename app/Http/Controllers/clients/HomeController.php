@@ -117,6 +117,13 @@ class HomeController extends Controller
         return view('clients.category.list', compact('category','size','color','cate', 'product_by_id', 'product'));
     }
 
+    public function listProductHot(Request $request)
+    {
+        $category = Category::where('parent_id', '=', null)->get();
+        $product = Product::orderBy('id', 'desc')->where('color_id',1)->Paginate(8);
+        return view('clients.home.index', compact('product', 'category'));
+    }
+
     // Hàm thêm sp vào cart item con 
     public function addCart(Request $request)
     {

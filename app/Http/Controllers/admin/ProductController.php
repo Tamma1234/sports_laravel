@@ -70,10 +70,10 @@ class ProductController extends Controller
     public function delete(Request $request)
     {
         $product = Product::find($request->id);
-        $bill = $product->billDetail;
-        // var_dump($request->id);die;
+        // $bill = $product->billDetail;
         Storage::disk('public')->delete($product->image_url);
         $product->delete();
+        // dd( $product->billDetail->delete( $bill));die;
         return redirect()->route('product.index')->with('msg', 'Xóa sản phẩm thành công');
     }
 }

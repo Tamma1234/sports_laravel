@@ -63,9 +63,10 @@
                                 <table class=" table table-dark
                                         table-striped">
                                         <thead style=" background: black;
-                                                color: white;">
+                                                    color: white;">
                                             <tr>
                                                 <th>Mã</th>
+                                                <th>Title</th>
                                                 <th>Thời gian</th>
                                                 <th>Giá tiền</th>
                                                 <th>Phương thức thanh toán</th>
@@ -75,10 +76,15 @@
                                         </thead>
                                         <tbody style="color: black;">
                                             @foreach ($bills as $order)
-                                                <tr class="order-item" id="{{ 'order-item-' . $order->id }}">
-                                                    <td>{{ $order->id }}</td>
-                                                    <td>{{ $order->date_order }}</td>
-                                                    <td>{{ number_format($order->total) . 'Đ' }}</td>
+                                                @php
+                                                    $bill_id = $order->hasBill->id;
+                                                    $detail = $bill->find($bill_id);
+                                                @endphp
+                                                <tr class="order-item">
+                                                    <td>{{ $order->hasBill->id }}</td>
+                                                    <td>{{ $detail->hasBillDetail->hasProduct->title }}</td>
+                                                    <td>{{ $order->hasBill->date_order }}</td>
+                                                    <td>{{ number_format($order->hasBill->total) . 'Đ' }}</td>
                                                     <td class="text-center">
                                                         @if ($order->payments == 0)
                                                             <span>Tiền mặt</span>
@@ -100,7 +106,6 @@
                                                             <span> Đã giao hàng</span>
                                                         @elseif($order->bill_active == 5)
                                                             <span class="text text-danger">Hủy đơn hàng</span>
-
                                                         @endif
                                                         {{-- @if ($order->bill_active == 0)
                                                             <span>Đang chờ xác nhận</span>
@@ -109,13 +114,13 @@
                                                         @endif --}}
                                                     </td>
                                                     <td>
-                                                        @if ($order->bill_active == 3 )
+                                                        @if ($order->bill_active == 3)
                                                             <a href="{{ route('order_detail', ['id' => $order->id]) }}"
                                                                 class="btn btn-danger">Chi tiết</a>
                                                         @elseif( $order->bill_active == 1)
-                                                        <a href="{{ route('order_detail', ['id' => $order->id]) }}"
-                                                            class="btn btn-danger">Chi tiết</a>
-                                                            @else
+                                                            <a href="{{ route('order_detail', ['id' => $order->id]) }}"
+                                                                class="btn btn-danger">Chi tiết</a>
+                                                        @else
                                                             <a href="{{ route('order_detail', ['id' => $order->id]) }}"
                                                                 class="btn btn-danger">Chi tiết</a>
                                                             @if ($order->bill_active != 6)
@@ -123,7 +128,7 @@
                                                                     data-toggle="modal" data-id="" class="btn btn-danger"
                                                                     data-id="">Hủy</a>
                                                             @endif
-                                                         @endif   
+                                                        @endif
                                                     </td>
                                                     <div class="modal fade" id="order-{{ $order->id }}"
                                                         tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -167,7 +172,7 @@
                                         </table>
                                         <div class="col-12 col-md-12">
                                             <div class="text-center" id="example1_paginate">
-                                                {{ $bills->links('pagination::bootstrap-4') }}
+                                                {{-- {{ $bills->links('pagination::bootstrap-4') }} --}}
                                             </div>
                                         </div>
                                     </div>

@@ -24,6 +24,6 @@ class Customer extends Model
     ];
 
     function hasBill(){
-       return $this->hasMany(Bill::class,'cutomer_id','id','email');
+       return $this->hasOne(Bill::class,'cutomer_id','id');
     }
 }

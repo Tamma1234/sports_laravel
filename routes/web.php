@@ -99,6 +99,8 @@ Route::group(['prefix' => '/'], function () {
     // Route hiển thị danh sách sản phẩm 
     Route::get('/list', [HomeController::class, 'listProduct'])->name('list');
     // Route hiển thị chi tiền product(sản phẩm)
+    Route::get('/list-product-hot', [HomeController::class, 'listProductHot'])->name('list.product.hot');
+    // Route hiển thị chi tiền product(sản phẩm)
     Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail');
 
 

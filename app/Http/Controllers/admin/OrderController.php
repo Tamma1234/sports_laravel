@@ -18,7 +18,8 @@ class OrderController extends Controller
         $bill = Bill::orderBy('id', 'desc')->Paginate(5);
         foreach ($bill as $item) {
             $billid = Bill::find($item->id);
-            $billdetail = $billid->hasBillDetail;
+            $billdetail = $billid->hasBillDetail->hasProduct;
+         
            
         }
         return view('admin.orders.index', compact('bill', 'billdetail'));
