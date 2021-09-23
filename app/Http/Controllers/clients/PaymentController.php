@@ -250,36 +250,28 @@ class PaymentController extends Controller
     public function listOrder(Request $request)
     {
         $oldemail = Session('email') ? Session('email') : null;
-
+      
+        $bill = new Bill();
+       
         if ($oldemail) {
             $category = Category::where('parent_id', '=', null)->get();
             
             if (isset($_GET['is_active'])) {
                 $is_active = $_GET['is_active'];
                 if ($is_active == 'cho-xac-nhan') {
-                    $bills = Customer::where('email','like',$oldemail)->with([
-                        'hasBill',
-                    ])->get();
+                    $bills = Bill::where('bill_active', '=', 0)->Paginate(8);
+                   
                 } elseif ($is_active == 'da-xac-nhan') {
-                    $bills = Customer::where('email','like',$oldemail)->with([
-                        'hasBill',
-                    ])->get();
+                    $bills = Bill::where('bill_active', '=', 1)->Paginate(8);
                 } elseif ($is_active == 'da-thanh-toan') {
-                    $bills = Customer::where('email','like',$oldemail)->with([
-                        'hasBill',
-                    ])->get();
+                    $bills = Bill::where('bill_active', '=', 2)->Paginate(8);
                 } elseif ($is_active == 'da-hoan-thanh') {
-                    $bills = Customer::where('email','like',$oldemail)->with([
-                        'hasBill',
-                    ])->get();
+                    $bills = Bill::where('bill_active', '=', 3)->Paginate(8);
                 } elseif ($is_active == 'huy-don-hang') {
-                    $bills = Customer::where('email','like',$oldemail)->with([
-                        'hasBill',
-                    ])->get();
+                    $bills = Bill::where('bill_active', '=', 4)->Paginate(8);
                 }
-            } else {
-                $bill = new Bill();
-                $bills = Customer::where('email','like',$oldemail)->get();
+            }  else {
+                $bills = Customer::where('email','like',$oldemail)->with(['hasBill'])->get();
             }
             return view('clients.orders.list', compact('category', 'bills','bill'));
         } else {

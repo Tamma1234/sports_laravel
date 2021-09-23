@@ -13,8 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\EditProductRequest;
-
-
+use App\Models\Bill;
 
 class ProductController extends Controller
 {
@@ -70,7 +69,12 @@ class ProductController extends Controller
     public function delete(Request $request)
     {
         $product = Product::find($request->id);
-        // $bill = $product->billDetail;
+        $bills = $product->billDetail;
+       
+        foreach ($bills as $value) {
+            $value->bill_active  = 4;
+            $value->save();
+        }
         Storage::disk('public')->delete($product->image_url);
         $product->delete();
         // dd( $product->billDetail->delete( $bill));die;

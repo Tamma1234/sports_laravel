@@ -20,7 +20,6 @@
     </div>
     <!-- Breadcrumbs End -->
     <!-- Main Container -->
- 
     <div class="main-container col1-layout">
         <div class="container">
             <div class="row">
@@ -28,17 +27,18 @@
                     <div class="shop-inner">
                         <div class="page-title" style="display: flex">
                             <h2 style="margin-right: 20px"><a href="{{route('home')}}">Mặt Hàng Hot</a> </h2>
-                         
+                            <h2><a href="{{route('list.product.hot')}}">Hàng Mới Về</a> </h2>
                         </div>
                         <div class="toolbar column">
                             <div class="sorter">
                                 <div class="short-by">
-                                    <label>Lọc sản phẩm:</label>
+                                    <label>Lọc sản phầm</label>
                                     <select id="short-by">
-                                        <option selected="selected">Position</option>
-                                        <option>Name</option>
-                                        <option>Price</option>
-                                        <option>Size</option>
+                                        <option>-Lọc theo</option>
+                                        <option value="{{Request::url()}}?short_by=tang_dan">Tăng dần</option>
+                                        <option value="{{Request::url()}}?short_by=giam_dan">Giảm dần</option>
+                                        <option value="{{Request::url()}}?short_by=kytu-az">Ký tự từ a - z</option>
+                                        <option value="{{Request::url()}}?short_by=kytu-za">Ký tự từ z - a</option>
                                     </select>
                                 </div>
                             </div>
@@ -160,12 +160,20 @@
                             </ul>
                         </div>
                         <div class="pagination-area ">
-                            {{ $product->links('pagination::bootstrap-4') }}
+                            {{-- {{ $product->links('pagination::bootstrap-4') }} --}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- our clients Slider -->
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+
+    <!-- BANNER-AREA-END -->
+
 @endsection
 

@@ -28,4 +28,6 @@ class BillDetail extends Model
   {
       return $this->belongsTo(Bill::class, 'bill_id', 'id');
   }
+
+ 
 }

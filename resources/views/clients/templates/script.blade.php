@@ -38,7 +38,6 @@
     $(document).ready(function() {
         $('#short-by').change(function() {
             var url = $(this).val();
-    
             if (url) {
                 window.location = url;
             }

@@ -7,14 +7,28 @@
         @include('admin.templates.content-header',['name'=>'Đơn Hàng'])
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh Sách Đơn Hàng </h3>
+                <h3 class="card-title">Kết quả tìm kiếm </h3>
                 <a href="#"><i style="padding: 5px" class="fa fa-plus"></i></a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
-                        @include('admin.templates.search')
+
+                        <div class="col-sm-12 col-md-6">
+                            <form action="{{route('search.bill')}}" method="post">
+                                @csrf
+                            <div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder=""
+                                aria-controls="example1" name="keyword_submit"></label>
+                                <button class="btn-search" style="color: blue;
+                                border: 1px solid;
+                                border-radius: 2px" type="submit"><i
+                                    class="fa fa-search"></i></button>
+                    </div>
+                        </form>
+                          
+                                        
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -52,7 +66,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($bill as $item)
+                                    @foreach ($search_bill as $item)
                                         <tr class="odd">
                                             <td colspan="1">{{ $item->id }}</td>
                                             <td colspan="1">
@@ -147,15 +161,15 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" style="margin-left: 450px">
-                                {{ $bill->links('pagination::bootstrap-4') }}
+                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                               
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- /.card-body -->
-            @foreach ($bill as $item)
+            @foreach ($search_bill as $item)
                 <div class="modal fade" id="bill-{{ $item->id }}" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document" style="max-width:800px">

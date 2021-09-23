@@ -36,16 +36,13 @@
 
                         <div class="top-search">
                             <div id="search">
-                                <form>
+                                <form method="POST" action="{{route('search.product')}}">
+                                    @csrf
                                     <div class="input-group">
-                                        <select class="cate-dropdown hidden-xs hidden-sm" name="category_id">
-                                            @foreach ($category as $item)
-                                                <option>{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input type="text" class="form-control" placeholder="Enter your search..."
+                                        
+                                        <input type="text" name="keyword_submit" class="form-control" placeholder="Enter your search..."
                                             name="search">
-                                        <button class="btn-search" type="button"><i
+                                        <button class="btn-search" type="submit"><i
                                                 class="fa fa-search"></i></button>
                                     </div>
                                 </form>

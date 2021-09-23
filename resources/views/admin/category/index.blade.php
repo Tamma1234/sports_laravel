@@ -15,11 +15,7 @@
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                 <div class="row">
                  
-                    <div class="col-sm-12 col-md-6">
-                        <div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                    class="form-control form-control-sm" placeholder=""
-                                    aria-controls="example1"></label></div>
-                    </div>
+                    @include('admin.templates.search')
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -73,7 +69,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-12 text-center">
-                        <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" style="margin-left: 450px">
                             {{$category->links("pagination::bootstrap-4")}}
                         </div>
                     </div>

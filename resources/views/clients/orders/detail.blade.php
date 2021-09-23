@@ -40,30 +40,23 @@
                                                 <tr class="cart-subtotal">
                                                     <td class="table-danger">Trạng thái</td>
                                                     <td>           
-                                                        @switch($bill->bill_active )
-                                                        @case(0)
+                                                       
+                                                        @if($bill->bill_active == 0)
                                                             <span class="text text-success">Chờ xác nhận</span>
-                                                            @break
-                                                        @case(1)
+                                                           
+                                                        @elseif($bill->bill_active == 1)
                                                         <span>Đã xác nhận</span>
-                                                            @break
-                                                        @case(2)
-                                                        <span class="text text-primary">Đã xử lí </span>
-                                                            @break
-                                                        @case(3)
-                                                        <span>Đã thanh toán</span>
-                                                            @break
-                                                        @case(4)
-                                                        <span>Đang giao hàng</span>
-                                                            @break
-                                                        @case(5)
-                                                        <span> Đã giao hàng</span>
-                                                            @break
-                                                        @case(6)
+                                                           
+                                                        @elseif($bill->bill_active == 2)
+                                                        <span>Đã thanh toán - Đang giao hàng</span>
+                                                           
+                                                        @elseif($bill->bill_active == 3)
+                                                        <span>Đã Hoàn Thành</span>
+                                                        
+                                                        @elseif($bill->bill_active == 4)
                                                         <span class="text text-danger">Hủy đơn hàng</span>
-                                                            @break
-                                                        @default
-                                                    @endswitch
+                                                  
+                                                    @endif
                                                 </td>
                                                 </tr>
                                                 <tr class="cart-subtotal">
@@ -199,8 +192,8 @@
                                             </tr>
                                                 @else
                                                 <tr class="text-center" style="background:blanchedalmond;color:red">
-                                                    <td colspan="5" >- Hủy đơn hàng do sản phẩm bên shop hiện đã hết hàng <br>
-                                                        - Thực sự xin lỗi quý khách hàng vì lỗi kiểm hàng của bên mình. <br> - Rất mong quý khách thông cảm và lựa chọn sản phẩm tương tự tại cửa hàng.
+                                                    <td colspan="5" >- Đơn hàng của bạn đã bị hủy do lỗi hệ thống của shop <br>
+                                                       - Rất xin lỗi và mong quý khách thông cảm.
                                                         </td> 
                                                  </tr>
                                                 @endif

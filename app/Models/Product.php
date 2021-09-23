@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Size;
 use App\Models\Color;
+use App\Models\Bill;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\GalleryProduct;
@@ -39,6 +40,11 @@ class Product extends Model
     public function size()
     {
         return $this->belongsToMany(Size::class, 'product_size', 'product_id', 'size_id');
+    }
+    // Hàm liên kết với table bills(hóa đơn)
+    public function bills()
+    {
+        return $this->belongsToMany(Bill::class, 'bill_detail', 'product_id', 'bill_id');
     }
 
     // Hàm liên kết vời table bill(hóa đơn)

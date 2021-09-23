@@ -21,9 +21,6 @@
                         <div class="col-12 col-md-7">
                             <!-- general form elements -->
                             <div class="card card-primary">
-                                <!-- /.card-header -->
-                                <!-- form start -->
-
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tiêu đề sản phẩm</label>

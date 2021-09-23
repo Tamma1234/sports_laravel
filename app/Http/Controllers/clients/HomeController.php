@@ -18,7 +18,57 @@ class HomeController extends Controller
     public function index()
     {
         $category = Category::where('parent_id', '=', null)->get();
-        $product = Product::orderBy('id', 'desc')->where('is_active',1)->Paginate(8);
+      
+        if(isset($_GET['short_by'])){   
+            $short_by = $_GET['short_by'];
+            if($short_by == "tang_dan"){
+               $product = Product::where('is_active',1)->Paginate(8)->sortBy("price");
+             
+            }
+            elseif($short_by == "giam_dan"){
+                $product = Product::where('is_active',1)->Paginate(8)->sortByDesc("price");
+            }
+            elseif($short_by == "kytu-az"){
+                $product = Product::where('is_active',1)->Paginate(8)->sortBy("title");
+            }
+            elseif($short_by == "kytu-za"){
+                $product = Product::where('is_active',1)->Paginate(8)->sortByDesc("title");
+            }
+        }
+        else{
+                $product = Product::orderBy('id', 'desc')->where('is_active',1)->Paginate(8);
+        }
+        
+      
+        return view('clients.home.index', compact('product', 'category'));
+    }
+
+    // tìm kiếm sản phẩm theo tên
+    public function search(Request $request)
+    {
+        $category = Category::where('parent_id', '=', null)->get();
+        $keywords = $request->keyword_submit;
+        if(isset($_GET['short_by'])){   
+            $short_by = $_GET['short_by'];
+            if($short_by == "tang_dan"){
+               $product = Product::where('is_active',1)->Paginate(8)->sortBy("price");
+             
+            }
+            elseif($short_by == "giam_dan"){
+                $product = Product::where('is_active',1)->Paginate(8)->sortByDesc("price");
+            }
+            elseif($short_by == "kytu-az"){
+                $product = Product::where('is_active',1)->Paginate(8)->sortBy("title");
+            }
+            elseif($short_by == "kytu-za"){
+                $product = Product::where('is_active',1)->Paginate(8)->sortByDesc("title");
+            }
+        }
+        else{
+                $product = Product::where('title','like','%'.$keywords.'%')->get();
+        }
+        
+      
         return view('clients.home.index', compact('product', 'category'));
     }
 
@@ -94,9 +144,9 @@ class HomeController extends Controller
         $color = Color::all();
         $category = Category::where('parent_id', '=', null)->get();
         $product = Product::orderBy('id', 'desc')->Paginate(6);
-        if(isset($_GET['short_by'])){   
-            $short_by = $_GET['short_by'];
-          
+      
+        if(isset($_GET['short_by'])){  
+            $short_by = $_GET['short_by']; 
             if($short_by == "tang_dan"){
                 $product_by_id = Category::find($request->id)->hasProducts->sortBy("price");
             }
@@ -107,7 +157,7 @@ class HomeController extends Controller
                 $product_by_id = Category::find($request->id)->hasProducts->sortBy("title");
             }
             elseif($short_by == "kytu-za"){
-                $product_by_id = Category::find($request->id)->hasProducts->sortBy("title");
+                $product_by_id = Category::find($request->id)->hasProducts->sortByDesc("title");
             }
         }
         // Lấy ra các sản phẩm thuộc fanh mục
@@ -120,8 +170,8 @@ class HomeController extends Controller
     public function listProductHot(Request $request)
     {
         $category = Category::where('parent_id', '=', null)->get();
-        $product = Product::orderBy('id', 'desc')->where('color_id',1)->Paginate(8);
-        return view('clients.home.index', compact('product', 'category'));
+        $product = Product::orderBy('created_at', 'desc')->Paginate(8);
+        return view('clients.products.list-1', compact('product', 'category'));
     }
 
     // Hàm thêm sp vào cart item con 

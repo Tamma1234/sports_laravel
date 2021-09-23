@@ -87,6 +87,8 @@ Route::middleware('auth')->group(function () {
         Route::get('order-trash', [OrderController::class, 'orderTrash'])->name('order.trash');
         // Route xóa vĩnh viễn đơn hàng
         Route::get('trash-out/{id}', [OrderController::class, 'trashOut'])->name('trash.out');
+        // Route search đơn hàng(bill)
+        Route::post('search-bill', [OrderController::class, 'search'])->name('search.bill');
     });
 });
 
@@ -96,6 +98,8 @@ Route::middleware('auth')->group(function () {
 Route::group(['prefix' => '/'], function () {
     // route hiển thị trang chủ product(sản phẩm)
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    // Route tìm kiếm sản phẩm theo tên
+    Route::post('/search', [HomeController::class, 'search'])->name('search.product');
     // Route hiển thị danh sách sản phẩm 
     Route::get('/list', [HomeController::class, 'listProduct'])->name('list');
     // Route hiển thị chi tiền product(sản phẩm)

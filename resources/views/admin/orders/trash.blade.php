@@ -119,7 +119,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" style="margin-left: 450px">
                                 {{-- {{ $bills->links('pagination::bootstrap-4') }} --}}
                             </div>
                         </div>
