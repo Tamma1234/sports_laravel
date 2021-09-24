@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Clients;
 // Gọi các table trong model
 use App\Models\Bill;
 use App\Models\Product;
-use App\Models\Customer;
 use App\Models\Category;
 
 // use Exception;
@@ -65,16 +64,12 @@ class PaymentController extends Controller
 
         // Gọi giỏ hàng có trong checkout ra
         $cart = Session::get('cart');
-        // Tạo biến để lưu data vào Customer(khách hàng)
-        $customer = new Customer();
-        $data = $request->all();
-        $customer->fill($data);
-        $customer->save();
-
         // Tạo biến để lưu data vào Bill(Hóa đơn)
         $bill = new Bill();
-        $bill->id = $customer->id;
-        $bill->cutomer_id = $customer->id;
+        $bill->full_name = $request->full_name;
+        $bill->email = $request->email;
+        $bill->phone_number = $request->phone_number;
+        $bill->address = $request->address;
         $bill->total = $cart->totalPrice;
         $bill->date_order = date('y-m-d');
         $bill->payments = $request->payments;
@@ -82,10 +77,9 @@ class PaymentController extends Controller
         $bill->bill_destroy = "";
         $bill->note = $request->note;
         $bill->save();
-
         // Tạo biến trỏ đến thông tin người đặt hàng
-        $email = $customer->email;
-        $name = $customer->full_name;
+        $email = $bill->email;
+        $name = $bill->full_name;
 
         // Thực hiện lưu các sản phẩm vào BillDetail(Chi tiết hóa đơn, đơn hàng)
         foreach ($cart->products as $key => $value) {
@@ -98,7 +92,6 @@ class PaymentController extends Controller
         }
         if ($bill->payments == "0") {
             Mail::send('clients.email.order', [
-                'customer' => $customer,
                 'name' => $name,
                 'order' => $bill,
                 'items' => $cart->products,
@@ -208,6 +201,7 @@ class PaymentController extends Controller
         }
     }
 
+    // Thông báo tới email người dùng
     public function alertMessa(Request $request)
     {
 
@@ -215,12 +209,15 @@ class PaymentController extends Controller
         return view('clients.alert.message', compact('category'));
     }
 
+    // Trang login vào kiểm tra đơn hàng
     public function loginEmail()
     {
         $category = Category::where('parent_id', '=', null)->get();
         return view('clients.email.login', compact('category'));
     }
 
+    // Liểm tra email người dùng có tồn tại hay không
+    // Nếu có thì trả về view list-order đẻ xem đơn hàng
     public function postLogin(Request $request)
     {
 
@@ -229,7 +226,7 @@ class PaymentController extends Controller
         ]);
 
         $email = $request->email;
-        if (Customer::where('email', $email)->exists()) {
+        if (Bill::where('email', $email)->exists()) {
             $request->session()->put('email', $email);
             return redirect()->route('list-order');
         }
@@ -247,6 +244,8 @@ class PaymentController extends Controller
         return redirect()->route('home');
     }
 
+
+    // Hiển thị danh dách đơn hàng của người dùng thông qua email vừa đăng nhập
     public function listOrder(Request $request)
     {
         $oldemail = Session('email') ? Session('email') : null;
@@ -260,7 +259,7 @@ class PaymentController extends Controller
                 $is_active = $_GET['is_active'];
                 if ($is_active == 'cho-xac-nhan') {
                     $bills = Bill::where('bill_active', '=', 0)->Paginate(8);
-                   
+                 
                 } elseif ($is_active == 'da-xac-nhan') {
                     $bills = Bill::where('bill_active', '=', 1)->Paginate(8);
                 } elseif ($is_active == 'da-thanh-toan') {
@@ -271,15 +270,12 @@ class PaymentController extends Controller
                     $bills = Bill::where('bill_active', '=', 4)->Paginate(8);
                 }
             }  else {
-                $bills = Customer::where('email','like',$oldemail)->with(['hasBill'])->get();
+                $bills = Bill::where('email','like',$oldemail)->get();
             }
             return view('clients.orders.list', compact('category', 'bills','bill'));
         } else {
             return redirect()->route('login.email');
         }
-
-        // dd($billdetail);die;
-
     }
 
     public function create(Request $request)
@@ -306,12 +302,9 @@ class PaymentController extends Controller
     public function detailOrder(Request $request)
     {
         $bill = Bill::find($request->id);
-    
-        $customerId = $bill->hasCustomer->id;
-        $customer = Customer::find($customerId);
-        
+      
         $category = Category::where('parent_id', '=', null)->get();
-        return view('clients.orders.detail', compact('category', 'customer', 'bill'));
+        return view('clients.orders.detail', compact('category', 'bill'));
     }
 
     public function billDestroy(Request $request)

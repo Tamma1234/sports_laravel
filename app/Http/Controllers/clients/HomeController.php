@@ -19,28 +19,47 @@ class HomeController extends Controller
     {
         $category = Category::where('parent_id', '=', null)->get();
       
-        if(isset($_GET['short_by'])){   
+       
+            $product = Product::orderBy('id', 'DESC')->Paginate(4);
+            $product_hot = Product::orderBy('id', 'ASC')->Paginate(4);
+            $product_list = Product::orderBy('created_at', 'ASC')->Paginate(8);
+                // $product = Product::orderBy('id', 'desc')->where('is_active',1)->Paginate(8);
+        // }
+        return view('clients.home.index', compact('product', 'category','product_hot','product_list'));
+    }
+
+
+    //List danh sách các sản phẩm hot
+    public function listProductHot(Request $request)
+    {
+        // $product = Product::orderBy('created_at', 'desc')->Paginate(8);
+        $category = Category::where('parent_id', '=', null)->get();
+         if(isset($_GET['short_by'])){   
             $short_by = $_GET['short_by'];
+            // echo($short_by);die;
             if($short_by == "tang_dan"){
-               $product = Product::where('is_active',1)->Paginate(8)->sortBy("price");
-             
+               $product = Product::orderBy('price', 'ASC')->Paginate(8);
             }
             elseif($short_by == "giam_dan"){
-                $product = Product::where('is_active',1)->Paginate(8)->sortByDesc("price");
+                $product = Product::orderBy('price', 'DESC')->Paginate(8);
             }
             elseif($short_by == "kytu-az"){
-                $product = Product::where('is_active',1)->Paginate(8)->sortBy("title");
+                $product = Product::orderBy('titel', 'ASC')->Paginate(8);
             }
             elseif($short_by == "kytu-za"){
-                $product = Product::where('is_active',1)->Paginate(8)->sortByDesc("title");
+                $product = Product::orderBy('titel', 'DESC')->Paginate(8);
             }
         }
         else{
-                $product = Product::orderBy('id', 'desc')->where('is_active',1)->Paginate(8);
+            $product = Product::orderBy('created_at', 'desc')->Paginate(8);
+            $short_by = "";
         }
         
+     
       
-        return view('clients.home.index', compact('product', 'category'));
+        // $product = Product::orderBy('id', 'desc')->Paginate(8);
+        
+        return view('clients.products.list-1', compact('product', 'category','short_by'));
     }
 
     // tìm kiếm sản phẩm theo tên
@@ -109,6 +128,7 @@ class HomeController extends Controller
         }
     
     }
+
     // Hàm hiển thị list danh sách sản phẩm 
     public function listProduct(Request $request)
     {
@@ -167,12 +187,7 @@ class HomeController extends Controller
         return view('clients.category.list', compact('category','size','color','cate', 'product_by_id', 'product'));
     }
 
-    public function listProductHot(Request $request)
-    {
-        $category = Category::where('parent_id', '=', null)->get();
-        $product = Product::orderBy('created_at', 'desc')->Paginate(8);
-        return view('clients.products.list-1', compact('product', 'category'));
-    }
+ 
 
     // Hàm thêm sp vào cart item con 
     public function addCart(Request $request)

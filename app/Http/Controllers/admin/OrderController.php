@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Models\Bill;
 use App\Http\Controllers\Controller;
 use App\Models\BillDetail;
-use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -64,7 +63,7 @@ class OrderController extends Controller
                 $bill= Bill::where('bill_active', '=', 4)->Paginate(8);
             }
         }  else {
-            $search_bill = Bill::where('id','like',  $keywords)->orWhere('total','like','%'.$keywords.'%')->get();
+            $search_bill = Bill::where('id','like',  $keywords)->orWhere('full_name','like','%'.$keywords.'%')->get();
         }
         return view('admin.orders.search', compact('search_bill'));
      

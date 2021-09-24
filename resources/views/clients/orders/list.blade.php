@@ -66,7 +66,7 @@
                                                                 color: white;">
                                             <tr>
                                                 <th>Mã</th>
-                                                <th style="width:200px">Title</th>
+                                                <th>Tên khách hàng</th>
                                                 <th>Thời gian</th>
                                                 <th>Giá tiền</th>
                                                 <th style="width:100px">Thanh toán</th>
@@ -76,19 +76,16 @@
                                         </thead>
                                         <tbody style="color: black;">
                                             @foreach ($bills as $order)
-                                                @php
-                                                    $bill_id = $order->hasBill ? $order->hasBill->id : "";
-                                                    $detail = $bill->find($bill_id);
-                                                   
-                                                @endphp
+                                              
 
                                                 <tr class="order-item">
 
-                                                    <td>{{ $order->hasBill ? $order->hasBill->id : ""}}</td>
-                                                    <td>{{ $detail->hasBillDetail->hasProduct ? $detail->hasBillDetail->hasProduct->title : '' }}
+                                                    <td>{{ $order->id }}</td>
+                                                    <td>{{ $order->full_name}}
                                                     </td>
-                                                    <td>{{ $order->hasBill->date_order }}</td>
-                                                    <td>{{ number_format($order->hasBill->total) . 'Đ' }}</td>
+                                                   
+                                                    <td>{{ $order->date_order }}</td>
+                                                    <td>{{ number_format($order->total) . 'Đ' }}</td>
                                                     <td class="text-center">
                                                         @if ($order->payments == 0)
                                                             <span>Tiền mặt</span>
@@ -97,17 +94,17 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($detail->hasBillDetail->hasProduct != null)
-                                                            @if ($order->hasBill->bill_active == 0)
+                                                        @if ($order->hasBillDetail->hasProduct != null)
+                                                            @if ($order->bill_active == 0)
                                                                 <span class="text text-success">Chờ xác nhận</span>
-                                                            @elseif($order->hasBill->bill_active == 1)
+                                                            @elseif($order->bill_active == 1)
                                                                 <span>Đã xác nhận</span>
-                                                            @elseif($order->hasBill->bill_active == 2)
+                                                            @elseif($order->bill_active == 2)
                                                                 <span class="text text-primary"> Đã thanh toán - Đang giao
                                                                     hàng</span>
-                                                            @elseif($order->hasBill->bill_active == 3)
+                                                            @elseif($order->bill_active == 3)
                                                                 <span> Đã giao hàng</span>
-                                                            @elseif($order->hasBill->bill_active == 4)
+                                                            @elseif($order->bill_active == 4)
                                                                 <span class="text text-danger">Hủy đơn hàng</span>
                                                             @endif
                                                         @else
@@ -116,16 +113,16 @@
 
                                                     </td>
                                                     <td>
-                                                        @if ($order->hasBill->bill_active == 3)
+                                                        @if ($order->bill_active == 3)
                                                             <a href="{{ route('order_detail', ['id' => $order->id]) }}"
                                                                 class="btn btn-danger">Chi tiết</a>
-                                                        @elseif( $order->hasBill->bill_active == 1)
+                                                        @elseif( $order->bill_active == 1)
                                                             <a href="{{ route('order_detail', ['id' => $order->id]) }}"
                                                                 class="btn btn-danger">Chi tiết</a>
-                                                        @elseif( $order->hasBill->bill_active == 2)
+                                                        @elseif( $order->bill_active == 2)
                                                             <a href="{{ route('order_detail', ['id' => $order->id]) }}"
                                                                 class="btn btn-danger">Chi tiết</a>
-                                                        @elseif($order->hasBill->bill_active == 4)
+                                                        @elseif($order->bill_active == 4)
                                                             <a href="{{ route('order_detail', ['id' => $order->id]) }}"
                                                                 class="btn btn-danger">Chi tiết</a>
                                                         @else

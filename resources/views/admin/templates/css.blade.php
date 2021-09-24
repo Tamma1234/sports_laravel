@@ -19,3 +19,4 @@
 <link rel="stylesheet" href="{{asset('assets/admin/css/summernote-bs4.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/admin/css/jsgrid.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/admin/css/style.css')}}">
+

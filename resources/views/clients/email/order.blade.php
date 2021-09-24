@@ -47,15 +47,15 @@
                         </tr>
                         <tr>
                             <th>Số diện thoại</th>
-                            <td>{{$customer->phone_number}}</td>
+                            <td>{{$order->phone_number}}</td>
                         </tr>
                         <tr>
                             <th>Email</th>
-                            <td><a href="mailto:thientamjvb@gmail.com" target="_blank">{{$customer->email}}</a></td>
+                            <td><a href="mailto:thientamjvb@gmail.com" target="_blank">{{$order->email}}</a></td>
                         </tr>
                         <tr>
                             <th>Địa chỉ giao hàng</th>
-                            <td>{{$customer->address}}</td>
+                            <td>{{$order->address}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableCustomersTable extends Migration
+class AddFullNameToBillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,11 @@ class CreateTableCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::table('bills', function (Blueprint $table) {
             $table->string('full_name');
             $table->string('email');
             $table->float('phone_number');
-            $table->unsignedBigInteger('province_id');
-            $table->unsignedBigInteger('district_id');
-            $table->unsignedBigInteger('ward_id');
             $table->string('address'); 
-            $table->string('note'); 
-            $table->timestamps();
         });
     }
 
@@ -34,6 +28,11 @@ class CreateTableCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::table('bills', function (Blueprint $table) {
+            $table->dropColumn('full_name');
+            $table->dropColumn('email');
+            $table->dropColumn('phone_number');
+            $table->dropColumn('address');
+        });
     }
 }

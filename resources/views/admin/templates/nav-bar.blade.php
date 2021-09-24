@@ -173,8 +173,7 @@
                         <li class="nav-item">
                             <a href="{{ route('order.index') }}?is_active=da-thanh-toan" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Đã
-                                    thanh toán - Đang giao hàngn</p>
+                                <p>Đã thanh toán - Đang giao hàng</p>
                             </a>
                         </li>
                         <li class="nav-item">

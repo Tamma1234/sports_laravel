@@ -69,7 +69,7 @@ class ProductController extends Controller
     public function delete(Request $request)
     {
         $product = Product::find($request->id);
-        $bills = $product->billDetail;
+        $bills = $product->bills;
        
         foreach ($bills as $value) {
             $value->bill_active  = 4;

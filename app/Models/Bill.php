@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Customer;
+
 use App\Models\BillDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,22 +15,26 @@ class Bill extends Model
     use HasFactory;
 
     protected  $fillable = [
-        'cutomer_id',
+       
         'date_order',
         'total',
+        'full_name',
+        'email',
+        'phone_nember',
+        'address',
         'payments',
         'bill_active',
         'bill_destroy',
         'note'
   ];
 
-  public function hasCustomer()
-  {
-      return $this->hasOne(Customer::class, 'id', 'cutomer_id');
-  }
-
   public function hasBillDetail()
   {
       return $this->hasOne(BillDetail::class);
+  }
+
+  public function product()
+  {
+      return $this->belongsToMany(Product::class, 'bill_detail', 'bill_id', 'product_id');
   }
 }

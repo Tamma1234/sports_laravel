@@ -28,7 +28,7 @@
                                         </th>
                                         <th class="sorting sorting_asc" width="280px" tabindex="0" aria-controls="example1"
                                             rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Rendering engine: activate to sort column descending">Tên Sản Phẩm
+                                            aria-label="Rendering engine: activate to sort column descending">Tên khách hàng
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                             colspan="1" aria-label="Browser: activate to sort column ascending">Thời Gian
@@ -56,7 +56,7 @@
                                         <tr class="odd">
                                             <td colspan="1">{{ $item->id }}</td>
                                             <td colspan="1">
-                                                {{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->title : '' }}
+                                                {{ $item->full_name }}
                                             </td>
                                             <td colspan="1">{{ $item->date_order }}</td>
                                             <td colspan="1">{{ number_format($item->total) . 'Đ' }}</td>
@@ -147,7 +147,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" style="margin-left: 450px">
+                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate"
+                                style="margin-left: 450px">
                                 {{ $bill->links('pagination::bootstrap-4') }}
                             </div>
                         </div>
@@ -170,8 +171,8 @@
                                         <h5>Hóa đơn</h5>
                                         <div class="cart-calculator-table table-content table-responsive">
                                             <table class="table table-striped " style="background: #DDDDDD;
-                                                                                                color: black;
-                                                                                                font-size: initial;">
+                                                                                                    color: black;
+                                                                                                    font-size: initial;">
                                                 <tbody>
                                                     <tr class="cart-subtotal">
                                                         <td class="table-danger">Mã đơn hàng</td>
@@ -248,25 +249,26 @@
                                     <div class="col-sm-6 col-md-6">
                                         <h5>Giao hàng</h5>
                                         <div class="cart-calculator-table table-content table-responsive">
-                                            <table class="table table-striped " style="background: #DDDDDD;
-                                                                                                    color: black;
-                                                                                                    font-size: initial;">
+                                            <table class="table table-striped "
+                                                style="background: #DDDDDD;
+                                                                                                        color: black;
+                                                                                                        font-size: initial;">
                                                 <tbody>
                                                     <tr>
                                                         <td class="table-danger">Họ và tên</td>
-                                                        <td>{{ $item->hasCustomer->full_name }}</td>
+                                                        <td>{{ $item->full_name }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="table-danger">Số điện thoại</td>
-                                                        <td>{{ $item->hasCustomer->phone_number }}</td>
+                                                        <td>{{ $item->phone_number }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="table-danger">Email</td>
-                                                        <td>{{ $item->hasCustomer->email }}</td>
+                                                        <td>{{ $item->email }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="table-danger">Địa chỉ</td>
-                                                        <td>{{ $item->hasCustomer->address }}</td>
+                                                        <td>{{ $item->address }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -275,9 +277,10 @@
                                     <div class="col-sm-12 col-md-12">
                                         <h5 style="">Chi tiết</h5>
                                         <div class="cart-table table-content table-responsive">
-                                            <table class="table table-striped " style="background: #DDDDDD;
-                                                                                                    color: black;
-                                                                                                    font-size: initial;">
+                                            <table class="table table-striped "
+                                                style="background: #DDDDDD;
+                                                                                                        color: black;
+                                                                                                        font-size: initial;">
                                                 <thead>
                                                     <tr class="table-danger">
                                                         <th>Ảnh</th>
@@ -290,42 +293,38 @@
                                                 <tbody>
 
 
-                                                    @if ($item->hasBillDetail->hasProduct != null)
-                                                        <tr class="" id=" cart-item-{{ $item->id }}">
-                                                            <td class="image-column">
-                                                                <a href="">
-                                                                    <img style="width:100px"
-                                                                        src="{{ asset($item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->image_url : '') }}"
-                                                                        alt="{{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->title : '' }}">
-                                                                </a>
-                                                            </td>
-                                                            <td class="wide-column">
-                                                                <a
-                                                                    href="">{{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->title : '' }}</a>
-                                                            </td>
-                                                            <td class="product-price">
-                                                                <strong>
-                                                                </strong>
-                                                            </td>
-                                                            <td class="product-quantity">
-                                                                <div class="quantity">
-                                                                    {{ $item->quantity }}
-                                                                </div>
-                                                            </td>
-                                                            <td class="product-price"><strong
-                                                                    class=""> {{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->price : '' }} </strong>
-                                                            </td>
-                                                        </tr>
-                                                   @else
-                                                     <tr class="
-                                                                    text-center">
-                                                            <td colspan="5">Đơn hàng đã bị hủy do sản phẩm hiện đã hết hàng.
-                                                            </td>
+                                                    @if (count($item->product) > 0)
+                                                        @foreach ($item->product as $pro)
+                                                            <tr class="" id=" cart-item-{{ $pro->id }}">
+                                                                <td class="image-column">
+                                                                    <a href="">
+                                                                        <img style="width:100px"
+                                                                            src="{{ asset($pro->image_url) }}"
+                                                                            alt="{{ $pro->title }}">
+                                                                    </a>
+                                                                </td>
+                                                                <td class="wide-column">
+                                                                    <a href="">{{ $pro->title }}</a>
+                                                                </td>
+                                                                <td class="product-price">
+                                                                    <strong> {{number_format($pro->price).'Đ'}}
+                                                                    </strong>
+                                                                </td>
+                                                                <td class="product-quantity">
+                                                                    <div class="quantity">
+                                                                        {{ $item->hasBillDetail->quantity}}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="product-price">
+                                                                    <strong> {{number_format($pro->price).'Đ'}}</strong>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr class="text-center">
+                                                            <td colspan="5">Đơn hàng đã bị hủy do sản phẩm hiện không tồn tại trong hệ thống.</td>
                                                         </tr>
                                                     @endif
-
-
-
                                                 </tbody>
                                             </table>
                                         </div>

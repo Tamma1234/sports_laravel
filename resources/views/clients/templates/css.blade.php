@@ -19,8 +19,3 @@
 <link rel="stylesheet" href="{{asset('assets/client/css/client.css')}}">
 
 
-
-
-
-
-

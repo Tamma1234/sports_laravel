@@ -42,7 +42,7 @@
                                         </th>
                                         <th class="sorting sorting_asc" width="280px" tabindex="0" aria-controls="example1"
                                             rowspan="1" colspan="1" aria-sort="ascending"
-                                            aria-label="Rendering engine: activate to sort column descending">Tên Sản Phẩm
+                                            aria-label="Rendering engine: activate to sort column descending">Tên Khách Hàng
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                             colspan="1" aria-label="Browser: activate to sort column ascending">Thời Gian
@@ -69,8 +69,8 @@
                                     @foreach ($search_bill as $item)
                                         <tr class="odd">
                                             <td colspan="1">{{ $item->id }}</td>
-                                            <td colspan="1">
-                                                {{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->title : '' }}
+                                            <td colspan="1" class="text-center">
+                                                {{ $item->full_name  }}
                                             </td>
                                             <td colspan="1">{{ $item->date_order }}</td>
                                             <td colspan="1">{{ number_format($item->total) . 'Đ' }}</td>
@@ -145,7 +145,7 @@
                                 <tfoot>
                                     <tr class="text-center">
                                         <th rowspan="1" colspan="1">Mã Đơn Hàng</th>
-                                        <th rowspan="1" colspan="1">Tên Sản Phẩm</th>
+                                        <th rowspan="1" colspan="1">Tên Khách Hàng</th>
                                         <th rowspan="1" colspan="1">Thời Gian</th>
                                         <th rowspan="1" colspan="1">Giá Tiền</th>
                                         <th rowspan="1" colspan="1">Thanh Toán</th>
@@ -169,194 +169,201 @@
                 </div>
             </div>
             <!-- /.card-body -->
+         
             @foreach ($search_bill as $item)
-                <div class="modal fade" id="bill-{{ $item->id }}" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document" style="max-width:800px">
-                        <div class="modal-content">
-                            <div class="modal-header custom-style bg-info">
-                                <h5 class="modal-title" id="custom-modal-title">Chi tiết đơn hàng</h5>
-                            </div>
-                            <div class="modal-body">
+            <div class="modal fade" id="bill-{{ $item->id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="max-width:800px">
+                    <div class="modal-content">
+                        <div class="modal-header custom-style bg-info">
+                            <h5 class="modal-title" id="custom-modal-title">Chi tiết đơn hàng</h5>
+                        </div>
+                        <div class="modal-body">
 
-                                <div class="row">
-                                    <div class="col-sm-6 col-md-6">
-                                        <h5>Hóa đơn</h5>
-                                        <div class="cart-calculator-table table-content table-responsive">
-                                            <table class="table table-striped " style="background: #DDDDDD;
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6">
+                                    <h5>Hóa đơn</h5>
+                                    <div class="cart-calculator-table table-content table-responsive">
+                                        <table class="table table-striped " style="background: #DDDDDD;
                                                                                                 color: black;
                                                                                                 font-size: initial;">
-                                                <tbody>
-                                                    <tr class="cart-subtotal">
-                                                        <td class="table-danger">Mã đơn hàng</td>
-                                                        <td><span>{{ $item->id }}</span></td>
-                                                    </tr>
-                                                    <tr class="cart-subtotal">
-                                                        <td class="table-danger">Trạng thái</td>
-                                                        <td>
-                                                            @switch($item->bill_active )
-                                                                @case(0)
-                                                                    <span class="text text-success">Chờ xác nhận</span>
-                                                                @break
-                                                                @case(1)
-                                                                    <span>Đã xác nhận</span>
-                                                                @break
-                                                                @case(2)
-                                                                    <span>Đã xử lí </span>
-                                                                @break
-                                                                @case(3)
-                                                                    <span class="text text-primary"> Đã thanh toán</span>
-                                                                @break
-                                                                @case(4)
-                                                                    <span>Đang giao hàng</span>
-                                                                @break
-                                                                @case(5)
-                                                                    <span> Đã giao hàng</span>
-                                                                @break
-                                                                @case(6)
-                                                                    <span class="text text-danger">Hủy đơn hàng</span>
-                                                                @break
-                                                                @default
-                                                            @endswitch
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="cart-subtotal">
-                                                        <td class="table-danger">
-                                                            Thanh toán
-                                                        </td>
-                                                        <td>
-                                                            @if ($item->payments)
-                                                                <span>Tiền mặt</span>
-                                                            @else
-                                                                <span>Online</span>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="cart-subtotal">
-                                                        <td class="table-danger">Tạm tính</td>
-                                                        <td><span
-                                                                class="price-ammount">{{ number_format($item->total) . 'Đ' }}</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="shipping">
-                                                        <td class="table-danger">Phí giao hàng</td>
-                                                        <td><span class="price-ammount">0</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="shipping">
-                                                        <td class="table-danger">Thuế</td>
-                                                        <td><span class="price-ammount">0</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="cart-total">
-                                                        <td class="table-danger">Tổng tiền</td>
-                                                        <td><span
-                                                                class="price-ammount">{{ number_format($item->total) . 'Đ' }}</span>
-                                                        </td>
-                                                    </tr>
+                                            <tbody>
+                                                <tr class="cart-subtotal">
+                                                    <td class="table-danger">Mã đơn hàng</td>
+                                                    <td><span>{{ $item->id }}</span></td>
+                                                </tr>
+                                                <tr class="cart-subtotal">
+                                                    <td class="table-danger">Trạng thái</td>
+                                                    <td>
+                                                        @switch($item->bill_active )
+                                                            @case(0)
+                                                                <span class="text text-success">Chờ xác nhận</span>
+                                                            @break
+                                                            @case(1)
+                                                                <span>Đã xác nhận</span>
+                                                            @break
+                                                            @case(2)
+                                                                <span>Đã xử lí </span>
+                                                            @break
+                                                            @case(3)
+                                                                <span class="text text-primary"> Đã thanh toán</span>
+                                                            @break
+                                                            @case(4)
+                                                                <span>Đang giao hàng</span>
+                                                            @break
+                                                            @case(5)
+                                                                <span> Đã giao hàng</span>
+                                                            @break
+                                                            @case(6)
+                                                                <span class="text text-danger">Hủy đơn hàng</span>
+                                                            @break
+                                                            @default
+                                                        @endswitch
+                                                    </td>
+                                                </tr>
+                                                <tr class="cart-subtotal">
+                                                    <td class="table-danger">
+                                                        Thanh toán
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->payments)
+                                                            <span>Tiền mặt</span>
+                                                        @else
+                                                            <span>Online</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr class="cart-subtotal">
+                                                    <td class="table-danger">Tạm tính</td>
+                                                    <td><span
+                                                            class="price-ammount">{{ number_format($item->total) . 'Đ' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="shipping">
+                                                    <td class="table-danger">Phí giao hàng</td>
+                                                    <td><span class="price-ammount">0</span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="shipping">
+                                                    <td class="table-danger">Thuế</td>
+                                                    <td><span class="price-ammount">0</span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="cart-total">
+                                                    <td class="table-danger">Tổng tiền</td>
+                                                    <td><span
+                                                            class="price-ammount">{{ number_format($item->total) . 'Đ' }}</span>
+                                                    </td>
+                                                </tr>
 
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <h5>Giao hàng</h5>
-                                        <div class="cart-calculator-table table-content table-responsive">
-                                            <table class="table table-striped " style="background: #DDDDDD;
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <h5>Giao hàng</h5>
+                                    <div class="cart-calculator-table table-content table-responsive">
+                                        <table class="table table-striped "
+                                            style="background: #DDDDDD;
                                                                                                     color: black;
                                                                                                     font-size: initial;">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="table-danger">Họ và tên</td>
-                                                        <td>{{ $item->hasCustomer->full_name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="table-danger">Số điện thoại</td>
-                                                        <td>{{ $item->hasCustomer->phone_number }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="table-danger">Email</td>
-                                                        <td>{{ $item->hasCustomer->email }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="table-danger">Địa chỉ</td>
-                                                        <td>{{ $item->hasCustomer->address }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="table-danger">Họ và tên</td>
+                                                    <td>{{ $item->full_name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="table-danger">Số điện thoại</td>
+                                                    <td>{{ $item->phone_number }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="table-danger">Email</td>
+                                                    <td>{{ $item->email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="table-danger">Địa chỉ</td>
+                                                    <td>{{ $item->address }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="col-sm-12 col-md-12">
-                                        <h5 style="">Chi tiết</h5>
-                                        <div class="cart-table table-content table-responsive">
-                                            <table class="table table-striped " style="background: #DDDDDD;
+                                </div>
+                                <div class="col-sm-12 col-md-12">
+                                    <h5 style="">Chi tiết</h5>
+                                    <div class="cart-table table-content table-responsive">
+                                        <table class="table table-striped "
+                                            style="background: #DDDDDD;
                                                                                                     color: black;
                                                                                                     font-size: initial;">
-                                                <thead>
-                                                    <tr class="table-danger">
-                                                        <th>Ảnh</th>
-                                                        <th>Sản phẩm</th>
-                                                        <th>Đơn giá</th>
-                                                        <th>Số lượng</th>
-                                                        <th>Thành tiền</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                            <thead>
+                                                <tr class="table-danger">
+                                                    <th>Ảnh</th>
+                                                    <th>Sản phẩm</th>
+                                                    <th>Đơn giá</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Thành tiền</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
 
-                                                    @if ($item->hasBillDetail->hasProduct != null)
-                                                        <tr class="" id=" cart-item-{{ $item->id }}">
+                                                @if ($item->product != null)
+                                                    @foreach ($item->product as $pro)
+                                                        <tr class="" id=" cart-item-{{ $pro->id }}">
                                                             <td class="image-column">
                                                                 <a href="">
                                                                     <img style="width:100px"
-                                                                        src="{{ asset($item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->image_url : '') }}"
-                                                                        alt="{{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->title : '' }}">
+                                                                        src="{{ asset($pro->image_url) }}"
+                                                                        alt="{{ $pro->title }}">
                                                                 </a>
                                                             </td>
                                                             <td class="wide-column">
-                                                                <a
-                                                                    href="">{{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->title : '' }}</a>
+                                                                <a href="">{{ $pro->title }}</a>
                                                             </td>
                                                             <td class="product-price">
-                                                                <strong>
+                                                                <strong> {{number_format($pro->price).'Đ'  }}
                                                                 </strong>
                                                             </td>
                                                             <td class="product-quantity">
                                                                 <div class="quantity">
-                                                                    {{ $item->quantity }}
+                                                                    {{ $item->hasBillDetail->quantity }}
                                                                 </div>
                                                             </td>
                                                             <td class="product-price"><strong
-                                                                    class=""> {{ $item->hasBillDetail->hasProduct ? $item->hasBillDetail->hasProduct->price : '' }} </strong>
-                                                            </td>
-                                                        </tr>
-                                                   @else
-                                                     <tr class="
+                                                                    class=""> {{number_format($pro->price).'Đ'  }} </strong>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                                    
+                                               @else
+                                                 <tr class="
                                                                     text-center">
-                                                            <td colspan="5">Đơn hàng đã bị hủy do sản phẩm hiện đã hết hàng.
+                                                            <td colspan="5">Đơn hàng đã bị hủy do sản phẩm hiện đã hết
+                                                                hàng.
                                                             </td>
                                                         </tr>
                                                     @endif
 
 
 
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                class="
-                                                                        modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-info" id="" onclick="billDestroy()"> Gửi
-                                </button>
-                            </div>
+                        </div>
+                        <div
+                            class="
+                                                                    modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-info" id="" onclick="billDestroy()"> Gửi
+                            </button>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
+        @endforeach
+          
 
         </div>
     </div>
