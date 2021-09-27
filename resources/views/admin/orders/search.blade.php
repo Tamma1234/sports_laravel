@@ -66,6 +66,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if (count($search_bill))
                                     @foreach ($search_bill as $item)
                                         <tr class="odd">
                                             <td colspan="1">{{ $item->id }}</td>
@@ -141,20 +142,16 @@
                                         </td>
                                         </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="7" class="alert alert-warning text-center">
+                                                Không có đơn hàng nào
+                                            </td>
+                                         
+                                        </tr>
+                                    @endif
                                 </tbody>
-                                <tfoot>
-                                    <tr class="text-center">
-                                        <th rowspan="1" colspan="1">Mã Đơn Hàng</th>
-                                        <th rowspan="1" colspan="1">Tên Khách Hàng</th>
-                                        <th rowspan="1" colspan="1">Thời Gian</th>
-                                        <th rowspan="1" colspan="1">Giá Tiền</th>
-                                        <th rowspan="1" colspan="1">Thanh Toán</th>
-                                        <th rowspan="1" colspan="1">Trạng Thái</th>
-                                        <th rowspan="1" colspan="1">
-                                            Thao tác
-                                        </th>
-                                    </tr>
-                                </tfoot>
+                               
                             </table>
 
                         </div>

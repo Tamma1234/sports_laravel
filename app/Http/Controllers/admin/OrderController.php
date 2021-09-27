@@ -21,6 +21,7 @@ class OrderController extends Controller
                 $bill = Bill::where('bill_active', '=', 0)->Paginate(8);
             } elseif ($is_active == 'da-xac-nhan') {
                 $bill = Bill::where('bill_active', '=', 1)->Paginate(8);
+                
             }
             elseif ($is_active == 'da-thanh-toan') {
                 $bill = Bill::where('bill_active', '=', 2)->Paginate(8);
@@ -63,7 +64,8 @@ class OrderController extends Controller
                 $bill= Bill::where('bill_active', '=', 4)->Paginate(8);
             }
         }  else {
-            $search_bill = Bill::where('id','like',  $keywords)->orWhere('full_name','like','%'.$keywords.'%')->get();
+            $search_bill = Bill::where('id','like',  $keywords)->orWhere('full_name','like','%'.$keywords.'%')->orWhere('date_order','like','%'.$keywords.'%')->get();
+           
         }
         return view('admin.orders.search', compact('search_bill'));
      

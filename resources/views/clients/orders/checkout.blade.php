@@ -171,7 +171,7 @@
                                             <div class="payment-group ">
                                                 <div class="form-group">
                                                     <div class="ps-radio">
-                                                        <input onclick="online()" type="radio" id="payment-method-transfer" value="3" name="payments" /> 
+                                                        <input onclick="online()" type="radio" id="payment-method-transfer" value="2" name="payments" /> 
                                                         <label class="payment-label-method "
                                                             for="payment-method-transfer">Thanh toán chuyển khoản</label>
                                                     </div>

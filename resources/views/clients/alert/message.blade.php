@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12" style="margin: 0px auto;">
                     <div class="alert alert text-center">
-                       Bạn đạ đặt hàng thành công tại của hàng của chúng tôi. Bạn vui lòng vào xác nhận đơn hàng ở email nhé !
+                       Bạn đạ đặt hàng thành công tại của hàng của chúng tôi. Bạn vui lòng vào mail để xác nhận đơn hàng.
                     </div>
                     <div class="buttons text-center" style="margin: 20px auto;">
                         <a href="{{route('home')}}" class="btn btn-danger">Về trang chủ</a>

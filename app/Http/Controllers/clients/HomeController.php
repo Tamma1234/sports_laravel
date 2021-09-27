@@ -44,21 +44,16 @@ class HomeController extends Controller
                 $product = Product::orderBy('price', 'DESC')->Paginate(8);
             }
             elseif($short_by == "kytu-az"){
-                $product = Product::orderBy('titel', 'ASC')->Paginate(8);
+                $product = Product::orderBy('title', 'ASC')->Paginate(8);
             }
             elseif($short_by == "kytu-za"){
-                $product = Product::orderBy('titel', 'DESC')->Paginate(8);
+                $product = Product::orderBy('title', 'DESC')->Paginate(8);
             }
         }
         else{
             $product = Product::orderBy('created_at', 'desc')->Paginate(8);
             $short_by = "";
         }
-        
-     
-      
-        // $product = Product::orderBy('id', 'desc')->Paginate(8);
-        
         return view('clients.products.list-1', compact('product', 'category','short_by'));
     }
 

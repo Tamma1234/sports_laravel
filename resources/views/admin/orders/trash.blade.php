@@ -101,18 +101,7 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th rowspan="1" colspan="1">Mã</th>
-                                        <th rowspan="1" colspan="1">Thời Gian</th>
-                                        <th rowspan="1" colspan="1">Giá Tiền</th>
-                                        <th rowspan="1" colspan="1">Phương Thức Thanh Toán</th>
-                                        <th rowspan="1" colspan="1">Trạng Thái</th>
-                                        <th rowspan="1" colspan="1">
-                                            Thao tác
-                                        </th>
-                                    </tr>
-                                </tfoot>
+                              
                             </table>
                            
                         </div>

@@ -152,6 +152,7 @@ Route::group(['prefix' => '/'], function () {
 
         Route::get('logout-email', [PaymentController::class, 'logoutEmail'])->name('logout.email');
     });
-
+    // Thông báo cho khách hàng đã đặt hàng thành công và check mail để xác thực đơn hàng
     Route::get('/aler-message', [PaymentController::class, 'alertMessa'])->name('alert');
+
 });

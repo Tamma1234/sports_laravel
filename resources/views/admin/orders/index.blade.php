@@ -12,11 +12,13 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+               
                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         @include('admin.templates.search')
                     </div>
                     <div class="row">
+                      
                         <div class="col-sm-12">
                             <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid"
                                 aria-describedby="example1_info">
@@ -51,7 +53,9 @@
                                         </th>
                                     </tr>
                                 </thead>
+                              
                                 <tbody>
+                                    @if (count($bill))
                                     @foreach ($bill as $item)
                                         <tr class="odd">
                                             <td colspan="1">{{ $item->id }}</td>
@@ -73,77 +77,77 @@
                                                     <select onchange="activeAll({{ $item->id }})" class="form-control"
                                                         name="bill_active" id="activeAll">
                                                         <option disabled value="2" @if ($item->bill_active == 2)
-                                                            selected
-                                                @endif> Đã thanh toán - Đang giao hàng</option>
-                                                <option value="3" @if ($item->bill_active == 3)
-                                                    selected
-                                    @endif>Đã hoàn thành</option>
-                                    </select>
-                                @elseif($item->bill_active == 3)
-                                    <select onchange="activeAll({{ $item->id }})" class="form-control"
-                                        name="bill_active" id="activeAll">
-                                        <option disabled value="3" @if ($item->bill_active == 3)
-                                            selected
-                                            @endif>Đã hoàn thành</option>
-                                    @elseif($item->bill_active == 4)
-                                        <select disabled onchange="activeAll({{ $item->id }})" class="form-control"
-                                            name="bill_active" id="activeAll">
-                                            <option disabled value="4" @if ($item->bill_active == 4)
-                                                selected
-                                                @endif>Hủy đơn hàng</option>
-                                        </select>
+                                                            selected @endif> Đã thanh toán - Đang giao hàng
+                                                        </option>
+                                                        <option value="3" @if ($item->bill_active == 3)
+                                                            selected @endif>Đã hoàn thành
+                                                        </option>
+                                                    </select>
+                                                @elseif($item->bill_active == 3)
+                                                     <select onchange="activeAll({{ $item->id }})" class="form-control"
+                                                        name="bill_active" id="activeAll">
+                                                        <option disabled value="3" @if ($item->bill_active == 3)
+                                                            selected @endif>Đã hoàn thành
+                                                        </option>
+                                                     </select>
+                                                    @elseif($item->bill_active == 4)
+                                                        <select disabled onchange="activeAll({{ $item->id }})" class="form-control"
+                                                            name="bill_active" id="activeAll">
+                                                            <option disabled value="4" @if ($item->bill_active == 4)
+                                                                selected @endif>Hủy đơn hàng
+                                                            </option>
+                                                        </select>
 
-                                    @else
-                                        <select onchange="activeAll({{ $item->id }})" class="form-control"
-                                            name="bill_active" id="activeAll">
+                                                    @else
+                                                        <select onchange="activeAll({{ $item->id }})" class="form-control"
+                                                            name="bill_active" id="activeAll">
 
-                                            <option value="0" @if ($item->bill_active == 0)
-                                                selected
-                                                @endif>Đang chờ xác nhận</option>
-                                            <option value="1" @if ($item->bill_active == 1)
-                                                selected
-                                                @endif>Đã xác nhận </option>
-                                            <option value="2" @if ($item->bill_active == 2)
-                                                selected
-                                                @endif> Đã thanh toán - Đang giao hàng</option>
+                                                            <option value="0" @if ($item->bill_active == 0)
+                                                                selected
+                                                                @endif>Đang chờ xác nhận</option>
+                                                            <option value="1" @if ($item->bill_active == 1)
+                                                                selected
+                                                                @endif>Đã xác nhận </option>
+                                                            <option value="2" @if ($item->bill_active == 2)
+                                                                selected
+                                                                @endif> Đã thanh toán - Đang giao hàng</option>
 
-                                            <option value="3" @if ($item->bill_active == 3)
-                                                selected
-                                                @endif>Đã hoàn thành</option>
-                                            <option value="4" @if ($item->bill_active == 4)
-                                                selected
-                                                @endif >Hủy đơn hàng</option>
-                                        </select>
-                                        @endif
+                                                            <option value="3" @if ($item->bill_active == 3)
+                                                                selected
+                                                                @endif>Đã hoàn thành</option>
+                                                            <option value="4" @if ($item->bill_active == 4)
+                                                                selected
+                                                                @endif >Hủy đơn hàng</option>
+                                                        </select>
+                                                    @endif
 
-                                        </td>
-                                        <td colspan="2">
-                                            <button class="btn btn-info" id="view-detail"
-                                                data-target="#bill-{{ $item->id }}" data-toggle="modal"><i
-                                                    class="far fa-eye"></i></button>
-                                            <button class="btn btn-danger"
-                                                onclick='confirmDel("{{ route('order.remove', ['id' => $item->id]) }}")'><i
-                                                    class="fas fa-trash-alt"></i></button>
-                                        </td>
+                                            </td>
+                                            <td colspan="2">
+                                                <button class="btn btn-info" id="view-detail"
+                                                    data-target="#bill-{{ $item->id }}" data-toggle="modal"><i
+                                                        class="far fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-danger"
+                                                    onclick='confirmDel("{{ route('order.remove', ['id' => $item->id]) }}")'><i
+                                                        class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
                                         </tr>
-                                        @endforeach
+                                    @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7" class="alert alert-warning text-center">
+                                                Không có đơn hàng nào
+                                            </td>
+                                         
+                                        </tr>
+                                    @endif
                                 </tbody>
-                                <tfoot>
-                                    <tr class="text-center">
-                                        <th rowspan="1" colspan="1">Mã Đơn Hàng</th>
-                                        <th rowspan="1" colspan="1">Tên Sản Phẩm</th>
-                                        <th rowspan="1" colspan="1">Thời Gian</th>
-                                        <th rowspan="1" colspan="1">Giá Tiền</th>
-                                        <th rowspan="1" colspan="1">Thanh Toán</th>
-                                        <th rowspan="1" colspan="1">Trạng Thái</th>
-                                        <th rowspan="1" colspan="1">
-                                            Thao tác
-                                        </th>
-                                    </tr>
-                                </tfoot>
+                            
                             </table>
-
+                           
                         </div>
+                    
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
@@ -154,6 +158,7 @@
                         </div>
                     </div>
                 </div>
+             
             </div>
             <!-- /.card-body -->
             @foreach ($bill as $item)
@@ -241,7 +246,6 @@
                                                                 class="price-ammount">{{ number_format($item->total) . 'Đ' }}</span>
                                                         </td>
                                                     </tr>
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -250,9 +254,7 @@
                                         <h5>Giao hàng</h5>
                                         <div class="cart-calculator-table table-content table-responsive">
                                             <table class="table table-striped "
-                                                style="background: #DDDDDD;
-                                                                                                        color: black;
-                                                                                                        font-size: initial;">
+                                                style="background: #DDDDDD; color: black;font-size: initial;">
                                                 <tbody>
                                                     <tr>
                                                         <td class="table-danger">Họ và tên</td>
@@ -277,10 +279,7 @@
                                     <div class="col-sm-12 col-md-12">
                                         <h5 style="">Chi tiết</h5>
                                         <div class="cart-table table-content table-responsive">
-                                            <table class="table table-striped "
-                                                style="background: #DDDDDD;
-                                                                                                        color: black;
-                                                                                                        font-size: initial;">
+                                            <table class="table table-striped" style="background: #DDDDDD;color: black;                                                                                                       font-size: initial;">
                                                 <thead>
                                                     <tr class="table-danger">
                                                         <th>Ảnh</th>
@@ -291,8 +290,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
-
                                                     @if (count($item->product) > 0)
                                                         @foreach ($item->product as $pro)
                                                             <tr class="" id=" cart-item-{{ $pro->id }}">
@@ -332,8 +329,7 @@
                                 </div>
                             </div>
                             <div
-                                class="
-                                                                        modal-footer">
+                                class=" modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-info" id="" onclick="billDestroy()"> Gửi
                                 </button>

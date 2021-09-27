@@ -173,7 +173,7 @@
                                 </table>
                                 <div class="col-12 col-md-12">
                                     <div class="text-center" id="example1_paginate">
-                                        {{-- {{ $bills->links('pagination::bootstrap-4') }} --}}
+                                        {{ $bills->links('pagination::bootstrap-4') }}
                                     </div>
                                 </div>
                         </div>

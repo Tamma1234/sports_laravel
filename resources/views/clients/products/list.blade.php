@@ -34,8 +34,8 @@
                     <option selected="selected">-Lọc theo</option>
                     <option value="{{Request::url()}}?short_by=tang_dan">Tăng dần</option>
                     <option value="{{Request::url()}}?short_by=giam_dan">Giảm dần</option>
-                    <option value="{{Request::url()}}?short_by=kytu-az">Ký tự từ a - z</option>
-                    <option value="{{Request::url()}}?short_by=kytu-za">Ký tự từ z - a</option>
+                    <option value="{{Request::url()}}?short_by=kytu-az">Theo tên từ a - z</option>
+                    <option value="{{Request::url()}}?short_by=kytu-za">Theo tên từ z - a</option>
                   </select>
                 </div>
               </div>

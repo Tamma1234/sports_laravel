@@ -20,7 +20,7 @@
     </div>
     <!-- Breadcrumbs End -->
     <!-- Main Container -->
-    <div class="inner-box"n style="margin-top: 20px">
+    <div class="inner-box" n style="margin-top: 20px">
         <div class="container">
             <div class="row">
                 <!-- Banner -->
@@ -105,7 +105,8 @@
                                     <div class="col-main col-sm-12 col-xs-12">
                                         <div class="shop-inner">
                                             <div class="page-title" style="display: flex">
-                                                <h2 style="margin-right: 20px"><a href="{{ route('home') }}">Hàng Mới Về</a>
+                                                <h2 style="margin-right: 20px"><a href="{{ route('home') }}">Hàng Mới
+                                                        Về</a>
                                                 </h2>
                                             </div>
                                             <div class="product-grid-area">
@@ -136,7 +137,7 @@
                                                                                         href="single_product.html">{{ $item->title }}
                                                                                     </a> </div>
                                                                                 <div class="item-content">
-    
+
                                                                                     <div class="item-price">
                                                                                         <div class="price-box"> <span
                                                                                                 class="regular-price">
@@ -144,30 +145,31 @@
                                                                                                     class="price">{{ number_format($item->price) . 'Đ' }}</span>
                                                                                             </span> </div>
                                                                                     </div>
-    
+
                                                                                     <div class="pro-action">
                                                                                         <button type="button"
                                                                                             id="{{ $item->id }}"
                                                                                             data-toggle="modal"
                                                                                             data-target="#product-{{ $item->id }}"
-                                                                                            class="add-to-cart"><span> Thêm
+                                                                                            class="add-to-cart"><span>
+                                                                                                Thêm
                                                                                                 giỏ hàng</span>
                                                                                         </button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
                                                             </li>
                                                         @endforeach
                                                     </ul>
                                                 </div>
-    
+
                                             </div>
-    
+
                                         </div>
                                     </div>
-    
+
                                 </div>
                             </div>
                             <div class="item active">
@@ -175,7 +177,8 @@
                                     <div class="col-main col-sm-12 col-xs-12">
                                         <div class="shop-inner">
                                             <div class="page-title" style="display: flex">
-                                                <h2 style="margin-right: 20px"><a href="{{ route('home') }}">Sản Phẩm Mới </a>
+                                                <h2 style="margin-right: 20px"><a href="{{ route('home') }}">Sản Phẩm Mới
+                                                    </a>
                                                 </h2>
                                             </div>
                                             <div class="product-grid-area">
@@ -206,7 +209,7 @@
                                                                                         href="single_product.html">{{ $item->title }}
                                                                                     </a> </div>
                                                                                 <div class="item-content">
-    
+
                                                                                     <div class="item-price">
                                                                                         <div class="price-box"> <span
                                                                                                 class="regular-price">
@@ -214,17 +217,18 @@
                                                                                                     class="price">{{ number_format($item->price) . 'Đ' }}</span>
                                                                                             </span> </div>
                                                                                     </div>
-    
+
                                                                                     <div class="pro-action">
                                                                                         <button type="button"
                                                                                             id="{{ $item->id }}"
                                                                                             data-toggle="modal"
                                                                                             data-target="#product-{{ $item->id }}"
-                                                                                            class="add-to-cart"><span> Thêm
+                                                                                            class="add-to-cart"><span>
+                                                                                                Thêm
                                                                                                 giỏ hàng</span>
                                                                                         </button>
                                                                                     </div>
-                                                                                  
+
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -234,25 +238,26 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-    
+
                                             </div>
-    
+
                                         </div>
                                     </div>
-    
+
                                 </div>
                             </div>
-                           
+
                         </div>
                         <a class="left carousel-control" href="http://hocwebgiare.com/#myCarousel" data-slide="prev"><i
                                 class="fa fa-chevron-left fa-2x"></i></a> <a class="right carousel-control"
                             href="http://hocwebgiare.com/cpadmin/#myCarousel" data-slide="next"><i
                                 class="fa fa-chevron-right fa-2x"></i></a>
                         <ol class="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" class=""></li> 
-                <li data-target="
-                                #myCarousel" data-slide-to="1" class="active"></li>
-                          
+                            <li data-target="#myCarousel" data-slide-to="0"
+                                class=""></li> 
+                <li data-target=" #myCarousel" data-slide-to="1"
+                                class="active"></li>
+
                         </ol>
                     </div>
                 </div>
@@ -268,7 +273,7 @@
                     <div class="page-title">
                         <h2><a href="{{ route('list.product.hot') }}">Danh sách sản phẩm</a> </h2>
                     </div>
-                    
+
                     <div class="product-grid-area">
                         <ul class="products-grid">
                             @foreach ($product_list as $item)
@@ -322,8 +327,8 @@
                                                                     <div class="modal-body">
                                                                         <div class="row">
                                                                             <div class="col-md-5 col-lg-5">
-                                                                                <img width="" src="{{ $item->image_url }}"
-                                                                                    alt="">
+                                                                                <img width=""
+                                                                                    src="{{ $item->image_url }}" alt="">
                                                                             </div>
                                                                             <div class="col-md-6 col-lg-6">
                                                                                 <div class="form-group">
@@ -353,8 +358,6 @@
                                                                                                         </label>
                                                                                                     </li>
                                                                                                 @endforeach
-                                                                                                
-
                                                                                             </ul>
                                                                                         </div>
                                                                                     </div>
@@ -420,9 +423,32 @@
 @endsection
 
 @section('script')
-    <script>
-        $('#myCarousel').carousel({
-            interval: 4000
-        });
-    </script>
+    <!-- Messenger Plugin chat Code -->
+<!-- Messenger Plugin chat Code -->
+<div id="fb-root"></div>
+
+<!-- Your Plugin chat code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<script>
+  var chatbox = document.getElementById('fb-customer-chat');
+  chatbox.setAttribute("page_id", "108199507453338");
+  chatbox.setAttribute("attribution", "biz_inbox");
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      xfbml            : true,
+      version          : 'v12.0'
+    });
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 @endsection

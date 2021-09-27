@@ -61,7 +61,7 @@ class PaymentController extends Controller
     // Tạo hàm postCheckout để thực hiện thanh toán và đặt hàng truyền tham số Request vào
     public function postCheckout(CustomerRequest $request)
     {
-
+      
         // Gọi giỏ hàng có trong checkout ra
         $cart = Session::get('cart');
         // Tạo biến để lưu data vào Bill(Hóa đơn)
@@ -100,11 +100,11 @@ class PaymentController extends Controller
                 $mail->to($email, $name);
                 $mail->subject('Gửi email đặt hàng');
             });
+            $request->session()->put('email', $email);
             Session::forget('cart');
             return redirect()->route('alert');
-        } else {
-
-            // $totalPrice =$cart->totalPriceUsd ;
+        } 
+        else {
             $payer = new Payer();
             $payer->setPaymentMethod("paypal");
 
@@ -195,8 +195,13 @@ class PaymentController extends Controller
             // ResultPrinter::printResult("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", "<a href='$approvalUrl' >$approvalUrl</a>", $request, $payment);
             // echo "<pre>";
 
+            // Lưu email khi đặt hàng thành công 
+            $email = $request->email;
+            $request->session()->put('email', $email);
+
             Session::put('payment_id', $payment->id);
             Session::forget('cart');
+           
             return redirect()->to($approvalUrl);
         }
     }
@@ -220,7 +225,6 @@ class PaymentController extends Controller
     // Nếu có thì trả về view list-order đẻ xem đơn hàng
     public function postLogin(Request $request)
     {
-
         $credentials = $request->validate([
             'email' => ['required', 'email'],
         ]);
@@ -244,12 +248,10 @@ class PaymentController extends Controller
         return redirect()->route('home');
     }
 
-
     // Hiển thị danh dách đơn hàng của người dùng thông qua email vừa đăng nhập
     public function listOrder(Request $request)
     {
         $oldemail = Session('email') ? Session('email') : null;
-      
         $bill = new Bill();
        
         if ($oldemail) {
@@ -270,7 +272,7 @@ class PaymentController extends Controller
                     $bills = Bill::where('bill_active', '=', 4)->Paginate(8);
                 }
             }  else {
-                $bills = Bill::where('email','like',$oldemail)->get();
+                $bills = Bill::where('email','like',$oldemail)->paginate(5);
             }
             return view('clients.orders.list', compact('category', 'bills','bill'));
         } else {

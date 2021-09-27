@@ -39,9 +39,9 @@
                                     <option {{ $short_by == 'giam_dan' ? 'selected' : '' }}
                                         value="{{ Request::url() }}?short_by=giam_dan">--Theo giá giảm dần--</option>
                                     <option {{ $short_by == 'kytu-az' ? 'selected' : '' }}
-                                        value="{{ Request::url() }}?short_by=kytu-az">Theo tên sản phẩm a-z</option>
+                                        value="{{ Request::url() }}?short_by=kytu-az">Theo tên từ a-z</option>
                                     <option {{ $short_by == 'kytu-za' ? 'selected' : '' }}
-                                        value="{{ Request::url() }}?short_by=kytu-za">Theo tên sản phẩm z-a</option>
+                                        value="{{ Request::url() }}?short_by=kytu-za">Theo tên từ z-a</option>
                                 </select>
                             </div>
                         </div>
