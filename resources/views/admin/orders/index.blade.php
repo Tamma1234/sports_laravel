@@ -2,6 +2,14 @@
 
 @section('title', 'Danh sách danh mục')
 @section('content')
+{{-- <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+        </div> --}}
+
+<!-- Navbar -->
+
+
+
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         @include('admin.templates.content-header',['name'=>'Đơn Hàng'])
@@ -296,7 +304,7 @@
                                                                 <td class="image-column">
                                                                     <a href="">
                                                                         <img style="width:100px"
-                                                                            src="{{ asset($pro->image_url) }}"
+                                                                            src="{{ asset("storage/$pro->image_url") }}"
                                                                             alt="{{ $pro->title }}">
                                                                     </a>
                                                                 </td>
@@ -371,4 +379,5 @@
                 });
         }
     </script>
+
 @endsection

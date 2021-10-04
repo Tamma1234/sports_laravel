@@ -4,7 +4,7 @@
         @foreach (Session::get('cart')->products as $item)
             <li class="item odd">
                 <a href="{{route('detail',['id'=>$item['productInfo']->id])}}" title="Product title here" class="product-image"><img
-                        src="{{ asset($item['productInfo']->image_url) }}" alt="html Template" width="65"></a>
+                        src="{{ asset("storage/".$item['productInfo']->image_url) }}" alt="html Template" width="65"></a>
                 <div class="product-details">
                     <a href="javascript:" title="Remove This Item" class="remove-cart">
                         <i class="pe-7s-trash" data-id="{{ $item['productInfo']->id }}"></i>

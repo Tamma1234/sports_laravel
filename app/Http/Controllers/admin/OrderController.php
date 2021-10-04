@@ -14,24 +14,21 @@ class OrderController extends Controller
     // Hiển thị danh sách đơn hàng 
     public function index(Request $request)
     {
-      
+
         if (isset($_GET['is_active'])) {
             $is_active = $_GET['is_active'];
             if ($is_active == 'cho-xac-nhan') {
                 $bill = Bill::where('bill_active', '=', 0)->Paginate(8);
             } elseif ($is_active == 'da-xac-nhan') {
                 $bill = Bill::where('bill_active', '=', 1)->Paginate(8);
-                
-            }
-            elseif ($is_active == 'da-thanh-toan') {
+            } elseif ($is_active == 'da-thanh-toan') {
                 $bill = Bill::where('bill_active', '=', 2)->Paginate(8);
             } elseif ($is_active == 'da-hoan-thanh') {
                 $bill = Bill::where('bill_active', '=', 3)->Paginate(8);
             } elseif ($is_active == 'huy-don-hang') {
-                $bill= Bill::where('bill_active', '=', 4)->Paginate(8);
+                $bill = Bill::where('bill_active', '=', 4)->Paginate(8);
             }
-            
-        }  else {
+        } else {
             $bill = Bill::orderBy('id', 'desc')->Paginate(5);
         }
         return view('admin.orders.index', compact('bill'));
@@ -47,29 +44,59 @@ class OrderController extends Controller
 
     // Tìm kiếm đơn hàng theo mã đơn hàng, tên sản phẩm
     public function search(Request $request)
-    {   
-        $keywords = $request->keyword_submit;
+    {
+        $confisions = [
+            [
+                'field' => 'id',
+                'where' => '=',
+                'value' => $request->id
+            ],
+            [
+                'field' => 'full_name',
+                'where' => 'like',
+                'value' => '%' . $request->full_name . '%'
+            ],
+           
+        ];
         if (isset($_GET['is_active'])) {
             $is_active = $_GET['is_active'];
             if ($is_active == 'cho-xac-nhan') {
                 $bill = Bill::where('bill_active', '=', 0)->Paginate(8);
             } elseif ($is_active == 'da-xac-nhan') {
                 $bill = Bill::where('bill_active', '=', 1)->Paginate(8);
-            }
-            elseif ($is_active == 'da-thanh-toan') {
+            } elseif ($is_active == 'da-thanh-toan') {
                 $bill = Bill::where('bill_active', '=', 2)->Paginate(8);
             } elseif ($is_active == 'da-hoan-thanh') {
                 $bill = Bill::where('bill_active', '=', 3)->Paginate(8);
             } elseif ($is_active == 'huy-don-hang') {
-                $bill= Bill::where('bill_active', '=', 4)->Paginate(8);
+                $bill = Bill::where('bill_active', '=', 4)->Paginate(8);
             }
-        }  else {
-            $search_bill = Bill::where('id','like',  $keywords)->orWhere('full_name','like','%'.$keywords.'%')->orWhere('date_order','like','%'.$keywords.'%')->get();
+        } else {
+            if($request->id){
+                $search_bill = Bill::where($confisions)->get();
+            }
+            if($request->full_name){
+                $search_bill = Bill::where('full_name', 'like', '%'.$request->full_name.'%')->get();
+            }
+            if($request->price){
+                $search_bill = Bill::where('total', 'like','%'.$request->price.'%')->get();
+            }
+            if($request->date_order){
+                $search_bill = Bill::where('date_order','like',$request->date_order)->get();
+            }
+            if($request->updated_at){
+                $search_bill = Bill::where('updated_at','like','%'. $request->updated_at .'%')->get();
+            }
+            if($request->full_name && $request->id){
+                $search_bill = Bill::where('full_name', 'like', '%'.$request->full_name.'%')->orWhere('id','=',$request->id)->get();
+            }
+            if($request->price && $request->full_name && $request->id){
+                $search_bill = Bill::where('total', 'like','%'.$request->price.'%')->orWhere('full_name', 'like', '%'.$request->full_name.'%')->orWhere('id','=',$request->id)->get();
+            }
            
+            
         }
         return view('admin.orders.search', compact('search_bill'));
-     
-        
     }
     //Lấy ra đơn hàng đã hủy
     public function orderTrash(Request $request)
@@ -80,7 +107,7 @@ class OrderController extends Controller
     // Xóa vĩnh viễn đơn hàng trong thùng giác
     public function trashOut(Request $request)
     {
-        $bills = Bill::withTrashed()->where('id',$request->id)->forceDelete();
+        $bills = Bill::withTrashed()->where('id', $request->id)->forceDelete();
         return view('admin.orders.trash', compact('bills'));
     }
 
@@ -88,11 +115,11 @@ class OrderController extends Controller
     public function billEdit(Request $request)
     {
         $data = $request->all();
-     
+
         $bill = Bill::find($request->id);
-        
+
         $bill->bill_active = $data['active'];
-        
+
         $bill->save();
     }
 }

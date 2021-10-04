@@ -73,7 +73,7 @@
                                     <div class="form-group">
                                         <label>Trạng thái</label>
                                         <select class="form-control" name="is_active">
-                                            @if ($product->is_active == 1)
+                                            @if ($product->is_active == 0)
                                                 <option value="0">Còn hàng</option>
                                                 <option value="1">Hết hàng</option>
                                             @else
@@ -137,7 +137,7 @@
                                         <div class="input-group">
                                             <div class="custom-file" id="preview">
                                                 <img onerror="this.src='{{ asset('assets/admin/images/no-image.jpg') }}'"
-                                                    class="mr-auto p-b-20" src="{{ asset($product->image_url) }}"
+                                                    class="mr-auto p-b-20" src="{{ asset("storage/$product->image_url") }}"
                                                     id="output_image" />
                                             </div>
                                         </div>
@@ -160,7 +160,7 @@
 
                                     <div class="galary" id="preview-view">
                                         @foreach ($product->showGallery as $productImage)
-                                            <img src="{{ asset($productImage->filename) }}" width="100px" alt=""
+                                            <img src="{{ asset("storage/$productImage->filename") }}" width="100px" alt=""
                                                 id="image">
                                         @endforeach
 

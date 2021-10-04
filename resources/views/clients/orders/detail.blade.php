@@ -164,7 +164,7 @@
                                                             <td class="image-column">
                                                                 <a href="{{route('detail',['id'=>$item->id])}}">
                                                                     <img style="width:100px"
-                                                                        src="{{ asset($item->image_url) }}"
+                                                                        src="{{asset("storage/$item->image_url")}}"
                                                                         alt="{{ $item->title }}">
                                                                 </a>
                                                             </td>

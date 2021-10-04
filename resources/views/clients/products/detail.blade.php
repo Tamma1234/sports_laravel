@@ -27,22 +27,23 @@
                     <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
                         <div class="icon-sale-label sale-left">Sale</div>
                         <div class="large-image">
-                            <a href="images/products/product-1.jpg" class="cloud-zoom" id="zoom1"
-                                rel="useWrapper: false, adjustY:0, adjustX:20"> <img width="500px" height="400px" class="zoom-img"
-                                    src="{{ asset($product->image_url) }}" alt="products"> </a>
+                            <a href="{{ asset("storage/$product->image_url") }}" class="cloud-zoom" id="zoom1"
+                                rel="useWrapper: false, adjustY:0, adjustX:20"> 
+                                <img width="500px" height="400px" class="zoom-img" src="{{  asset("storage/$product->image_url") }}" alt="products"> 
+                            </a>
                         </div>
                         <div class="flexslider flexslider-thumb">
                             <ul class="previews-list slides">
                                 {{-- <li>
                                     <a href='' class='cloud-zoom-gallery'
-                                        rel="useZoom: 'zoom1', smallImage: '{{asset('assets/admin/images/jr-sport.jpg')}}' "><img
-                                            src="{{asset('assets/admin/images/jr-sport.jpg')}}" alt="" /></a>
+                                        rel="useZoom: 'zoom1', smallImage: '{{asset('assets/admin/images/jr-sport.jpg')}}' ">
+                                        <img src="{{asset('assets/admin/images/jr-sport.jpg')}}" alt="" /></a>
                                 </li> --}}
                                 @foreach ($gallery as $item)
                                         <li>
-                                            <a href='{{ asset($item->filename) }}' class='cloud-zoom-gallery'
-                                                rel="useZoom: 'zoom1', smallImage: '{{ asset($item->filename) }}' ">
-                                                <img src="{{ asset($item->filename) }}" alt="Thumbnail 2" />
+                                            <a href="{{ asset("storage/$item->filename") }}" class="cloud-zoom-gallery"
+                                                rel="useZoom: 'zoom1', smallImage: '{{ asset("storage/$item->filename") }}' ">
+                                                <img src="{{ asset("storage/$item->filename") }}" alt="Thumbnail 2" />
                                             </a>
                                         </li>
                                  @endforeach
@@ -72,9 +73,9 @@
                         <div class="ratings">
                             <p class="availability in-stock pull-left">Tình trạng:
                                 @if ($product->is_active == 0)
-                                    <span>Hết Hàng</span>
+                                <span>Còn Hàng</span>
                                 @else
-                                    <span>Còn Hàng</span>
+                                    <span>Hết Hàng</span>
                                 @endif
                             </p>
                         </div>
@@ -112,7 +113,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                                 <div class="cart-plus-minus">
-                                    <label for="qty">Quantity:</label>
+                                    <label for="qty">Số lượng:</label>
                                     <div class="numbers-row">
                                         <div onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 0 ) result.value--;return false;"
                                             class="dec qtybutton"><i class="fa fa-minus">&nbsp;</i></div>
@@ -144,44 +145,14 @@
                         <div class="col-xs-12">
                             <div class="product-tab-inner">
                                 <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
-                                    <li class="active"> <a href="#description" data-toggle="tab"> Description
+                                    <li class="active"> <a href="#description" data-toggle="tab"> Mô tả chi tiết
                                         </a> </li>
 
                                 </ul>
                                 <div id="productTabContent" class="tab-content">
                                     <div class="tab-pane fade in active" id="description">
                                         <div class="std">
-                                            <p>Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed
-                                                et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et
-                                                ultrices posuere cubilia Curae; Aenean eleifend laoreet congue.
-                                                Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus
-                                                malesuada tincidunt. Nunc facilisis sagittis ullamcorper. Proin lectus
-                                                ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem
-                                                nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-                                                posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus
-                                                adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada
-                                                tincidunt.
-                                                Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et
-                                                mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum
-                                                ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-                                                Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor
-                                                dignissim semper. Nulla luctus malesuada tincidunt.</p>
-                                            <p> Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et
-                                                mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum
-                                                ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-                                                Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor
-                                                dignissim semper. Nulla luctus malesuada tincidunt. Class aptent taciti
-                                                sociosqu ad litora torquent per conubia nostra, per inceptos
-                                                himenaeos. Integer enim purus, posuere at ultricies eu, placerat a
-                                                felis. Suspendisse aliquet urna pretium eros convallis interdum. Quisque
-                                                in arcu id dui vulputate mollis eget non arcu. Aenean et nulla
-                                                purus. Mauris vel tellus non nunc mattis lobortis.</p>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor,
-                                                lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit
-                                                odio quis mi. Cras neque metus, consequat et blandit et, luctus a
-                                                nunc. Etiam gravida vehicula tellus, in imperdiet ligula euismod eget.
-                                                Pellentesque habitant morbi tristique senectus et netus et malesuada
-                                                fames ac turpis egestas. </p>
+                                            <p>{{ $product->description }} </p>
                                         </div>
                                     </div>
 
@@ -213,10 +184,10 @@
                                                     <div class="pr-img-area">
                                                         <a title="Product title here" href="{{route('detail',['id'=>$pro->id])}}">
                                                             <figure> <img class="first-img"
-                                                                    src="{{ asset($pro->image_url) }}"
+                                                                    src="{{ asset("storage/$pro->image_url") }}"
                                                                     alt="HTML template">
                                                                 <img class="hover-img"
-                                                                    src="{{ asset($pro->image_url) }}"
+                                                                    src="{{ asset("storage/$pro->image_url") }}"
                                                                     alt="HTML template">
                                                             </figure>
                                                         </a>
@@ -228,11 +199,12 @@
                                                         <div class="item-title"> <a title="{{route('detail',['id'=>$pro->id])}}"
                                                                 href="single_product.html">{{ $pro->title }} </a> </div>
                                                         <div class="item-content">
-                                                            <div class="rating"> <i class="fa fa-star-o"></i> <i
-                                                                    class="fa fa-star-o"></i> <i
-                                                                    class="fa fa-star-o"></i> <i
-                                                                    class="fa fa-star-o"></i> <i
-                                                                    class="fa fa-star-o"></i>
+                                                            <div class="rating"> 
+                                                                <i class="fa fa-star-o"></i> 
+                                                                <i class="fa fa-star-o"></i> 
+                                                                <i class="fa fa-star-o"></i> 
+                                                                <i class="fa fa-star-o"></i> 
+                                                                <i class="fa fa-star-o"></i>
                                                             </div>
                                                             <div class="item-price">
                                                                 <div class="price-box">

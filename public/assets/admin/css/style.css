@@ -54,3 +54,14 @@
 .card>.form-group {
     padding: 0px 20px 0px 20px;
 }
+
+ul.dropdown-item {
+    background: aliceblue;
+}
+
+ul.dropdown-item>li.notification {
+    text-decoration: none;
+    list-style-type: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

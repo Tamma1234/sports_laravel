@@ -75,7 +75,7 @@
                       <div class="item-inner">
                         <div class="product-thumbnail">
                           <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="{{route('detail',['id'=>$item->id])}}">
-                            <figure> <img class="first-img" src="{{asset($item->image_url)}}" alt="HTML template"> <img class="hover-img" src="{{asset($item->image_url)}}" alt="HTML template"></figure>
+                            <figure> <img class="first-img" src="{{asset("storage/$item->image_url")}}" alt="HTML template"> <img class="hover-img" src="{{asset("storage/$item->image_url")}}" alt="HTML template"></figure>
                             </a> </div>
                         
                         </div>

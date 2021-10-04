@@ -26,8 +26,8 @@
                 <div class="col-main col-sm-12 col-xs-12">
                     <div class="shop-inner">
                         <div class="page-title" style="display: flex">
-                            <h2 style="margin-right: 20px"><a href="{{route('home')}}">Mặt Hàng Hot</a> </h2>
-                            <h2><a href="{{route('list.product.hot')}}">Hàng Mới Về</a> </h2>
+                            <h2 style="margin-right: 20px"><a href="{{route('home')}}"> Kết Quả Tìm Kiếm</a> </h2>
+                         
                         </div>
                         <div class="toolbar column">
                             <div class="sorter">
@@ -54,10 +54,10 @@
                                                     <div class="pr-img-area"> <a title="Ipsums Dolors Untra"
                                                             href="{{ route('detail', ['id' => $item->id]) }}">
                                                             <figure> <img class="first-img"
-                                                                    src="{{ asset($item->image_url) }}"
+                                                                    src="{{asset("storage/$item->image_url")}}"
                                                                     alt="HTML template">
                                                                 <img class="hover-img"
-                                                                    src="{{ asset($item->image_url) }}"
+                                                                    src="{{asset("storage/$item->image_url")}}"
                                                                     alt="HTML template">
                                                             </figure>
                                                         </a> </div>

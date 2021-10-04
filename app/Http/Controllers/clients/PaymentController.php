@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Clients;
 
 // Gọi các table trong model
+
+use App\Events\HelloPusherEvent;
 use App\Models\Bill;
 use App\Models\Product;
 use App\Models\Category;
@@ -90,6 +92,7 @@ class PaymentController extends Controller
             $billdetail->unit_price = $value['price'];
             $billdetail->save();
         }
+        // Nếu payments == 0 trả về thanh toán khi chuyển khoản
         if ($bill->payments == "0") {
             Mail::send('clients.email.order', [
                 'name' => $name,
@@ -102,6 +105,7 @@ class PaymentController extends Controller
             });
             $request->session()->put('email', $email);
             Session::forget('cart');
+            event(new HelloPusherEvent($request));
             return redirect()->route('alert');
         } 
         else {

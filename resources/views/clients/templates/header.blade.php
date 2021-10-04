@@ -7,8 +7,7 @@
                         <!-- Default Welcome Message -->
                     </div>
                     <!-- top links -->
-                    <div class="headerlinkmenu col-md-8 col-sm-8 col-xs-12"> <span class="phone  hidden-xs hidden-sm">Call
-                            Us: +123.456.789</span>
+                    <div class="headerlinkmenu col-md-8 col-sm-8 col-xs-12">
                         <ul class="links">
                             <li class="hidden-xs"><a title="Help Center" href="#"><span>Hỗ trợ</span></a></li>
                             <li><a title="Store Locator" href="{{route('list-order')}}"><span>Kiểm tra đơn hàng</span></a></li>
@@ -40,7 +39,7 @@
                                     @csrf
                                     <div class="input-group">
                                         
-                                        <input type="text" name="keyword_submit" class="form-control" placeholder="Enter your search..."
+                                        <input type="text" name="keyword_submit" class="form-control" placeholder="Tìm kiếm sản phẩm"
                                             name="search">
                                         <button class="btn-search" type="submit"><i
                                                 class="fa fa-search"></i></button>
@@ -83,7 +82,7 @@
                                                         <li class="item odd">
                                                             <a href="{{route('detail',['id'=>$item['productInfo']->id])}}" title="Product title here"
                                                                 class="product-image"><img
-                                                                    src="{{ asset($item['productInfo']->image_url) }}"
+                                                                    src="{{ asset("storage/".$item['productInfo']->image_url) }}"
                                                                     alt="html Template" width="65"></a>
                                                             <div class="product-details">
                                                                 <a href="javascript:" title="Remove This Item"
@@ -140,12 +139,12 @@
         <div class="row">
             <div class="mm-toggle-wrap">
                 <div class="mm-toggle"><i class="fa fa-align-justify"></i> </div>
-                <span class="mm-label">All Categories</span>
+                <span class="mm-label">Tất cả danh mục</span>
             </div>
             <div class="col-md-3 col-sm-3 mega-container hidden-xs">
                 <div class="navleft-container">
                     <div class="mega-menu-title">
-                        <h3><span>All Categories</span></h3>
+                        <h3><span>Tất cả danh mục</span></h3>
                     </div>
 
                     <!-- Shop by category -->
@@ -170,30 +169,10 @@
                                                 class="title-text">{{ $cate->name }}</span></div>
                                     </a>
                                 </div>
-                                {{-- <ul class="menu-items col-md-3 col-sm-4 col-xs-12">
-                                <li class="menu-item depth-1">
-                                    <div class="title"> <a href="index.html"><span>Home Version 1</span></a></div>
-                                </li>
-                                <li class="menu-item depth-1">
-                                    <div class="title"> <a href="version2/index.html"><span>Home Version 2</span></a></div>
-                                </li>
-                                <li class="menu-item depth-1">
-                                    <div class="title"> <a href="version3/index.html"><span>Home Version 3</span></a></div>
-                                </li>
-                                <li class="menu-item depth-1">
-                                    <div class="title"> <a href="version4/index.html"><span>Home Version 4</span></a></div>
-                                </li>
-                                <li class="menu-item depth-1">
-                                    <div class="title"> <a href="version1rtl/index.html"><span>Home Version 1 RTL</span></a></div>
-                                </li>
-
-
-                            </ul> --}}
                             </li>
-
                         @endforeach
                         <li class="last-item"><a href="{{ route('category', ['id' => $cate->id]) }}"
-                                title="Liên hệ">liên hệ</a></li>
+                                title="Liên hệ">Liên Hệ</a></li>
 
                     </ul>
                 </div>

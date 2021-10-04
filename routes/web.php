@@ -2,6 +2,8 @@
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use App\Events\HelloPusherEvent;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ColorController;
@@ -89,6 +91,8 @@ Route::middleware('auth')->group(function () {
         Route::get('trash-out/{id}', [OrderController::class, 'trashOut'])->name('trash.out');
         // Route search đơn hàng(bill)
         Route::post('search-bill', [OrderController::class, 'search'])->name('search.bill');
+
+        Route::post('/post-pusher', [OrderController::class,'alert'])->name('order.alert');
     });
 });
 
@@ -102,9 +106,9 @@ Route::group(['prefix' => '/'], function () {
     Route::post('/search', [HomeController::class, 'search'])->name('search.product');
     // Route hiển thị danh sách sản phẩm 
     Route::get('/list', [HomeController::class, 'listProduct'])->name('list');
-    // Route hiển thị chi tiền product(sản phẩm)
-    Route::get('/list-product-hot', [HomeController::class, 'listProductHot'])->name('list.product.hot');
-    // Route hiển thị chi tiền product(sản phẩm)
+    // Route hiển thị danh sách sản phẩm
+    Route::get('/list-product', [HomeController::class, 'listProductHot'])->name('list.product.hot');
+    // Route hiển thị chi tiết product(sản phẩm)
     Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail');
 
 
@@ -154,5 +158,13 @@ Route::group(['prefix' => '/'], function () {
     });
     // Thông báo cho khách hàng đã đặt hàng thành công và check mail để xác thực đơn hàng
     Route::get('/aler-message', [PaymentController::class, 'alertMessa'])->name('alert');
+   
+        Route::get('/pusher', function () {
+            return view('clients.alert.index');
+        });
+        
+        Route::get('getPusher', function (){
+           return view('clients.alert.form_pusher');
+        });
 
 });

@@ -18,7 +18,7 @@
                                                 <tr>
                                                     <td class="cart_product"><a
                                                             href="{{ route('detail', ['id' => $item['productInfo']->id]) }}"><img
-                                                                src="{{ asset($item['productInfo']->image_url) }}"
+                                                                src="{{ asset('storage/'.$item['productInfo']->image_url) }}"
                                                                 alt="Product"></a></td>
                                                     <td class="cart_description">
                                                         <p class="product-name"><a
@@ -33,7 +33,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="availability in-stock">
-                                                        @if ($item['productInfo']->is_active == 1)
+                                                        @if ($item['productInfo']->is_active == 0)
                                                             <span class="label">Còn hàng</span>
                                                         @else
                                                             <span class="label">Hết hàng</span>

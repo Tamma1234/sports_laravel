@@ -20,3 +20,23 @@
 <link rel="stylesheet" href="{{asset('assets/admin/css/jsgrid.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/admin/css/style.css')}}">
 
+<style>
+       .notification-icon:after {
+            position: absolute;
+            content: attr(data-count);
+            margin-left: -6.8775px;
+            margin-top: -6.8775px;
+            padding: 0 4px;
+            min-width: 13.755px;
+            height: 13.755px;
+            line-height: 13.755px;
+            background: red;
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 11.004px;
+            font-weight: 600;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+        }
+</style>

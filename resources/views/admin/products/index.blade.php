@@ -53,7 +53,7 @@
                                             <!-- Dùng onerror để show image mặc định-->
                                             <td style="text-align:center"><img
                                                     onerror="this.src='{{ asset('assets/admin/images/no-image.jpg') }}'"
-                                                    style="width:100px;height:100px" src="{{ asset("$item->image_url") }}"
+                                                    style="width:100px;height:100px" src="{{ asset("storage/$item->image_url") }}"
                                                     alt="none">
                                             </td>
                                             <td>{{ number_format($item->price) . 'Đ' }}</td>
@@ -61,7 +61,7 @@
                                                 {{ $item->hasCate ? $item->hasCate->name : '' }}
                                             </td>
                                             <td>
-                                                @if ($item->is_active == 1)
+                                                @if ($item->is_active == 0)
                                                     <span>Còn hàng </span>
                                                 @else
                                                     <span>Hết hàng </span>

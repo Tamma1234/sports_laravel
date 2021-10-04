@@ -72,9 +72,10 @@ class Product extends Model
         $data = $request->all();
         // Kiếm tra có file image_url k, nếu cố thì lầy file và save vào public/images
         if ($request->hasFile('image_url')) {
+         
             $originalFileName = $request->image_url->getClientOriginalName();
             $fileName = uniqid() . '_' . str_replace(' ', '_', $originalFileName);
-            $data['image_url'] = $request->file('image_url')->move('images', $fileName);
+            $data['image_url'] = $request->file('image_url')->storeAs('images', $fileName,'public');
         }
         $product->fill($data);
         $product->save();
@@ -83,15 +84,18 @@ class Product extends Model
         $pro = Product::find($productId);
         // Dùng attach để thêm data size vào table trung gian thông qua hàm size()
         $pro->size()->attach($size);
-        // Kiểm tra xem có các file image gallery trong sản phẩm vừa thêm k
+        // // Kiểm tra xem có các file image gallery trong sản phẩm vừa thêm k
         //Sau đó lưu vào file public/images/gallery
         // Dùng GalleryProduct::create lưu image gallery lên db trong table gallery 
         if ($request->hasFile('gallery')) {
             $files = $data['gallery'];
             foreach ($files as $file) {
                 $originalFileName = $file->getClientOriginalName();
+                
                 $fileNameGallery = uniqid() . '_' . str_replace(' ', '_', $originalFileName);
-                $fileGllery = $file->move('images/gallery', $fileNameGallery);
+                
+                $fileGllery = $file->storeAs('gallery', $fileNameGallery,'public');
+               
                 GalleryProduct::create([
                     'product_id' => $productId,
                     'filename' => $fileGllery
@@ -103,7 +107,7 @@ class Product extends Model
     // Tạo hàm saveEdit để thực hiện lưa product khi thực hiện sửa product,truyền vào tham số request 
     public function saveEdit(Request $request)
     {
-        $product = Product::where('id', $request->id)->first();
+        $product = Product::find($request->id);
         $data = $request->except('_token');
         $size = $product->size;
         $datasize = $data['size'];
@@ -122,7 +126,7 @@ class Product extends Model
                 $productId = $request->id;
                 $originalFileName = $file->getClientOriginalName();
                 $fileNameGallery = uniqid() . '_' . str_replace(' ', '_', $originalFileName);
-                $fileGllery = $file->move('images/gallery', $fileNameGallery);
+                $fileGllery = $file->storeAs('gallery', $fileNameGallery,'public');
                 GalleryProduct::create([
                     'product_id' => $productId,
                     'filename' => $fileGllery
@@ -133,19 +137,14 @@ class Product extends Model
         // Sau đó thêm file image ms rồi dùng move lưu vào public/images
         if ($request->hasFile('image_url')) {
             Storage::disk('public')->delete($product->image_url);
+            // dd( Storage::disk('public'));
+            // dd(Storage::disk('public')->delete($product->image_url));
             $originalFileName = $request->image_url->getClientOriginalName();
             $fileName = uniqid() . '_' . str_replace(' ', '_', $originalFileName);
-            $data['image_url'] = $request->file('image_url')->move('images', $fileName);
+          
+            $data['image_url'] = $request->file('image_url')->storeAs('images', $fileName,'public');
+          
         }
-
-        // if (file_exists($gallery)) {
-        //     // $deletegallery = Storage::disk('public')->delete($product->showGallery);
-
-        // }
-        // var_dump(file_exists($gallery));die;
-        // $file = $data['gallery'];
-        // dd($product->gallery);
-
         $product->update($data);
     }
 }

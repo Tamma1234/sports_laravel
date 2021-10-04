@@ -10,21 +10,27 @@ use App\Models\Product;
 use App\Models\Size;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
+use App\Events\HelloPusherEvent;
+use App\Repository\CateRepository;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
+    public $cateRepository;
+    public function __construct(CateRepository $cateRepository)
+    {
+        $this->cateRepository = $cateRepository;
+    }
     // Tạo hàm index để hiển thị lost product trên trang sản phẩm
     public function index()
     {
-        $category = Category::where('parent_id', '=', null)->get();
-      
-       
-            $product = Product::orderBy('id', 'DESC')->Paginate(4);
-            $product_hot = Product::orderBy('id', 'ASC')->Paginate(4);
-            $product_list = Product::orderBy('created_at', 'ASC')->Paginate(8);
-                // $product = Product::orderBy('id', 'desc')->where('is_active',1)->Paginate(8);
-        // }
+        $category = $this->cateRepository->getCate();
+        // $cateAll = Category::all();
+        $product = Product::orderBy('id', 'DESC')->Paginate(4);
+        $product_hot = Product::orderBy('id', 'ASC')->Paginate(4);
+        $product_list = Product::orderBy('created_at', 'ASC')->Paginate(8);
+
         return view('clients.home.index', compact('product', 'category','product_hot','product_list'));
     }
 
@@ -33,7 +39,8 @@ class HomeController extends Controller
     public function listProductHot(Request $request)
     {
         // $product = Product::orderBy('created_at', 'desc')->Paginate(8);
-        $category = Category::where('parent_id', '=', null)->get();
+        $category = $this->cateRepository->getCate();
+   
          if(isset($_GET['short_by'])){   
             $short_by = $_GET['short_by'];
             // echo($short_by);die;
@@ -51,22 +58,24 @@ class HomeController extends Controller
             }
         }
         else{
-            $product = Product::orderBy('created_at', 'desc')->Paginate(8);
+            $product = Product::orderBy('created_at', 'desc')->Paginate(5);
             $short_by = "";
         }
-        return view('clients.products.list-1', compact('product', 'category','short_by'));
+        return view('clients.products.list', compact('product', 'category','short_by'));
     }
 
     // tìm kiếm sản phẩm theo tên
     public function search(Request $request)
     {
-        $category = Category::where('parent_id', '=', null)->get();
+        
+        $category = $this->cateRepository->getCate();
         $keywords = $request->keyword_submit;
+
         if(isset($_GET['short_by'])){   
             $short_by = $_GET['short_by'];
             if($short_by == "tang_dan"){
                $product = Product::where('is_active',1)->Paginate(8)->sortBy("price");
-             
+
             }
             elseif($short_by == "giam_dan"){
                 $product = Product::where('is_active',1)->Paginate(8)->sortByDesc("price");
@@ -79,11 +88,11 @@ class HomeController extends Controller
             }
         }
         else{
-                $product = Product::where('title','like','%'.$keywords.'%')->get();
+                $product = Product::where('title','like','%'.$keywords.'%')->orWhere('price','like','%'.$keywords.'%')->get();
+                // dd($product);
         }
-        
-      
-        return view('clients.home.index', compact('product', 'category'));
+
+        return view('clients.products.search', compact('product', 'category'));
     }
 
     // Tạo hàm detail để show chi tiết product(sản phẩm)
@@ -93,8 +102,7 @@ class HomeController extends Controller
         $product = Product::find($request->id);
         $cate = $product->hasCate->id;
         $product_related = Category::find($cate)->hasProducts;
- 
-        $category = Category::where('parent_id', '=', null)->get();
+        $category = $this->cateRepository->getCate();
         $size = Size::all();
         $gallery = GalleryProduct::where('product_id', $product->id)->get();
         return view('clients.products.detail', compact('product','cate', 'category', 'gallery', 'size', 'product_related'));
@@ -118,36 +126,8 @@ class HomeController extends Controller
                 // dd($newCart);die;
                 // Dùng put để thêm sp vào giỏ hàng 
                 $request->session()->put('cart', $newCart);
-                return redirect()->route('list-cart');
-            
+                return redirect()->route('list-cart');     
         }
-    
-    }
-
-    // Hàm hiển thị list danh sách sản phẩm 
-    public function listProduct(Request $request)
-    {
-        $category = Category::where('parent_id', '=', null)->get();
-        $product = Product::orderBy('id', 'desc')->Paginate(8);
-        $size = Size::all();
-        $color = Color::all();
-        if(isset($_GET['short_by'])){
-            $short_by = $_GET['short_by'];
-            if($short_by == "tang_dan"){
-                $product = Product::orderBy('price', 'ASC')->Paginate(8);
-            }
-            elseif($short_by == "giam_dan"){
-                $product = Product::orderBy('price', 'DESC')->Paginate(8);
-            }
-            elseif($short_by == "kytu-az"){
-                $product = Product::orderBy('title', 'ASC')->Paginate(8);
-            }
-            elseif($short_by == "kytu-za"){
-                $product = Product::orderBy('title', 'DESC')->Paginate(8);
-            }
-        }
-       
-        return view('clients.products.list', compact('product', 'category', 'size', 'color'));
     }
 
     // Tạo hàm categoryProduct để hiển thị List(danh sách) sản phẩm(product) theo danh mục(category)
@@ -187,6 +167,7 @@ class HomeController extends Controller
     // Hàm thêm sp vào cart item con 
     public function addCart(Request $request)
     {
+        
         $validate = $request->validate([
             'size'=>'required',
         ]);
@@ -240,7 +221,7 @@ class HomeController extends Controller
     // Trả về trang view cart.list 
     public function listCart()
     {
-        $category = Category::where('parent_id', '=', null)->get();
+        $category = $this->cateRepository->getCate();
         return view('clients.carts.list', compact('category'));
     }
 
@@ -277,9 +258,7 @@ class HomeController extends Controller
         $id = $request->id;
         $qty = $request->qty;
         $oldCart = Session('cart') ? Session('cart') : null;
-
         $newCart = new cart($oldCart);
-        
         // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart 
         $newCart->updateCart($id, $qty);
         // dd($newCart);die;
@@ -291,4 +270,5 @@ class HomeController extends Controller
         // //    var_dump($data);die;
     }
 
+ 
 }

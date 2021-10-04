@@ -247,7 +247,9 @@
 
 
 jQuery(".cloud-zoom-gallery").click(function() {
+
     var galimg = jQuery(this).attr('href');
+    console.log(galimg);
     jQuery("#magni_img").attr("data-big", galimg);
     jQuery("#mlens_target_0").css('background-image', 'url(' + galimg + ')');
 });

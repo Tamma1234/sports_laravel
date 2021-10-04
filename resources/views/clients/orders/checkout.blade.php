@@ -115,7 +115,7 @@
                                                 <tr class="crazy-cart-item crazy-cart-item-40" id="cart-item-40">
                                                     <td class="wide-column">
                                                         <img width="100px" style="float: left;padding-right:10px"
-                                                            src="{{asset($value['productInfo']->image_url) }}" alt="">
+                                                            src="{{ asset("storage/".$value['productInfo']->image_url) }}" alt="">
                                                         <p>{{ $value['productInfo']->title }}</p>
                                                         <span><strong>Số lượng :</strong>
                                                             {{ $value['quantity'] . ',' }}</span>

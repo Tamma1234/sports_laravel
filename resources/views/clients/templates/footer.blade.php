@@ -4,51 +4,11 @@
                 <div class="row">
                     <!-- Newsletter -->
                     <div class="col-md-6 col-sm-6">
-                        <form id="newsletter-validate-detail" method="post" action="#">
-                            <h3>Join Our Newsletter</h3>
-                            <div class="title-divider"><span></span></div>
-                            <p class="sub-title text-center">Get 25% off</p>
-                            <div class="newsletter-inner">
-                                <input class="newsletter-email" name='Email' placeholder='Enter Your Email' />
-                                <button class="button subscribe" type="submit" title="Subscribe">Subscribe</button>
-                            </div>
-                        </form>
+                        <img src="{{asset('assets/client/images/banner-4.jpg')}}" alt="">
                     </div>
                     <!-- Customers Box -->
                     <div class="col-sm-6 col-xs-12 testimonials">
-                        <div class="page-header">
-                            <h2>What Our Customers Say</h2>
-                        </div>
-                        <div class="slider-items-products">
-                            <div id="testimonials-slider" class="product-flexslider hidden-buttons home-testimonials">
-                                <div class="slider-items slider-width-col4 ">
-                                    <div class="holder">
-                                        <blockquote>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip volutpat. Integer rutrum ante eu lacus.Vestibulum libero nisl,
-                                            porta vel.</blockquote>
-                                        <div class="thumb"> <img src="{{asset('assets/admin/images/neymar-1529598382741789830828.jpg')}}" alt="testimonials img"> </div>
-                                        <div class="holder-info"> <strong class="name">John Doe</strong> <strong class="designation">CEO, Company</strong></div>
-                                    </div>
-                                    <div class="holder">
-                                        <blockquote>Lorem ipsum dolor sit ame consetur adipisicing elit. Voluptate, consetur adipisicing elit.Lorem ipsum dolor sit ame consetur adipisicing elit.Lorem ipsum dolor sit ame consetur adipisicing elit. Voluptate, consetur
-                                            adipisicing elit.</blockquote>
-                                        <div class="thumb"> <img src="{{asset('assets/client/images/testimonials-img1.jpg')}}" alt="testimonials img"> </div>
-                                        <div class="holder-info"> <strong class="name">Vince Roy</strong> <strong class="designation">CEO, Newspaper</strong> </div>
-                                    </div>
-                                    <div class="holder">
-                                        <blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim. Donec sit amet eros. Cras feugiat luctus nulla vitae posuere. Suspendisse
-                                            potenti. </blockquote>
-                                        <div class="thumb"> <img src="{{asset('assets/client/images/testimonials-img2.jpg')}}" alt="testimonials img"> </div>
-                                        <div class="holder-info"><strong class="name">John Doe</strong> <strong class="designation">CEO, ABC Softwear</strong></div>
-                                    </div>
-                                    <div class="holder">
-                                        <blockquote>Aliquam erat volutpat. Sed do eiusmod tempor incididunt Integer rutrum ante eu lacus. Vestibulum libero nisl, porta vel, scelerisque eget. Donec sit amet eros. Nulla non ornare nisi, sed condimentum lorem. Morbi
-                                            sed vehicula magna.</blockquote>
-                                        <div class="thumb"> <img src="{{asset('assets/client/images/testimonials-img3.jpg')}}" alt="testimonials img"> </div>
-                                        <div class="holder-info"> <strong class="name">Vince Roy</strong> <strong class="designation">CEO, XYZ Softwear</strong></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <img src="{{asset('assets/client/images/banner-3.jpg')}}" alt="">
                     </div>
                 </div>
             </div>
@@ -61,7 +21,7 @@
                         <div class="footer-logo">
                             <a href="{{route('home')}}"><img src="{{ asset('assets/admin/images/logo.png') }}" alt="fotter logo"></a>
                         </div>
-                        <p>Lorem Ipsum is simply dummy text of the print and typesetting industry. Ut pharetra augue nec augue. Nam elit agna, endrerit sit amet.</p>
+                        <p>Becksport chuyên giầy bóng đá sân cỏ nhân tạo, tự nhiên và sân futsal uy tín</p>
                         <div class="social">
                             <ul class="inline-mode">
                                 <li class="social-network fb"><a title="Connect us on Facebook" target="_blank" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
@@ -74,15 +34,13 @@
                     </div>
                     <div class="col-sm-6 col-md-2 col-xs-12 collapsed-block">
                         <div class="footer-links">
-                            <h3 class="links-title">Information<a class="expander visible-xs" href="#TabBlock-1">+</a></h3>
+                            <h3 class="links-title">Loại giầy<a class="expander visible-xs" href="#TabBlock-1">+</a></h3>
                             <div class="tabBlock" id="TabBlock-1">
                                 <ul class="list-links list-unstyled">
-                                    <li><a href="#s">Delivery Information</a></li>
-                                    <li><a href="#">Discount</a></li>
-                                    <li><a href="sitemap.html">Sitemap</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="faq.html">FAQs</a></li>
-                                    <li><a href="#">Terms &amp; Condition</a></li>
+                                    @foreach ($category as $item)
+                                    <li><a href="{{ route('category', ['id' => $item->id]) }}">{{$item->name}}</a></li>
+                            
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>

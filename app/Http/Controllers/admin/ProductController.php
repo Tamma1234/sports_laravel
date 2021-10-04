@@ -6,7 +6,7 @@ use App\Models\Color;
 use App\Models\Size;
 use App\Models\Product;
 use App\Models\Category;
-
+use Illuminate\Support\Facades\File;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\EditProductRequest;
 use App\Models\Bill;
+use App\Models\GalleryProduct;
 
 class ProductController extends Controller
 {
@@ -70,12 +71,19 @@ class ProductController extends Controller
     {
         $product = Product::find($request->id);
         $bills = $product->bills;
-       
+        $gallery = $product->showGallery;
+        foreach ($gallery as $item) {
+            $galleryall = GalleryProduct::find($item->id);
+            Storage::disk('public')->delete($galleryall->filename);
+            $galleryall->delete();
+        }
+
         foreach ($bills as $value) {
             $value->bill_active  = 4;
             $value->save();
         }
-        Storage::disk('public')->delete($product->image_url);
+
+       Storage::disk('public')->delete($product->image_url);
         $product->delete();
         // dd( $product->billDetail->delete( $bill));die;
         return redirect()->route('product.index')->with('msg', 'Xóa sản phẩm thành công');

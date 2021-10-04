@@ -11,7 +11,7 @@
                     <ul>
                         <li class="home"> <a title="Go to Home Page" href="index.html">Home</a><span>&raquo;</span>
                         </li>
-                        <li class="___class_+?5___"> <a title="Go to Home Page" href="{{ route('list') }}">Danh sách sản
+                        <li class="___class_+?5___"> <a title="Go to Home Page" href="{{ route('list.product.hot') }}">Danh sách sản
                                 phẩm</a><span>&raquo;</span></li>
                     </ul>
                 </div>
@@ -53,8 +53,8 @@
                                                         <a title="Product title here"
                                                             href="{{ route('detail', ['id' => $item->id]) }}">
                                                             <figure> <img class="first-img"
-                                                                    src="{{ $item->image_url }}" alt="HTML template"> <img
-                                                                    class="hover-img" src="{{ $item->image_url }}"
+                                                                    src="{{asset("storage/$item->image_url")}}" alt="HTML template"> <img
+                                                                    class="hover-img" src="{{asset("storage/$item->image_url")}}"
                                                                     alt="HTML template"></figure>
                                                         </a>
                                                     </div>
@@ -122,10 +122,10 @@
                                                                                     title="Ipsums Dolors Untra"
                                                                                     href="{{ route('detail', ['id' => $item->id]) }}">
                                                                                     <figure> <img class="first-img"
-                                                                                            src="{{ asset($item->image_url) }}"
+                                                                                            src="{{asset("storage/$item->image_url")}}"
                                                                                             alt="HTML template">
                                                                                         <img class="hover-img"
-                                                                                            src="{{ asset($item->image_url) }}"
+                                                                                            src="{{asset("storage/$item->image_url")}}"
                                                                                             alt="HTML template">
                                                                                     </figure>
                                                                                 </a> </div>
@@ -194,10 +194,10 @@
                                                                                     title="Ipsums Dolors Untra"
                                                                                     href="{{ route('detail', ['id' => $item->id]) }}">
                                                                                     <figure> <img class="first-img"
-                                                                                            src="{{ asset($item->image_url) }}"
+                                                                                            src="{{asset("storage/$item->image_url")}}"
                                                                                             alt="HTML template">
                                                                                         <img class="hover-img"
-                                                                                            src="{{ asset($item->image_url) }}"
+                                                                                            src="{{asset("storage/$item->image_url")}}"
                                                                                             alt="HTML template">
                                                                                     </figure>
                                                                                 </a> </div>
@@ -285,9 +285,9 @@
                                                 <div class="pr-img-area"> <a title="Ipsums Dolors Untra"
                                                         href="{{ route('detail', ['id' => $item->id]) }}">
                                                         <figure> <img class="first-img"
-                                                                src="{{ asset($item->image_url) }}" alt="HTML template">
+                                                                src="{{asset("storage/$item->image_url")}}" alt="HTML template">
                                                             <img class="hover-img"
-                                                                src="{{ asset($item->image_url) }}" alt="HTML template">
+                                                                src="{{asset("storage/$item->image_url")}}" alt="HTML template">
                                                         </figure>
                                                     </a> </div>
                                             </div>
@@ -328,7 +328,7 @@
                                                                         <div class="row">
                                                                             <div class="col-md-5 col-lg-5">
                                                                                 <img width=""
-                                                                                    src="{{ $item->image_url }}" alt="">
+                                                                                    src="{{asset("storage/$item->image_url")}}" alt="">
                                                                             </div>
                                                                             <div class="col-md-6 col-lg-6">
                                                                                 <div class="form-group">
@@ -425,30 +425,5 @@
 @section('script')
     <!-- Messenger Plugin chat Code -->
 <!-- Messenger Plugin chat Code -->
-<div id="fb-root"></div>
 
-<!-- Your Plugin chat code -->
-<div id="fb-customer-chat" class="fb-customerchat">
-</div>
-
-<script>
-  var chatbox = document.getElementById('fb-customer-chat');
-  chatbox.setAttribute("page_id", "108199507453338");
-  chatbox.setAttribute("attribution", "biz_inbox");
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      xfbml            : true,
-      version          : 'v12.0'
-    });
-  };
-
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-</script>
 @endsection
