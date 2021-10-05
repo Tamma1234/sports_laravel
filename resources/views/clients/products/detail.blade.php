@@ -25,7 +25,6 @@
             <div class="col-main">
                 <div class="product-view-area">
                     <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
-                        <div class="icon-sale-label sale-left">Sale</div>
                         <div class="large-image">
                             <a href="{{ asset("storage/$product->image_url") }}" class="cloud-zoom" id="zoom1"
                                 rel="useWrapper: false, adjustY:0, adjustX:20"> 
@@ -115,12 +114,8 @@
                                 <div class="cart-plus-minus">
                                     <label for="qty">Số lượng:</label>
                                     <div class="numbers-row">
-                                        <div onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 0 ) result.value--;return false;"
-                                            class="dec qtybutton"><i class="fa fa-minus">&nbsp;</i></div>
                                         <input type="number" class="qty" title="Qty" value="1" maxlength="12"
                                             id="qty" min="1" max="10" name="quantity">
-                                        <div onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
-                                            class="inc qtybutton"><i class="fa fa-plus">&nbsp;</i></div>
                                     </div>
                                 </div>
                                 <button class="button pro-add-to-cart" title="Add to Cart" type="submit"><span><i
@@ -192,20 +187,12 @@
                                                             </figure>
                                                         </a>
                                                     </div>
-
                                                 </div>
                                                 <div class="item-info">
                                                     <div class="info-inner">
                                                         <div class="item-title"> <a title="{{route('detail',['id'=>$pro->id])}}"
                                                                 href="single_product.html">{{ $pro->title }} </a> </div>
                                                         <div class="item-content">
-                                                            <div class="rating"> 
-                                                                <i class="fa fa-star-o"></i> 
-                                                                <i class="fa fa-star-o"></i> 
-                                                                <i class="fa fa-star-o"></i> 
-                                                                <i class="fa fa-star-o"></i> 
-                                                                <i class="fa fa-star-o"></i>
-                                                            </div>
                                                             <div class="item-price">
                                                                 <div class="price-box">
                                                                      <span class="regular-price">
@@ -217,17 +204,19 @@
                                                                 </div>
                                                             </div>
                                                             <div class="pro-action">
-                                                                <button type="button" class="add-to-cart"><span> Thêm giỏ
-                                                                        hàng</span> </button>
+                                                                <button type="button" id="{{ $pro->id }}"
+                                                                    data-toggle="modal"
+                                                                    data-target="#product-{{ $pro->id }}"
+                                                                    class="add-to-cart"><span> Thêm giỏ hàng</span>
+                                                                </button>
                                                             </div>
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
-
-
                                 </div>
                             </div>
                         </div>
@@ -236,6 +225,95 @@
             </div>
         </div>
     </div>
+    @foreach ($product_related as $pro)
+    <div class="modal fade" id="product-{{ $pro->id }}"
+        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Modal title</h5>
+                    <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 col-lg-5">
+                            <img width="" src="{{asset("storage/$pro->image_url")}}"
+                                alt="">
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="title">Tiêu đề:</label>
+                                <span>{{ $pro->title }}</span>
+                            </div>
+                            <div class="form-group">
+                                <div class="size-area">
+                                    <h2 class="saider-bar-title">Size
+                                    </h2>
+                                    <div class="size">
+                                        <ul style="display:contents">
+                                            @foreach ($pro->size as $size)
+                                                <li>
+                                                    <label
+                                                        class="m-checkbox m-checkbox--solid m-checkbox--success">
+                                                        <input
+                                                            type="radio"
+                                                            class="size"
+                                                            data-size="{{ $size->value }}"
+                                                            id="size-{{ $size->id }}"
+                                                            name="size"
+                                                            value="{{ $size->name }}"
+                                                            required="true">
+                                                        {{ $size->name }}
+                                                        <span></span>
+                                                    </label>
+                                                </li>
+                                            @endforeach
+                                            
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            @error('size')
+                                <div class="alert alert-danger">
+                                    {{ $message }}</div>
+                            @enderror
+                            <div class="cart-plus-minus">
+                                <label for="qty">Số lượng:</label>
+                                <div class="numbers-row">
+                                    <input type="number"
+                                        class="qty"
+                                        title="Qty" value="1"
+                                        maxlength="12"
+                                        id="qty-{{ $pro->id }}"
+                                        min="1" max="10"
+                                        name="quantity">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" disabled
+                        id="btn-{{ $pro->id }}"
+                        onclick="addCart({{ $pro->id }})"
+                        class="btn btn-danger"><span> Save cart</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+   
 @endsection
 
 @section('script')

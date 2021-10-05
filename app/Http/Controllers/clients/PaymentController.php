@@ -32,6 +32,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Session;
 use PayPal\Api\PaymentExecution;
+use App\Service\Service;
 
 class PaymentController extends Controller
 {
@@ -39,7 +40,6 @@ class PaymentController extends Controller
     private $apiContext;
     public function __construct()
     {
-
         // Khởi tạo ngữ cảnh
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
@@ -53,6 +53,13 @@ class PaymentController extends Controller
         $this->totalAmount = 0;
     }
 
+     /**
+     * checkout.
+     * 
+     * @param Request $request
+     * 
+     * @return orders.checkout
+     */
     public function checkout(Request $request)
     {
         $cart = Session::get('cart');
@@ -60,10 +67,15 @@ class PaymentController extends Controller
         return view('clients.orders.checkout', compact('category', 'cart'));
     }
 
-    // Tạo hàm postCheckout để thực hiện thanh toán và đặt hàng truyền tham số Request vào
+  /**
+     * postCheckout.
+     * 
+     * @param CustomerRequest $request
+     * 
+     * @return list-order
+     */
     public function postCheckout(CustomerRequest $request)
     {
-      
         // Gọi giỏ hàng có trong checkout ra
         $cart = Session::get('cart');
         // Tạo biến để lưu data vào Bill(Hóa đơn)
@@ -94,123 +106,30 @@ class PaymentController extends Controller
         }
         // Nếu payments == 0 trả về thanh toán khi chuyển khoản
         if ($bill->payments == "0") {
-            Mail::send('clients.email.order', [
-                'name' => $name,
-                'order' => $bill,
-                'items' => $cart->products,
-            ], function ($mail) use ($email, $name) {
-                $mail->from('thientamjvb@gmail.com');
-                $mail->to($email, $name);
-                $mail->subject('Gửi email đặt hàng');
-            });
+            Service::getSendMail()->sendPaymentMail($name, $email, $bill, $cart);
             $request->session()->put('email', $email);
             Session::forget('cart');
             event(new HelloPusherEvent($request));
             return redirect()->route('alert');
         } 
         else {
-            $payer = new Payer();
-            $payer->setPaymentMethod("paypal");
-
-            foreach ($cart->products as $key => $value) {
-                // dd($value);die;
-
-                $item = new Item();
-                $item->setName($value['productInfo']->title)
-                    ->setCurrency("USD")
-                    ->setQuantity($value['quantity'])
-                    ->setSku($value['productInfo']->id) // Similar to `item_number` in Classic API
-                    ->setPrice(round($value['price'] / 23000, 2));
-                $this->totalPrice = $value['quantity'] * round($value['price'] / 23000, 2);
-
-                $this->itemList[] = $item;
-            }
-            // dd($totalPrice);die;
-            $itemList = new ItemList();
-            $itemList->setItems($this->itemList);
-
-            $details = new Details();
-            $details->setSubtotal($this->totalPrice);
-
-            // dd($details);die;
-            // ### Amount
-            // Lets you specify a payment amount.
-            // You can also specify additional details
-            // such as shipping, tax.
-            $amount = new Amount();
-            $amount->setCurrency("USD")
-                ->setTotal($this->totalPrice)
-                ->setDetails($details);
-
-            // dd($details);die;
-            // ### Transaction
-            // A transaction defines the contract of a
-            // payment - what is the payment for and who
-            // is fulfilling it. 
-            $transaction = new Transaction();
-            $transaction->setAmount($amount)
-                ->setItemList($itemList)
-                ->setDescription("Payment description")
-                ->setInvoiceNumber(uniqid());
-
-            // ### Redirect urls
-            // Set the urls that the buyer must be redirected to after 
-            // payment approval/ cancellation.
-            // $baseUrl = getBaseUrl();
-            $redirectUrls = new RedirectUrls();
-            $redirectUrls->setReturnUrl(route('payment.create'))
-                ->setCancelUrl(route('payment.create'));
-
-            // ### Payment
-            // A Payment Resource; create one using
-            // the above types and intent set to 'sale'
-            $payment = new Payment();
-            $payment->setIntent("sale")
-                ->setPayer($payer)
-                ->setRedirectUrls($redirectUrls)
-                ->setTransactions(array($transaction));
-
-            // For Sample Purposes Only.
-            // $request = clone $payment;
-
-            // ### Create Payment
-            // Create a payment by calling the 'create' method
-            // passing it a valid apiContext.
-            // (See bootstrap.php for more on `ApiContext`)
-            // The return object contains the state and the
-            // url to which the buyer must be redirected to
-            // for payment approval
-            try {
-                $payment->create($this->apiContext);
-
-                // $token = $this->getPayPalTokenFromUrl($redirectUrls->getApprovalLink());
-            } catch (Exception $ex) {
-                // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-                // ResultPrinter::printError("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
-                // echo "Faild";
-                exit(1);
-            }
-            // ### Get redirect url
-            // The API response provides the url that you must redirect
-            // the buyer to. Retrieve the url from the $payment->getApprovalLink()
-            // method
-            $approvalUrl = $payment->getApprovalLink();
-            // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            // ResultPrinter::printResult("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", "<a href='$approvalUrl' >$approvalUrl</a>", $request, $payment);
-            // echo "<pre>";
-
-            // Lưu email khi đặt hàng thành công 
+            [$paymentId, $approvalUrl] = Service::getProcessOrder()->paymentByPaypal($this->apiContext, $cart);
             $email = $request->email;
             $request->session()->put('email', $email);
-
-            Session::put('payment_id', $payment->id);
+            Session::put('payment_id', $paymentId);
             Session::forget('cart');
            
             return redirect()->to($approvalUrl);
         }
     }
 
-    // Thông báo tới email người dùng
+     /**
+     * alertMessa.
+     * 
+     * @param Request $request
+     * 
+     * @return alert.message
+     */
     public function alertMessa(Request $request)
     {
 
@@ -218,15 +137,24 @@ class PaymentController extends Controller
         return view('clients.alert.message', compact('category'));
     }
 
-    // Trang login vào kiểm tra đơn hàng
+     /**
+     * delete.
+     * 
+     * @return email.login
+     */
     public function loginEmail()
     {
         $category = Category::where('parent_id', '=', null)->get();
         return view('clients.email.login', compact('category'));
     }
 
-    // Liểm tra email người dùng có tồn tại hay không
-    // Nếu có thì trả về view list-order đẻ xem đơn hàng
+      /**
+     * postLogin.
+     * 
+     * @param Request $request
+     * 
+     * @return list-order
+     */
     public function postLogin(Request $request)
     {
         $credentials = $request->validate([
@@ -244,7 +172,13 @@ class PaymentController extends Controller
         ]);
     }
 
-    // Đăng xuất email xem đơn hàng
+      /**
+     * logoutEmail.
+     * 
+     * @param Request $request
+     * 
+     * @return home
+     */
     public function logoutEmail(Request $request)
     {
         $oldemail = Session('email') ? Session('email') : null;
@@ -252,31 +186,35 @@ class PaymentController extends Controller
         return redirect()->route('home');
     }
 
-    // Hiển thị danh dách đơn hàng của người dùng thông qua email vừa đăng nhập
+     /**
+     * listOrder.
+     * 
+     * @param Request $request
+     * 
+     * @return orders.list
+     */
     public function listOrder(Request $request)
     {
         $oldemail = Session('email') ? Session('email') : null;
         $bill = new Bill();
-       
         if ($oldemail) {
             $category = Category::where('parent_id', '=', null)->get();
-            
             if (isset($_GET['is_active'])) {
                 $is_active = $_GET['is_active'];
                 if ($is_active == 'cho-xac-nhan') {
-                    $bills = Bill::where('bill_active', '=', 0)->Paginate(8);
-                 
+                    $bills = Bill::where('bill_active', '=', 0)->orderBy('id','desc')->Paginate(8);
                 } elseif ($is_active == 'da-xac-nhan') {
-                    $bills = Bill::where('bill_active', '=', 1)->Paginate(8);
+                    $bills = Bill::where('bill_active', '=', 1)->orderBy('id','desc')->Paginate(8);
                 } elseif ($is_active == 'da-thanh-toan') {
-                    $bills = Bill::where('bill_active', '=', 2)->Paginate(8);
+                    $bills = Bill::where('bill_active', '=', 2)->orderBy('id','desc')->Paginate(8);
                 } elseif ($is_active == 'da-hoan-thanh') {
-                    $bills = Bill::where('bill_active', '=', 3)->Paginate(8);
+                    $bills = Bill::where('bill_active', '=', 3)->orderBy('id','desc')->Paginate(8);
                 } elseif ($is_active == 'huy-don-hang') {
-                    $bills = Bill::where('bill_active', '=', 4)->Paginate(8);
+                    $bills = Bill::where('bill_active', '=', 4)->orderBy('id','desc')->Paginate(8);
                 }
-            }  else {
-                $bills = Bill::where('email','like',$oldemail)->paginate(5);
+            }  
+            else {
+                $bills = Bill::where('email','like',$oldemail)->orderBy('id','desc')->paginate(8);
             }
             return view('clients.orders.list', compact('category', 'bills','bill'));
         } else {
@@ -284,6 +222,13 @@ class PaymentController extends Controller
         }
     }
 
+      /**
+     * create.
+     * 
+     * @param Request $request
+     * 
+     * @return list-order
+     */
     public function create(Request $request)
     {
         $payment_id = Session::get('payment_id');
@@ -305,20 +250,33 @@ class PaymentController extends Controller
         }
     }
 
+      /**
+     * detailOrder.
+     * 
+     * @param Request $request
+     * 
+     * @return orders.detail
+     */
     public function detailOrder(Request $request)
     {
         $bill = Bill::find($request->id);
-      
         $category = Category::where('parent_id', '=', null)->get();
         return view('clients.orders.detail', compact('category', 'bill'));
     }
 
+      /**
+     * billDestroy.
+     * 
+     * @param Request $request
+     * 
+     * @return 
+     */
     public function billDestroy(Request $request)
     {
         $data = $request->all();
         $bill = Bill::find($request->id);
         $bill->bill_destroy = $data['cause'];
-        $bill->bill_active = 6;
+        $bill->bill_active = 4;
         $bill->save();
     }
 }

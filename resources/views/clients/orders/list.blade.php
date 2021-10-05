@@ -26,29 +26,40 @@
                         <!-- Nav tabs -->
                         <div class="dashboard_tab_button">
                             <ul role="tablist" class="nav flex-column dashboard-list">
-                                <li style="border-bottom: 1px solid white"><a style="color: white"
-                                        href="{{ route('list-order') }}" class="nav-link">Tất cả đơn hàng</a></li>
-                                <li style="border-bottom: 1px solid white"><a style="color: white"
-                                        href="{{ route('list-order') }}?is_active=cho-xac-nhan" class="nav-link">Chờ
-                                        xác nhận</a></li>
-                                <li style="border-bottom: 1px solid white"><a style="color: white"
-                                        href="{{ route('list-order') }}?is_active=da-xac-nhan" class="nav-link">Đã
-                                        xác
-                                        nhận</a></li>
-                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                <li>
+                                    <a style="color: white" href="{{ route('list-order') }}" class="nav-link">Tất cả đơn hàng
+                                    </a>
+                                </li>
+                                <li>
+                                    <a style="color: white"
+                                        href="{{ route('list-order') }}?is_active=cho-xac-nhan" class="nav-link">Chờ xác nhận
+                                    </a>
+                                </li>
+                                <li>
+                                    <a style="color: white" href="{{ route('list-order') }}?is_active=da-xac-nhan" class="nav-link">Đã xác nhận
+                                    </a>
+                                </li>
+                                <li>
+                                    <a style="color: white"
                                         href="{{ route('list-order') }}?is_active=da-thanh-toan" class="nav-link">Đã
-                                        thanh toán - Đang giao hàng</a></li>
-                                <li style="border-bottom: 1px solid white"><a style="color: white"
+                                        thanh toán - Đang giao hàng
+                                    </a>
+                                </li>
+                                <li><a style="color: white"
                                         href="{{ route('list-order') }}?is_active=da-hoan-thanh"
-                                        class="nav-link">Đang
-                                        hoàn thành</a></li>"
-                                <li style="border-bottom: 1px solid white"><a style="color: white"
-                                        href="{{ route('list-order') }}?is_active=huy-don-hang" class="nav-link">Đơn
-                                        hàng bị hủy</a></li>
-
-
-                                <li><a style="color: white" href="{{ route('logout.email') }}"
-                                        class="nav-link">logout</a></li>
+                                        class="nav-link">Đang hoàn thành 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a style="color: white" href="{{ route('list-order') }}?is_active=huy-don-hang" class="nav-link">
+                                        Đơn hàng bị hủy
+                                    </a>
+                                </li>
+                                <li>
+                                    <a style="color: white" href="{{ route('logout.email') }}" class="nav-link">
+                                        logout
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -76,14 +87,9 @@
                                         </thead>
                                         <tbody style="color: black;">
                                             @foreach ($bills as $order)
-                                              
-
                                                 <tr class="order-item">
-
                                                     <td>{{ $order->id }}</td>
-                                                    <td>{{ $order->full_name}}
-                                                    </td>
-                                                   
+                                                    <td>{{ $order->full_name}} </td>
                                                     <td>{{ $order->date_order }}</td>
                                                     <td>{{ number_format($order->total) . 'Đ' }}</td>
                                                     <td class="text-center">
@@ -110,7 +116,6 @@
                                                         @else
                                                             <span class="text text-danger">Hủy đơn hàng</span>
                                                         @endif
-
                                                     </td>
                                                     <td>
                                                         @if ($order->bill_active == 3)
@@ -130,10 +135,10 @@
                                                                 class="btn btn-danger">Chi tiết</a>
                                                             | <a href="#" data-target="#order-{{ $order->id }}"
                                                                 data-toggle="modal" data-id="" class="btn btn-danger"
-                                                                data-id="">Hủy</a>
-                                                       
-                                                     @endif
-                                            </td>
+                                                                data-id="">Hủy
+                                                            </a>
+                                                        @endif
+                                                    </td>
                                             <div class="modal fade" id="order-{{ $order->id }}" tabindex="-1"
                                                 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -182,9 +187,7 @@
                             Không có đơn hàng nào!
                         </div>
                         @endif
-
                         </figure>
-
                     </div>
                 </div>
             </div>

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Size;
-use App\Models\Color;
 use App\Models\Bill;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -17,7 +16,6 @@ class Product extends Model
 {
     use HasFactory;
     protected $table = "products";
-
     protected $fillable = [
         'title',
         'image_url',
@@ -26,7 +24,6 @@ class Product extends Model
         'masp',
         'gallery_id',
         'description',
-        'color_id',
         'is_active'
     ];
 
@@ -57,12 +54,6 @@ class Product extends Model
     public function hasCate()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
-    }
-
-    // Hàm size để liên kết table product vs table color
-    public function hasColor()
-    {
-        return $this->belongsTo(Color::class, 'color_id', 'id');
     }
 
     // Tạo saveAdd để lưu dữ liệu từ form, truyền vào tham số request

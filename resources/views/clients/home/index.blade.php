@@ -48,7 +48,6 @@
                                         <div class="product-item">
                                             <div class="item-inner">
                                                 <div class="product-thumbnail">
-                                                    <div class="icon-new-label new-left">Mới</div>
                                                     <div class="pr-img-area">
                                                         <a title="Product title here"
                                                             href="{{ route('detail', ['id' => $item->id]) }}">
@@ -117,7 +116,6 @@
                                                                 <div class="product-item">
                                                                     <div class="item-inner">
                                                                         <div class="product-thumbnail">
-                                                                            <div class="icon-new-label new-right">New</div>
                                                                             <div class="pr-img-area"> <a
                                                                                     title="Ipsums Dolors Untra"
                                                                                     href="{{ route('detail', ['id' => $item->id]) }}">
@@ -189,7 +187,6 @@
                                                                 <div class="product-item">
                                                                     <div class="item-inner">
                                                                         <div class="product-thumbnail">
-                                                                            <div class="icon-new-label new-right">New</div>
                                                                             <div class="pr-img-area"> <a
                                                                                     title="Ipsums Dolors Untra"
                                                                                     href="{{ route('detail', ['id' => $item->id]) }}">
@@ -281,7 +278,6 @@
                                     <div class="product-item">
                                         <div class="item-inner">
                                             <div class="product-thumbnail">
-                                                <div class="icon-new-label new-right">New</div>
                                                 <div class="pr-img-area"> <a title="Ipsums Dolors Untra"
                                                         href="{{ route('detail', ['id' => $item->id]) }}">
                                                         <figure> <img class="first-img"

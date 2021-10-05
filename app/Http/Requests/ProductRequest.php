@@ -28,7 +28,6 @@ class ProductRequest extends FormRequest
             'price'=> 'Giá ',
             'category_id'=> 'Danh mục ',
             'is_active'=> 'Trạng thái',
-            'color_id'=> 'Màu',
             'image_url' => 'Ảnh đại diện',
             'size' => 'Size',
         ];

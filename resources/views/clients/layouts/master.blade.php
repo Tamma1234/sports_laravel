@@ -27,7 +27,6 @@
 </head>
 
 <body class="cms-index-index cms-home-page">
-    @include('clients.templates.header-moblie')
 
     <div id="page">
 
@@ -36,7 +35,7 @@
         @yield('content')
 
         @include('clients.templates.footer')
-        
+
     </div>
 
     @include('clients.templates.script')

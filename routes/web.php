@@ -54,17 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::post('update/{id}', [CategoryController::class, 'update'])->name('category.update');
         Route::get('remove/{id}', [CategoryController::class, 'delete'])->name('category.remove');
     });
-
-    // Route phần admin-color
-    Route::group(['prefix' => 'color'], function () {
-        Route::get('/', [ColorController::class, 'index'])->name('color.index');
-        Route::get('create', [ColorController::class, 'create'])->name('color.create');
-        Route::post('store', [ColorController::class, 'store'])->name('color.store');
-        Route::get('edit/{id}', [ColorController::class, 'edit'])->name('color.edit');
-        Route::post('update/{id}', [ColorController::class, 'update'])->name('color.update');
-        Route::get('remove/{id}', [ColorController::class, 'delete'])->name('color.remove');
-    });
-
+  
     // Route phần admin-size
     Route::group(['prefix' => 'size'], function () {
         Route::get('/', [SizeController::class, 'index'])->name('size.index');
@@ -96,8 +86,6 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// Route::get('/admin',[DashboardController::class,'index'])->name('admin.dashboard.index');
-
 // Route phần client trang web 
 Route::group(['prefix' => '/'], function () {
     // route hiển thị trang chủ product(sản phẩm)
@@ -110,10 +98,10 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/list-product', [HomeController::class, 'listProductHot'])->name('list.product.hot');
     // Route hiển thị chi tiết product(sản phẩm)
     Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail');
-
-
     // Route hiển thị list product(sản phẩm) theo category(danh mục)
-    Route::get('/category/{id}', [HomeController::class, 'categoryProduct'])->name('category');
+    Route::get('/category/{id}', [HomeController::class, 'listCategoryProduct'])->name('category');
+    // Route hiển thị list product(sản phẩm) theo size
+    Route::get('/size/{id}', [HomeController::class, 'listSizeProduct'])->name('size');
 
     //Route add,list,delete cart
     Route::group(['prefix' => '/cart'], function () {

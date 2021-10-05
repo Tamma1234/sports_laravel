@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Models\Category;
 use Illuminate\Config\Repository;
 
-class CateRepository extends Repository {
+class CategoryRepository extends Repository {
 
     public function getCate()
     {

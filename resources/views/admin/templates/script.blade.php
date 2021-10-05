@@ -36,9 +36,9 @@
 <script src="{{ asset('assets/admin/js/jsgrid.min.js') }}"></script>
 
 <script type='text/javascript'>
+
     // Thay đổi trạng thái đơn hàng
     function activeAll(id) {
-        // Dùng ajax để lấy data qua 
         var active = $('#activeAll').val();
         console.log(active);
         var data = {
@@ -62,6 +62,7 @@
     @if (session('msg'))
         swal("Thông báo", "{{ session('msg') }}!", "info");
     @endif
+
     // Hàm thông báo khi click buton xóa
     function confirmDel(redirectUrl) {
         // let redirectUrl = $(this).attr('id');
@@ -92,6 +93,10 @@
 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+
+    /**
+    - Tạo pusher hiển thị thông báo trong admin khi người dùng đặt hàng thành công 
+    */
     var notificationsWrapper = $('.dropdown-notifications');
     var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
     var notificationsCountElem = notificationsToggle.find('i[data-count]');

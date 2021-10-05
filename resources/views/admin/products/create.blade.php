@@ -17,8 +17,6 @@
                         <div class="col-12 col-md-7">
                             <!-- general form elements -->
                             <div class="card card-primary">
-
-                                <!-- /.card-header -->
                                 <!-- form start -->
                                 <div class="card-body">
                                     <div class="form-group">
@@ -68,28 +66,12 @@
                                         <label>Trạng thái</label>
                                         <select class="form-control" name="is_active">
                                             <option >Trạng thái</option>
-                                            <option value="0">Hết hàng</option>
-                                            <option value="1">Còn hàng</option>
+                                            <option value="0">Còn hàng</option>
+                                            <option value="1">Hết hàng</option>
 
                                         </select>
                                     </div>
                                     @error('is_active')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                    <div class="form-group">
-                                        <label>Thuộc tính</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="inputError"><i class="fas fa-eye-dropper"></i>
-                                            Màu sắc :</label>
-                                        <select class="form-control" name="color_id">
-                                            <option value="0">Chọn màu</option>
-                                            @foreach ($color as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @error('color_id')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                     <div class="form-group">

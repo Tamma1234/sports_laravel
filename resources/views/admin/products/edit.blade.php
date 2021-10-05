@@ -9,14 +9,11 @@
                 @include('admin.templates.content-header',['name'=>'Sửa sản phẩm'])
                 <form action="{{ route('product.update') }}" enctype="multipart/form-data" method="post">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $product->id }}">
-                  
+                        <input type="hidden" name="id" value="{{ $product->id }}">
                         <div class="card-header">
                             <h3 class="card-title">Thông tin chi tiết </h3>
                         </div>
-                   
                     <div class="row">
-
                         <!-- left column -->
                         <div class="col-12 col-md-7">
                             <!-- general form elements -->
@@ -77,26 +74,13 @@
                                                 <option value="0">Còn hàng</option>
                                                 <option value="1">Hết hàng</option>
                                             @else
-                                                <option value="0">Hết hàng</option>
-                                                <option value="1">Còn hàng</option>
+                                                <option value="1">Hết hàng</option>
+                                                <option value="0">Còn hàng</option>
                                             @endif
 
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="inputWarning"><i class="far fa-bell"></i>Màu
-                                        </label>
-                                        <select class="form-control" name="color_id">
-                                            @foreach ($color as $item)
-                                                <option value="0">Chọn màu</option>
-                                                <option value="{{ $item->id }}"
-                                                    {{ $item->id == $product->hasColor->id ? 'selected' : '' }}>
-                                                    {{ $item->name }}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
                                     <div class="form-group">
                                         <label class="col-form-label" for="inputError"><i class="fas fa-sitemap"></i>
                                             Size :</label>

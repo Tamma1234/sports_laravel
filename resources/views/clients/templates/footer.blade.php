@@ -22,15 +22,6 @@
                             <a href="{{route('home')}}"><img src="{{ asset('assets/admin/images/logo.png') }}" alt="fotter logo"></a>
                         </div>
                         <p>Becksport chuyên giầy bóng đá sân cỏ nhân tạo, tự nhiên và sân futsal uy tín</p>
-                        <div class="social">
-                            <ul class="inline-mode">
-                                <li class="social-network fb"><a title="Connect us on Facebook" target="_blank" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
-                                <li class="social-network googleplus"><a title="Connect us on Google+" target="_blank" href="https://plus.google.com/"><i class="fa fa-google"></i></a></li>
-                                <li class="social-network tw"><a title="Connect us on Twitter" target="_blank" href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
-                                <li class="social-network linkedin"><a title="Connect us on Pinterest" target="_blank" href="https://www.pinterest.com/"><i class="fa fa-pinterest"></i></a></li>
-                                <li class="social-network rss"><a title="Connect us on Instagram" target="_blank" href="https://instagram.com/"><i class="fa fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
                     </div>
                     <div class="col-sm-6 col-md-2 col-xs-12 collapsed-block">
                         <div class="footer-links">

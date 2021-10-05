@@ -27,7 +27,6 @@
 </head>
 
 <body class="product-page">
-    @include('clients.templates.header-moblie')
 
     <div id="page">
 

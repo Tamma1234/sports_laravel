@@ -38,7 +38,9 @@
 <div id="fb-customer-chat" class="fb-customerchat">
 </div>
 
-<script>
+<script> 
+
+  // Chatbox bằng message fb
   var chatbox = document.getElementById('fb-customer-chat');
   chatbox.setAttribute("page_id", "108199507453338");
   chatbox.setAttribute("attribution", "biz_inbox");
@@ -58,9 +60,10 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 </script>
+
+
 <script type='text/javascript'>
-   
-    //Lọc sản phẩm 
+    // Hiển thị giá trị nên url khi click
     $(document).ready(function() {
         $('#short-by').change(function() {
             var url = $(this).val();
@@ -71,7 +74,7 @@
         })
     })
 
-    // Click chọn size trong modal thì sẽ hiện button save cart
+    // validate size 
     $('input[type="radio"].size').click(function() {
         if ($('input[type="radio"].size:checked')) {
             $("button[type=button].btn").removeAttr('disabled');
@@ -80,12 +83,11 @@
         }
     });
 
-    // hàm hủy đơn hàng
+    // Hàm hủy đơn hàng từ phía người dùng
     function billDestroy(id) {
         // Dùng ajax để lấy data qua 
         var cause = $('#cause-destroy-' + id).val();
         var _token = $('input[name="_token"]').val();
-
         var data = {
             cause: cause,
             id: id,
@@ -102,10 +104,9 @@
             }
         });
     }
+
     // Tạo hàn addCart để thêm sản phẩm vào giỏ hàng 
     function addCart(id) {
-        // Dùng ajax để lấy data qua 
-        //   console.log(id);
         var qty = $('#qty-' + id).val();
         var size = $('.size input[type=radio]:checked').val();
         var data = {
@@ -125,6 +126,7 @@
             alertify.success('Đã thêm vào giỏ hàng');
         });
     }
+
     // Tạo click cho clas .remove-cart để xóa sản phẩm trong cart item
     $("#change-cart").on("click", ".remove-cart i", function() {
         // console.log($(this).data('id'));
@@ -145,8 +147,8 @@
         $('#totalquanti-cart-show').html($('#totalquanti-cart-value').val());
     }
 
-    /*Truyền sự kiện change vào input tăng số lượng khi thay đổi sẽ tăng tiền của sản phẩm đó và 
-    Tăng tổng tiền và tổng số lượng của list giỏ hàng 
+    /*
+     Tăng số lượng sản phẩm trong giỏ hàng 
     */
     $("#list-carts").on("change", ".input-sm", function() {
         // console.log($(this).data('id'));
@@ -163,7 +165,6 @@
             url: 'update-cart',
             type: 'GET',
             data: data,
-            // dataType: 'json',
         }).done(function(response) {
 
             $('#list-carts').empty();
@@ -171,21 +172,7 @@
         });
     })
 
-    // Hám xóa item trong list giỏ hàng chính 
-    // function deleteListCart(id) {
-    //     $.ajax({
-    //         url: 'delete-list-cart/' + id,
-    //         type: 'GET',
-    //     }).done(function(response) {
-    //         // gọi vào hàm trả về data của giỏ hàng khi dùng ajax lấy data
-    //         // console.log(response);
-    //         renderListCart(response);
-    //         alertify.success('Đã xóa sản phẩm thành công');
-
-    //     });
-    // }
-
-    // Xóa giỏ hàng item trước khi thanh toán 
+    // Xóa sản phẩm trong giỏ hàng chính
     $("#list-carts").on("click", ".remove i", function() {
 
         $.ajax({
@@ -193,13 +180,12 @@
             type: 'GET',
         }).done(function(response) {
 
-            // Gọi hàm renderCart trả về cart item con
             renderListCart(response);
             alertify.success('Đã xóa sản phẩm thành công');
         });
     })
 
-    // Hàm trả về data của giỏ hàng rồi chuyền vào liste-carts 
+    // Hàm trả về data của giỏ hàng rồi chuyền vào list-carts 
     function renderListCart(response) {
         $('#list-carts').empty();
         $('#list-carts').html(response);

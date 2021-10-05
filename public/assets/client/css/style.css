@@ -5385,6 +5385,7 @@ a.ads1 img {
     text-overflow: '';
     cursor: pointer;
     border-radius: 3px;
+    width: 200px;
 }
 
 .sorter .short-by.page select {

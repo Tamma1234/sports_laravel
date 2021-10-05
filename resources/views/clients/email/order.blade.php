@@ -86,10 +86,6 @@
                                 {{$item['productInfo']->title}}
                             </td>
                             <td>
-                                <span>Màu:
-                                    <strong>{{ $item['productInfo']->hasColor->name . ',' }}</strong>
-                          
-                            </span>
                             <span>Size: <strong>{{ $item['size'] }}</strong>
                          
                             </span>

@@ -27,7 +27,6 @@ class EditProductRequest extends FormRequest
             'title'=> 'Tiêu đề',
             'price'=> 'Giá ',
             'category_id'=> 'Danh mục ',
-            'color_id'=> 'Màu',
             'image_url' => 'Ảnh đại diện',
             'size' => 'Size',
         ];

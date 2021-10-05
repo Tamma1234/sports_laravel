@@ -11,10 +11,16 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    // Hiển thị danh sách đơn hàng 
+  
+   /**
+     * index.
+     * 
+     * @param Request $request
+     * 
+     * @return orders.index
+     */
     public function index(Request $request)
     {
-
         if (isset($_GET['is_active'])) {
             $is_active = $_GET['is_active'];
             if ($is_active == 'cho-xac-nhan') {
@@ -29,20 +35,31 @@ class OrderController extends Controller
                 $bill = Bill::where('bill_active', '=', 4)->Paginate(8);
             }
         } else {
-            $bill = Bill::orderBy('id', 'desc')->Paginate(5);
+            $bill = Bill::orderBy('id', 'asc')->Paginate(8);
         }
         return view('admin.orders.index', compact('bill'));
     }
 
-    // Hủy các đơn hàng và cho vào thùng rác
+     /**
+     * delete.
+     * 
+     * @param Request $request
+     * 
+     * @return orders.index
+     */
     public function delete(Request $request)
     {
         $bills = Bill::find($request->id);
         $bills->delete();
         return redirect()->route('order.index')->with('msg', 'Xóa sản phẩm thành công');
     }
-
-    // Tìm kiếm đơn hàng theo mã đơn hàng, tên sản phẩm
+  /**
+     * search.
+     * 
+     * @param Request $request
+     * 
+     * @return orders.search
+     */
     public function search(Request $request)
     {
         $confisions = [
@@ -93,25 +110,43 @@ class OrderController extends Controller
             if($request->price && $request->full_name && $request->id){
                 $search_bill = Bill::where('total', 'like','%'.$request->price.'%')->orWhere('full_name', 'like', '%'.$request->full_name.'%')->orWhere('id','=',$request->id)->get();
             }
-           
-            
         }
         return view('admin.orders.search', compact('search_bill'));
     }
-    //Lấy ra đơn hàng đã hủy
+  
+    /**
+     * orderTrash(Hiển thị các đơn hàng đã hủy )
+     * 
+     * @param Request $request
+     * 
+     * @return orders.trash
+     */
     public function orderTrash(Request $request)
     {
         $bills = Bill::onlyTrashed()->get();
         return view('admin.orders.trash', compact('bills'));
     }
-    // Xóa vĩnh viễn đơn hàng trong thùng giác
+  
+    /**
+     * trashOut(Xóa vĩnh viễn đơn hàng ).
+     * 
+     * @param Request $request
+     * 
+     * @return  orrder.trash
+     */
     public function trashOut(Request $request)
     {
         $bills = Bill::withTrashed()->where('id', $request->id)->forceDelete();
         return view('admin.orders.trash', compact('bills'));
     }
 
-    // Chỉnh trạng thái đơn hàng 
+    /**
+     * Edit bill.
+     * 
+     * @param Request $request
+     * 
+     * @return orders.index
+     */
     public function billEdit(Request $request)
     {
         $data = $request->all();

@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->float('quantity');
             $table->string('masp');
             $table->string('description');
-            $table->integer('color_id');
             $table->smallInteger('is_active');
             $table->timestamps();
         });

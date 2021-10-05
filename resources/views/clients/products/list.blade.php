@@ -29,10 +29,8 @@
                     <div class="toolbar column">
                         <div class="sorter">
                             <div class="short-by">
-
                                 <label>Lọc sản phầm</label>
-                               
-                                <select id="short-by" style="width:200px;text-align:center">
+                                <select id="short-by" >
                                     <option>-- Lọc theo --</option>
                                     <option {{ $short_by == 'tang_dan' ? 'selected' : '' }}
                                         value="{{ Request::url() }}?short_by=tang_dan">--Theo giá tăng dần--</option>
@@ -53,7 +51,7 @@
                                     <div class="product-item">
                                         <div class="item-inner">
                                             <div class="product-thumbnail">
-                                                <div class="icon-new-label new-right">New</div>
+                                            
                                                 <div class="pr-img-area"> <a title="Ipsums Dolors Untra"
                                                         href="{{ route('detail', ['id' => $item->id]) }}">
                                                         <figure> <img class="first-img"

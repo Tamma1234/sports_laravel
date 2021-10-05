@@ -32,17 +32,16 @@
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                             colspan="1" aria-label="Engine version: activate to sort column ascending">Giá
                                         </th>
-
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                             colspan="1" aria-label="CSS grade: activate to sort column ascending">Danh mục
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                             colspan="1" aria-label="CSS grade: activate to sort column ascending">Trạng thái
                                         </th>
-
                                         <th style="width:120px" class="sorting" tabindex="0" aria-controls="example1"
                                             rowspan="1" colspan="1"
-                                            aria-label="CSS grade: activate to sort column ascending">Thao tác</th>
+                                            aria-label="CSS grade: activate to sort column ascending">Thao tác
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,11 +68,13 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-info"
-                                                    href="{{ route('product.edit', ['id' => $item->id]) }}"><i
-                                                        class="fas fa-edit"></i></a>
+                                                    href="{{ route('product.edit', ['id' => $item->id]) }}">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
                                                 <a class="btn btn-danger"
-                                                    onclick='confirmDel("{{ route('product.remove', ['id' => $item->id]) }}")'><i
-                                                        class="fas fa-trash-alt"></i></a>
+                                                    onclick='confirmDel("{{ route('product.remove', ['id' => $item->id]) }}")'>
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -86,16 +87,13 @@
                                         <th rowspan="1" colspan="1">Giá</th>
                                         <th rowspan="1" colspan="1">Danh mục</th>
                                         <th rowspan="1" colspan="1">Trạng thái</th>
-                                        <th rowspan="1" colspan="1">
-                                            Thao tác
-                                        </th>
+                                        <th rowspan="1" colspan="1"> Thao tác </th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
                     <div class="row">
-           
                         <div class="col-12 col-md-6 col-lg-6">
                             <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate" style="margin-left: 450px">
                                 {{ $product->links('pagination::bootstrap-4') }}
@@ -109,48 +107,4 @@
         <!-- /.content -->
     </div>
 @endsection
-@section('script')
-    <script>
-        $('.crazy-check-all').click(function() {
-            // $("crazy-check-item").attr('checked', true);
-            if ($(this).is(":checked")) {
-                var a = $('.crazy-check-item');
-                for (var i = 0; i < a.length; i++) {
-                    a[i].checked = true;
-                }
-            } else {
-                var a = $('.crazy-check-item');
-                for (var i = 0; i < a.length; i++) {
-                    a[i].checked = false;
-                }
-            }
 
-        })
-        $('.crazy-btn-remove').click(function() {
-            var list = $('input[type="checkbox"].crazy-check-item:checked');
-            var ids = [];
-            if (list.length == 0) {
-                alert("bạn chưa chọn mục nào");
-            }
-            for (var i = 0; i < list.length; i++) {
-                ids[ids.length] = $(list[i]).val();
-
-            }
-        })
-
-        // $('.crazy-btn-check-all').click(function(){
-        //    if($('.crazy-check-all').is(':checked')){
-        //    $('input[type="checkbox"].crazy-check-item').prop('checked',false);
-        //    }
-        //    else{
-        //     $('input[type="checkbox"].crazy-check-item').prop('checked',true);
-        //    }
-
-        //    }
-        // })
-    </script>
-
-
-
-
-@endsection

@@ -64,3 +64,12 @@
      background: #3276b1;
      border-color: #3276b1;
  }
+ 
+ ul.nav>li {
+     border-bottom: 1px solid white;
+ }
+ 
+ div.short-by>select {
+     width: 200px;
+     text-align: center
+ }

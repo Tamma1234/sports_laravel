@@ -105,7 +105,6 @@
                                                                 selected @endif>Hủy đơn hàng
                                                             </option>
                                                         </select>
-
                                                     @else
                                                         <select onchange="activeAll({{ $item->id }})" class="form-control"
                                                             name="bill_active" id="activeAll">
@@ -128,7 +127,6 @@
                                                                 @endif >Hủy đơn hàng</option>
                                                         </select>
                                                     @endif
-
                                             </td>
                                             <td colspan="2">
                                                 <button class="btn btn-info" id="view-detail"
@@ -147,15 +145,11 @@
                                             <td colspan="7" class="alert alert-warning text-center">
                                                 Không có đơn hàng nào
                                             </td>
-                                         
                                         </tr>
                                     @endif
                                 </tbody>
-                            
                             </table>
-                           
                         </div>
-                    
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
@@ -166,7 +160,6 @@
                         </div>
                     </div>
                 </div>
-             
             </div>
             <!-- /.card-body -->
             @foreach ($bill as $item)
@@ -183,7 +176,7 @@
                                     <div class="col-sm-6 col-md-6">
                                         <h5>Hóa đơn</h5>
                                         <div class="cart-calculator-table table-content table-responsive">
-                                            <table class="table table-striped " style="background: #DDDDDD;
+                                            <table class="table table-striped" style="background: #DDDDDD;
                                                                                                     color: black;
                                                                                                     font-size: initial;">
                                                 <tbody>
