@@ -11,12 +11,11 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-  
    /**
      * index.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.index
      */
     public function index(Request $request)
@@ -42,9 +41,9 @@ class OrderController extends Controller
 
      /**
      * delete.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.index
      */
     public function delete(Request $request)
@@ -55,9 +54,9 @@ class OrderController extends Controller
     }
   /**
      * search.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.search
      */
     public function search(Request $request)
@@ -73,7 +72,7 @@ class OrderController extends Controller
                 'where' => 'like',
                 'value' => '%' . $request->full_name . '%'
             ],
-           
+
         ];
         if (isset($_GET['is_active'])) {
             $is_active = $_GET['is_active'];
@@ -113,12 +112,12 @@ class OrderController extends Controller
         }
         return view('admin.orders.search', compact('search_bill'));
     }
-  
+
     /**
      * orderTrash(Hiển thị các đơn hàng đã hủy )
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.trash
      */
     public function orderTrash(Request $request)
@@ -126,12 +125,12 @@ class OrderController extends Controller
         $bills = Bill::onlyTrashed()->get();
         return view('admin.orders.trash', compact('bills'));
     }
-  
+
     /**
      * trashOut(Xóa vĩnh viễn đơn hàng ).
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return  orrder.trash
      */
     public function trashOut(Request $request)
@@ -142,9 +141,9 @@ class OrderController extends Controller
 
     /**
      * Edit bill.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.index
      */
     public function billEdit(Request $request)

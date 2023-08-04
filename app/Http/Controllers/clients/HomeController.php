@@ -16,7 +16,6 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-
     public $categoryRepository;
     // Khởi tạo hàm và truyền vào tham số categoryRepository, để sử dụng các hàm trong Repository
     public function __construct(CategoryRepository $categoryRepository)
@@ -26,7 +25,7 @@ class HomeController extends Controller
 
     /**
      * index.
-     * 
+     *
      * @return home.index
      */
     public function index()
@@ -35,15 +34,16 @@ class HomeController extends Controller
         $product = Product::orderBy('id', 'DESC')->Paginate(4);
         $product_hot = Product::orderBy('id', 'ASC')->Paginate(4);
         $product_list = Product::orderBy('created_at', 'ASC')->Paginate(8);
+
         return view('clients.home.index', compact('product', 'category', 'product_hot', 'product_list'));
     }
 
 
     /**
      * delete.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return product.list
      */
     public function listProductHot(Request $request)
@@ -64,19 +64,19 @@ class HomeController extends Controller
             $product = Product::orderBy('created_at', 'desc')->Paginate(5);
             $short_by = "";
         }
+
         return view('clients.products.list', compact('product', 'category', 'short_by'));
     }
 
     /**
      * search.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return product.search
      */
     public function search(Request $request)
     {
-
         $category = $this->categoryRepository->getCate();
         $keywords = $request->keyword_submit;
 
@@ -100,9 +100,9 @@ class HomeController extends Controller
 
     /**
      * detail.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return product.detail
      */
     public function detail(Request $request)
@@ -113,14 +113,15 @@ class HomeController extends Controller
         $category = $this->categoryRepository->getCate();
         $size = Size::all();
         $gallery = GalleryProduct::where('product_id', $product->id)->get();
-        return view('clients.products.detail', compact('product', 'cate', 'category', 'gallery', 'size', 'product_related'));
+        return view('clients.products.detail', compact('product',
+            'cate', 'category', 'gallery', 'size', 'product_related'));
     }
 
     /**
      * saveCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-cart
      */
     public function saveCart(Request $request)
@@ -137,7 +138,7 @@ class HomeController extends Controller
             // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart
             $newCart->addCartItem($product, $request->id, $quantity, $size);
             // dd($newCart);die;
-            // Dùng put để thêm sp vào giỏ hàng 
+            // Dùng put để thêm sp vào giỏ hàng
             $request->session()->put('cart', $newCart);
             return redirect()->route('list-cart');
         }
@@ -145,9 +146,9 @@ class HomeController extends Controller
 
     /**
      * saveCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return category.list
      */
     public function listCategoryProduct(Request $request)
@@ -176,9 +177,9 @@ class HomeController extends Controller
 
         /**
      * saveCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return category.list
      */
     public function listSizeProduct(Request $request)
@@ -202,15 +203,15 @@ class HomeController extends Controller
             $short_by = "";
         }
         $nameSize = Size::find($request->id)->name;
-       
+
         return view('clients.products.list-size', compact('category','short_by','nameSize','size','sizeProduct'));
     }
 
     /**
      * addCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-small
      */
     public function addCart(Request $request)
@@ -223,12 +224,12 @@ class HomeController extends Controller
         $quantity = $request->qty;
         // Kiểm tra xem có sản phẩm k, dùng session để lưu giỏ hàng
         if ($product != null) {
-            // Kiểm tra giỏ hàng có tồn tại k 
+            // Kiểm tra giỏ hàng có tồn tại k
             $oldCart = Session('cart') ? Session('cart') : null;
             $newCart = new cart($oldCart);
-            // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart 
+            // Tạo đối tưởng cart rồi trỏ đến hàm addCart trong App\Cart
             $newCart->addCartItem($product, $request->id, $quantity, $size);
-            // Dùng put để tạo session truyền vào cart(giỏ hàng), newcart(sản phẩm dc thêm mới) 
+            // Dùng put để tạo session truyền vào cart(giỏ hàng), newcart(sản phẩm dc thêm mới)
             $request->session()->put('cart', $newCart);
         }
         return view('clients.carts.list-small');
@@ -236,9 +237,9 @@ class HomeController extends Controller
 
     /**
      * deleteItemCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-small
      */
     public function deleteItemCart(Request $request)
@@ -256,7 +257,7 @@ class HomeController extends Controller
 
     /**
      * deleteItemCart.
-     * 
+     *
      * @return list-small
      */
     public function listSmall()
@@ -266,9 +267,9 @@ class HomeController extends Controller
 
     /**
      * listCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return carts.;list
      */
     public function listCart()
@@ -278,14 +279,14 @@ class HomeController extends Controller
     }
     /**
      * deleteListItemCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-cart-item
      */
     public function deleteListItemCart(Request $request)
     {
-      
+
         $oldCart = Session('cart') ? Session('cart') : null;
         $newCart = new cart($oldCart);
         $newCart->deleteCart($request->id);
@@ -299,9 +300,9 @@ class HomeController extends Controller
 
      /**
      * listCartItem.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-cart
      */
     public function listCartItem()
@@ -311,9 +312,9 @@ class HomeController extends Controller
 
      /**
      * updateCart.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-carts
      */
     public function updateCart(Request $request)

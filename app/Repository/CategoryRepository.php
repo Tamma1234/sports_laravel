@@ -8,6 +8,6 @@ class CategoryRepository extends Repository {
 
     public function getCate()
     {
-      return Category::where('parent_id','=',null)->get();
+      return Category::all();
     }
 }

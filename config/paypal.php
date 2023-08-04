@@ -1,9 +1,9 @@
 <?php
 return [
 	// Client ID của app mà bạn đã đăng ký trên PayPal Dev
-    'client_id' => 'ATwoPrC5E0gNhJPyxrsKrJuwzFz-c57C7dvVFrVldHRa9iRjJ9IdVTeZIRCeY68gPbdxH2kQEHtIB9JH',
+    'client_id' => 'AUCw5EWY0LKbw9YkC-VYTFHb7eaOEpWk7om8f6rVnHRc06YMuLqx5tGhoex0RYXhbx2I5LRDb8KIw5p9',
     // Secret của app
-    'secret' => 'EHu0zUAhO7SuAcP3Zc9aw7k7msnEMzEK408Y1zE_YyKbEYn6ShFBndf8s2GFWVEFAV_9NJcUXFc7tR0P',
+    'secret' => 'EGzRJK4rImY-piz0eIfemycWBGHAAdiYDzmz3yUUpUEksWNrttFw9TWlEr-OxCRWSYiGZkbGDK7HjAj0',
     'settings' => [
     	// PayPal mode, sanbox hoặc live
         'mode' => env('PAYPAL_MODE'),

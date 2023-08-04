@@ -7,20 +7,16 @@
     <!-- Basic page needs -->
     <meta charset="utf-8">
     <!--[if IE]>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<![endif]-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <![endif]-->
+    <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>BECK SPORT</title>
-    <meta name="description"
-        content="best template, template free, responsive Template, fashion store, responsive Template, responsive html Template, Premium website templates, web templates, Multi-Purpose Responsive HTML5 Template">
-    <meta name="keywords"
-        content="bootstrap, ecommerce, fashion, layout, responsive, responsive template, responsive template download, responsive Template, retail, shop, shopping, store, Premium website templates, web templates, Multi-Purpose Responsive HTML5 Template" />
-
-    <!-- Mobile specific metas  -->
+    <title>TAM JR SPORT</title>
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Favicons Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/icons/icon-logo.png">
 
     <!-- CSS Style -->
     @include('clients.templates.css')
@@ -28,18 +24,19 @@
 
 <body class="product-page">
 
-    <div id="page">
+<div class="wrapper">
 
-        @include('clients.templates.header')
+    @include('clients.templates.header')
+    @include('clients.templates.slider-bar')
 
-        @yield('content')
+    @yield('content')
 
-        @include('clients.templates.footer')
-        
-    </div>
+    @include('clients.templates.footer')
 
-    @include('clients.templates.script')
-    @yield('script')
+</div>
+
+@include('clients.templates.script')
+@yield('script')
 </body>
 
 <!-- Mirrored from htmlshopmart.justthemevalley.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 17 Jul 2021 06:52:22 GMT -->

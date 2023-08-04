@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <![endif]-->
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>BECK SPORT</title>
+    <title>TAM JR SPORT</title>
     <meta name="description"
         content="best template, template free, responsive Template, fashion store, responsive Template, responsive html Template, Premium website templates, web templates, Multi-Purpose Responsive HTML5 Template">
     <meta name="keywords"

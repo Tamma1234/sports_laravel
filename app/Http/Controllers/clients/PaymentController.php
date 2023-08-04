@@ -36,7 +36,6 @@ use App\Service\Service;
 
 class PaymentController extends Controller
 {
-
     private $apiContext;
     public function __construct()
     {
@@ -55,9 +54,9 @@ class PaymentController extends Controller
 
      /**
      * checkout.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.checkout
      */
     public function checkout(Request $request)
@@ -69,9 +68,9 @@ class PaymentController extends Controller
 
   /**
      * postCheckout.
-     * 
+     *
      * @param CustomerRequest $request
-     * 
+     *
      * @return list-order
      */
     public function postCheckout(CustomerRequest $request)
@@ -111,23 +110,23 @@ class PaymentController extends Controller
             Session::forget('cart');
             event(new HelloPusherEvent($request));
             return redirect()->route('alert');
-        } 
+        }
         else {
             [$paymentId, $approvalUrl] = Service::getProcessOrder()->paymentByPaypal($this->apiContext, $cart);
             $email = $request->email;
             $request->session()->put('email', $email);
             Session::put('payment_id', $paymentId);
             Session::forget('cart');
-           
+
             return redirect()->to($approvalUrl);
         }
     }
 
      /**
      * alertMessa.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return alert.message
      */
     public function alertMessa(Request $request)
@@ -139,7 +138,7 @@ class PaymentController extends Controller
 
      /**
      * delete.
-     * 
+     *
      * @return email.login
      */
     public function loginEmail()
@@ -150,9 +149,9 @@ class PaymentController extends Controller
 
       /**
      * postLogin.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-order
      */
     public function postLogin(Request $request)
@@ -166,7 +165,7 @@ class PaymentController extends Controller
             $request->session()->put('email', $email);
             return redirect()->route('list-order');
         }
-        // Còn không sẽ báo lỗi 
+        // Còn không sẽ báo lỗi
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
@@ -174,9 +173,9 @@ class PaymentController extends Controller
 
       /**
      * logoutEmail.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return home
      */
     public function logoutEmail(Request $request)
@@ -188,9 +187,9 @@ class PaymentController extends Controller
 
      /**
      * listOrder.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.list
      */
     public function listOrder(Request $request)
@@ -212,7 +211,7 @@ class PaymentController extends Controller
                 } elseif ($is_active == 'huy-don-hang') {
                     $bills = Bill::where('bill_active', '=', 4)->orderBy('id','desc')->Paginate(8);
                 }
-            }  
+            }
             else {
                 $bills = Bill::where('email','like',$oldemail)->orderBy('id','desc')->paginate(8);
             }
@@ -224,9 +223,9 @@ class PaymentController extends Controller
 
       /**
      * create.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return list-order
      */
     public function create(Request $request)
@@ -252,9 +251,9 @@ class PaymentController extends Controller
 
       /**
      * detailOrder.
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return orders.detail
      */
     public function detailOrder(Request $request)
@@ -266,10 +265,10 @@ class PaymentController extends Controller
 
       /**
      * billDestroy.
-     * 
+     *
      * @param Request $request
-     * 
-     * @return 
+     *
+     * @return
      */
     public function billDestroy(Request $request)
     {

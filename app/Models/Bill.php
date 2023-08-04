@@ -13,9 +13,9 @@ class Bill extends Model
 {
     use Notifiable,SoftDeletes;// add soft delete
     use HasFactory;
+    protected $table = "bills";
 
     protected  $fillable = [
-       
         'date_order',
         'total',
         'full_name',
